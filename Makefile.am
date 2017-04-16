@@ -1,0 +1,5 @@
+ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
+
+SUBDIRS = src tests
+
+AUTOMAKE_OPTIONS = subdir-objects
