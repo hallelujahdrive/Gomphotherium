@@ -1,6 +1,6 @@
 void registering_app () {
   
-  var website = "https://mastodon.social";
+  var website = load_website ();
   
   var client_name = "gomphoterium_test";
   var scope = "read write follow";
@@ -13,7 +13,7 @@ void registering_app () {
 
 void registering_app_async () {
   var loop = new MainLoop ();
-  var website = "https://mastodon.social";
+  var website = load_website ();
   
   var client_name = "gomphoterium_test";
   var scope = "read write follow";
@@ -29,6 +29,20 @@ void registering_app_async () {
   });
   stdout.printf ("end function\n");
   loop.run ();
+}
+
+string load_website () {
+  string read = "";
+  try {
+    string filename = "website.txt";
+
+    FileUtils.get_contents (filename, out read);
+
+} catch (FileError e) {
+    stderr.printf ("%s\n", e.message);
+  }
+  
+  return read;
 }
 
 int main (string[] args) {

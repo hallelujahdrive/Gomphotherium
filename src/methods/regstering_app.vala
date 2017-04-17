@@ -91,7 +91,7 @@ namespace Gomphoterium {
           return root_object;
         }
       } catch (Error e) {
-        stderr.printf ("Parse Error : json data could not parse.");
+        stderr.printf ("Json Parse Error : %s\n", e.message);
       }
       
       return null;
