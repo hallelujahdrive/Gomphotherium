@@ -17,9 +17,10 @@ vapi_DATA = \
 sources = \
 				Account.vala \
 				Application.vala \
-				Methods.vala \
-				Options.vala \
-				methods/regstering_app.vala
+				endpoints.vala \
+				params.vala \
+				methods/regstering_app.vala \
+				utils/json_utils.vala
 
 csources = $(sources:.vala=.c)
 

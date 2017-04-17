@@ -15,9 +15,13 @@ AM_VALAFLAGS = \
 						-g
 						
 check_PROGRAMS = \
+							accountverifycredentials \
+							oauthtoken \
 							registeringapp
 						
 tests_VALASOURCES = \
+				accountverifycredentials.vala \
+				oauthtoken.vala \
 				registeringapp.vala
 
 $(tests_VALASOURCES:.vala=.c) : test_vala.stamp
@@ -31,7 +35,13 @@ test_vala.stamp : $(tests_VALASOURCES) $(top_builddir)/src/libgomphoterium.la $(
 			$$s; \
 		done; \
 		touch $@
-		
+
+nodist_accountverifycredentials_SOURCES = accountverifycredentials.c
+accountverifycredentials_LDADD = $(top_builddir)/src/libgomphoterium.la
+
+nodist_oauthtoken_SOURCES = oauthtoken.c
+oauthtoken_LDADD = $(top_builddir)/src/libgomphoterium.la
+
 nodist_registeringapp_SOURCES = registeringapp.c
 registeringapp_LDADD = $(top_builddir)/src/libgomphoterium.la
 		

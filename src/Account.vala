@@ -1,3 +1,5 @@
+using Json;
+
 namespace Gomphoterium {
   public class Account {
     
@@ -18,7 +20,7 @@ namespace Gomphoterium {
     private string _header;
     private string _header_static;
     
-    public Account () {
+    public Account (Json.Object json_obj) {
       
     }
   }

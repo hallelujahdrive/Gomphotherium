@@ -1,30 +1,39 @@
 void registering_app () {
   
-  var website = load_website ();
+  string website = load_website ();
   
-  var client_name = "gomphoterium_test";
-  var scope = "read write follow";
+  string client_name = "gomphoterium_test";
+  string scopes = "read write follow";
   
-  var app = Gomphoterium.registering_app (website, client_name, null, scope, null);
+  try {
+    
+    var app = Gomphoterium.registering_app (website, client_name, null, scopes, null);
+    stdout.printf ("\nwebsite : %s\nclient_id : %s\nclient_secret : %s\n", app.website, app.client_id, app.client_secret);
   
-  stdout.printf ("\nwebsite : %s\nclient_id : %s\nclient_secret : %s\n", app.website, app.client_id, app.client_secret);
+  } catch (Error e) {
+    stderr.printf ("%s\n", e.message);
+  }
   
 }
 
 void registering_app_async () {
   var loop = new MainLoop ();
-  var website = load_website ();
   
-  var client_name = "gomphoterium_test";
-  var scope = "read write follow";
+  string website = load_website ();
+  
+  string client_name = "gomphoterium_test";
+  string scopes = "read write follow";
   
   stdout.printf ("begin function\n");
-  Gomphoterium.registering_app_async.begin (website, client_name, null, scope, null, (obj, res) => {
+  Gomphoterium.registering_app_async.begin (website, client_name, null, scopes, null, (obj, res) => {
     stdout.printf ("\nbegin async method");
-    var app = Gomphoterium.registering_app_async.end (res);
-  
-    stdout.printf ("\nwebsite : %s\nclient_id : %s\nclient_secret : %s\n", app.website, app.client_id, app.client_secret);
-    stdout.printf ("\nend async method\n");
+    try {
+      var app = Gomphoterium.registering_app_async.end (res);
+      stdout.printf ("\nwebsite : %s\nclient_id : %s\nclient_secret : %s\n", app.website, app.client_id, app.client_secret);
+      stdout.printf ("\nend async method\n");
+    } catch (Error e) {
+      stderr.printf ("%s\n", e.message);
+    }
     loop.quit();
   });
   stdout.printf ("end function\n");
@@ -42,12 +51,14 @@ string load_website () {
     stderr.printf ("%s\n", e.message);
   }
   
-  return read;
+  return read.replace ("\n", "");
 }
 
 int main (string[] args) {
   GLib.Test.init (ref args);
+  
   GLib.Test.add_func ("/registeringapp/registring_app", registering_app);
   GLib.Test.add_func ("/registeringapp/registring_app_async", registering_app_async);
+  
   return GLib.Test.run ();
 }
