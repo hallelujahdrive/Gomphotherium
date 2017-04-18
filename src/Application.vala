@@ -11,8 +11,6 @@ namespace Gomphoterium {
     private string _client_secret;
     private string _access_token;
     
-    //private OAuthProxy api_proxy;
-    private OAuth2Proxy api_proxy;
     private Rest.Proxy proxy;
 
     // Propaties   
@@ -32,13 +30,12 @@ namespace Gomphoterium {
     // @website : Instance URL
     // @client_id : Client ID of your application
     // @client_secret : Client Secret of your cpplication
+    // @access_token : (optional) Your access token
     public Application (string website, string client_id, string client_secret, string? access_token = null) {
       _website = website;
       _client_id = client_id;
       _client_secret = client_secret;
       
-      //api_proxy = new OAuthProxy (_client_id, _client_secret, _website, false);
-      api_proxy = new OAuth2Proxy (_client_id, "urn:ietf:wg:oauth:2.0:oob", _website, false);
       proxy = new Rest.Proxy (_website, false);
       
       if (access_token != null){
@@ -47,23 +44,20 @@ namespace Gomphoterium {
     }
     
     // Getting an access token
+    // @email : A E-mail address of your account
+    // @password : Your password
+    // @scope : This can be a space-separated list of the following items: "read", "write" and "follow"
     public string oauth_token (string email, string password, string scope) throws Error {
       
-      var session = new Soup.Session ();
-      var message = new Soup.Message ("POST", _website + ENDPOINT_OAUTH_TOKEN);
-    
-      var buffer = Soup.MemoryUse.STATIC;
-      string params = build_oauth_params (email, password, scope);
-      
-      message.set_request ("application/x-www-form-urlencoded", buffer, params.data);
-
-      session.send_message (message);
+      var proxy_call = proxy.new_call ();
+      setup_oauth_proxy_call (ref proxy_call, email, password, scope);
       
       try {
-        var json_obj = parse_json_data (message.response_body.data);
+        proxy_call.run ();
         
+        var json_obj = parse_json_object (proxy_call.get_payload ());
         return _access_token = json_obj.get_string_member ("access_token");
-        
+
       } catch (Error e) {
         throw e;
       }
@@ -72,66 +66,311 @@ namespace Gomphoterium {
     // Getting an access token asynchronously
     public async string oauth_token_async (string email, string password, string scope) throws Error {
       
-      var session = new Soup.Session ();
-      var message = new Soup.Message ("POST", _website + ENDPOINT_OAUTH_TOKEN);
-    
-      var buffer = Soup.MemoryUse.STATIC;
-      string params = build_oauth_params (email, password, scope);
+      Error error = null;
       
-      message.set_request ("application/x-www-form-urlencoded", buffer, params.data);
+      var proxy_call = proxy.new_call ();
+      setup_oauth_proxy_call (ref proxy_call, email, password, scope);
       
-      SourceFunc callback = oauth_token_async.callback;
-      
-      string access_token = "";
-      
-      ThreadFunc<void*> run = () => {
-        var loop = new MainLoop ();
-        session.queue_message (message, (sess, mess) => {
-          try {
-            var json_obj = parse_json_data (mess.response_body.data);
-            
-            access_token = json_obj.get_string_member ("access_token");
-            
-            loop.quit ();
-
-          } catch (Error e) {
-            throw e;
-          }
-        });
-        loop.run ();
-        Idle.add ((owned) callback);
-        return null;
-      };
-      
-      new Thread<void*> (null, run);
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+          
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_obj = parse_json_object (proxy_call.get_payload ());
+          _access_token = json_obj.get_string_member ("access_token");
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        oauth_token_async.callback ();
+        
+      });
       
       yield;
-      return access_token;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return _access_token;
+    }
+    
+    // Gettinh an account
+    public Account get_account (int64 id) throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_account_proxy_call (ref proxy_call, id);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_obj = parse_json_object (proxy_call.get_payload());
+        return new Account (json_obj);
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Getting an account asynchronously
+    public async Account get_account_async (int64 id) throws Error {
+      
+      Error error = null;      
+      Account account = null;
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_account_proxy_call (ref proxy_call, id);
+      
+
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_obj = parse_json_object (proxy_call.get_payload());
+          account = new Account (json_obj);
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        get_account_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return account;
     }
     
     // Getting a current user
-    public Account account_verify_credentials () throws Error {
+    public Account verify_credentials () throws Error {
+      
       var proxy_call = proxy.new_call ();
-      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      proxy_call.set_function(ENDPOINT_ACCOUNT_VERIFY_CREDENTIALS);
-      proxy_call.set_method("GET");
+      setup_verify_credentials_proxy_call (ref proxy_call);
+      
       try{
-        proxy_call.run();
-        var parser = new Parser();
-        var data = proxy_call.get_payload();
-        stdout.printf (data);
-        parser.load_from_data(data);
-        var json_obj = parser.get_root().get_object();
         
+        proxy_call.run();
+
+        var json_obj = parse_json_object (proxy_call.get_payload());
         return new Account (json_obj);
+        
       }catch(Error error){
         throw error;
       }
     }
     
-    // private methods
-    private string build_oauth_params (string email, string password, string scope) {
-      return PARAM_CLIENT_ID + "=" + _client_id + "&" + PARAM_CLIENT_SECRET + "=" + _client_secret + "&grant_type=password&" + PARAM_USERNAME + "=" + email + "&" + PARAM_PASSWORD + "=" + password + "&" + PARAM_SCOPE + "=" +scope;
+    
+    // Getting a current user asynchronously
+    public async Account verify_credentials_async () throws Error {
+      
+      Error error = null;
+      Account account = null;
+      
+      var proxy_call = proxy.new_call ();
+      setup_verify_credentials_proxy_call (ref proxy_call);
+      
+
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_obj = parse_json_object (proxy_call.get_payload());
+          account = new Account (json_obj);
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        verify_credentials_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return account;
+    }
+    
+    // Getting an account's followers
+    public List<Account> get_followers (int64 id) throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_followers_proxy_call (ref proxy_call, id);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_array = parse_json_array (proxy_call.get_payload());
+        var list = new List<Account> ();
+        
+        json_array.foreach_element ((array, index, node) => {
+          list.append (new Account (node.get_object ()));
+        });
+        
+        return (owned) list;
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Getting an account's followers asynchronously
+    public async List<Account> get_followers_async (int64 id) throws Error {
+      
+      Error error = null;
+      var list = new List<Account> ();
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_followers_proxy_call (ref proxy_call, id);
+      
+
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_array = parse_json_array (proxy_call.get_payload());
+          
+          json_array.foreach_element ((array, index, node) => {
+            list.append (new Account (node.get_object ()));
+          });
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        get_followers_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return (owned) list;
+    }
+    
+    // Getting an account's following
+    public List<Account> get_following (int64 id) throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_following_proxy_call (ref proxy_call, id);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_array = parse_json_array (proxy_call.get_payload());
+        var list = new List<Account> ();
+        
+        json_array.foreach_element ((array, index, node) => {
+          list.append (new Account (node.get_object ()));
+        });
+        
+        return (owned) list;
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Getting an account's following asynchronously
+    public async List<Account> get_following_async (int64 id) throws Error {
+      
+      Error error = null;
+      var list = new List<Account> ();
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_following_proxy_call (ref proxy_call, id);
+      
+
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_array = parse_json_array (proxy_call.get_payload());
+          
+          json_array.foreach_element ((array, index, node) => {
+            list.append (new Account (node.get_object ()));
+          });
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        get_following_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return (owned) list;
+    }
+    
+    // Set proxy params to oauth
+    private void setup_oauth_proxy_call (ref ProxyCall proxy_call, string email, string password, string scope) {
+      
+      proxy_call.add_params (PARAM_CLIENT_ID, _client_id, PARAM_CLIENT_SECRET, _client_secret, PARAM_GRANT_TYPE, "password", PARAM_USERNAME, email, PARAM_PASSWORD, password, PARAM_SCOPE, scope);
+      
+      proxy_call.set_function (ENDPOINT_OAUTH_TOKEN);
+      proxy_call.set_method ("POST");
+    }
+    
+    // Set proxy params to get an account
+    private void setup_get_account_proxy_call (ref ProxyCall proxy_call, int64 id) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_ACCOUNTS.printf (id));
+      proxy_call.set_method("GET");
+    
+    }
+    
+    // Set proxy params to get followers
+    private void setup_get_followers_proxy_call (ref ProxyCall proxy_call, int64 id) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_ACCOUNTS_FOLLOWERS.printf (id));
+      proxy_call.set_method("GET");
+    
+    }
+    
+    // Set proxy params to get following
+    private void setup_get_following_proxy_call (ref ProxyCall proxy_call, int64 id) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_ACCOUNTS_FOLLOWING.printf (id));
+      proxy_call.set_method("GET");
+    
+    }
+    
+    // Set proxy params to verify credentials
+    private void setup_verify_credentials_proxy_call (ref ProxyCall proxy_call) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_ACCOUNTS_VERIFY_CREDENTIALS);
+      proxy_call.set_method("GET");
+    
     }
   }
 }

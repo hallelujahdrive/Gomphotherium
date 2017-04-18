@@ -15,14 +15,20 @@ AM_VALAFLAGS = \
 						-g
 						
 check_PROGRAMS = \
-							accountverifycredentials \
+							getaccount \
+							getfollowers \
+							getfollowing \
 							oauthtoken \
-							registeringapp
+							registeringapp \
+							verifycredentials
 						
 tests_VALASOURCES = \
-				accountverifycredentials.vala \
+				getaccount.vala \
+				getfollowers.vala \
+				getfollowing.vala \
 				oauthtoken.vala \
-				registeringapp.vala
+				registeringapp.vala \
+				verifycredentials.vala
 
 $(tests_VALASOURCES:.vala=.c) : test_vala.stamp
 
@@ -35,15 +41,24 @@ test_vala.stamp : $(tests_VALASOURCES) $(top_builddir)/src/libgomphoterium.la $(
 			$$s; \
 		done; \
 		touch $@
+		
+nodist_getaccount_SOURCES = getaccount.c
+getaccount_LDADD = $(top_builddir)/src/libgomphoterium.la
 
-nodist_accountverifycredentials_SOURCES = accountverifycredentials.c
-accountverifycredentials_LDADD = $(top_builddir)/src/libgomphoterium.la
+nodist_getfollowers_SOURCES = getfollowers.c
+getfollowers_LDADD = $(top_builddir)/src/libgomphoterium.la
+
+nodist_getfollowing_SOURCES = getfollowing.c
+getfollowing_LDADD = $(top_builddir)/src/libgomphoterium.la
 
 nodist_oauthtoken_SOURCES = oauthtoken.c
 oauthtoken_LDADD = $(top_builddir)/src/libgomphoterium.la
 
 nodist_registeringapp_SOURCES = registeringapp.c
 registeringapp_LDADD = $(top_builddir)/src/libgomphoterium.la
+
+nodist_verifycredentials_SOURCES = verifycredentials.c
+verifycredentials_LDADD = $(top_builddir)/src/libgomphoterium.la
 		
 CLEANFILES = \
 						tests_vala.stamp \

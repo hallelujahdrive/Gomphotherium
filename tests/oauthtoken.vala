@@ -29,7 +29,7 @@ void oauth_token_async () {
   app.oauth_token_async.begin (email_pw[0], email_pw[1], scope, (obj, res) => {
     stdout.printf ("\nbegin async method");
     try{
-      string access_token= app.oauth_token_async.end (res);
+      string access_token = app.oauth_token_async.end (res);
   
       stdout.printf ("access_token : %s\n", access_token);
       stdout.printf ("\nend async method\n");
