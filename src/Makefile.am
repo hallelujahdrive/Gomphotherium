@@ -17,6 +17,11 @@ vapi_DATA = \
 sources = \
 				Account.vala \
 				Application.vala \
+				Attachment.vala \
+				GomphoApp.vala \
+				Mention.vala \
+				Status.vala \
+				Tag.vala \
 				endpoints.vala \
 				params.vala \
 				methods/regstering_app.vala \

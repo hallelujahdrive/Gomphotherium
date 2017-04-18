@@ -6,7 +6,7 @@ void get_following () {
   int64 account_id = load_account_id ();
   stdout.printf ("%" + int64.FORMAT, account_id);
     
-  var app = new Gomphoterium.Application (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Gomphoterium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     
@@ -31,7 +31,7 @@ void get_following_async () {
   int64 account_id = load_account_id ();
   stdout.printf ("%" + int64.FORMAT, account_id);
     
-  var app = new Gomphoterium.Application (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Gomphoterium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
   stdout.printf ("begin function\n");
   app.get_following_async.begin (account_id, (obj, res) => {

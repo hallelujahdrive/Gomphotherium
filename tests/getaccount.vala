@@ -6,7 +6,7 @@ void get_account () {
   int64 account_id = load_account_id ();
   stdout.printf ("%" + int64.FORMAT, account_id);
     
-  var app = new Gomphoterium.Application (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Gomphoterium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     var account = app.get_account (account_id);
@@ -28,7 +28,7 @@ void get_account_async () {
   int64 account_id = load_account_id ();
   stdout.printf ("%" + int64.FORMAT, account_id);
     
-  var app = new Gomphoterium.Application (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Gomphoterium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
   stdout.printf ("begin function\n");
   app.get_account_async.begin (account_id, (obj, res) => {

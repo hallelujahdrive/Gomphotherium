@@ -18,6 +18,7 @@ check_PROGRAMS = \
 							getaccount \
 							getfollowers \
 							getfollowing \
+							getstatuses \
 							oauthtoken \
 							registeringapp \
 							verifycredentials
@@ -26,6 +27,7 @@ tests_VALASOURCES = \
 				getaccount.vala \
 				getfollowers.vala \
 				getfollowing.vala \
+				getstatuses.vala \
 				oauthtoken.vala \
 				registeringapp.vala \
 				verifycredentials.vala
@@ -50,6 +52,9 @@ getfollowers_LDADD = $(top_builddir)/src/libgomphoterium.la
 
 nodist_getfollowing_SOURCES = getfollowing.c
 getfollowing_LDADD = $(top_builddir)/src/libgomphoterium.la
+
+nodist_getstatuses_SOURCES = getstatuses.c
+getstatuses_LDADD = $(top_builddir)/src/libgomphoterium.la
 
 nodist_oauthtoken_SOURCES = oauthtoken.c
 oauthtoken_LDADD = $(top_builddir)/src/libgomphoterium.la

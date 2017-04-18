@@ -5,7 +5,7 @@ void oauth_token () {
   string[] email_pw = load_email_pw ();
   string scope = "read write follow";
   
-  var app = new Gomphoterium.Application (website, ci_cs[0], ci_cs[1]);
+  var app = new Gomphoterium.GomphoApp (website, ci_cs[0], ci_cs[1]);
   
   try {
     stdout.printf ("access_token : %s\n", app.oauth_token(email_pw[0], email_pw[1], scope));
@@ -23,7 +23,7 @@ void oauth_token_async () {
   string[] email_pw = load_email_pw ();
   string scope = "read write follow";
   
-  var app = new Gomphoterium.Application (website, ci_cs[0], ci_cs[1]);
+  var app = new Gomphoterium.GomphoApp (website, ci_cs[0], ci_cs[1]);
   
   stdout.printf ("begin function\n");
   app.oauth_token_async.begin (email_pw[0], email_pw[1], scope, (obj, res) => {

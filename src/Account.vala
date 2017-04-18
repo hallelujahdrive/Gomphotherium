@@ -1,6 +1,7 @@
 using Json;
 
 namespace Gomphoterium {
+  
   public class Account {
     
     // Property-backing fields
@@ -24,19 +25,19 @@ namespace Gomphoterium {
     public int64 id {
       get { return _id; }
     }
-    public string username {
+    public unowned string username {
       get { return _username; }
     }
-    public string acct {
+    public unowned string acct {
       get { return _acct; }
     }
-    public string display_name {
+    public unowned string display_name {
       get { return _display_name; }
     }
     public bool locked {
       get { return _locked; }
     }
-    public string created_at {
+    public unowned string created_at {
       get { return _created_at; }
     }
     public int64 followers_count {
@@ -48,27 +49,26 @@ namespace Gomphoterium {
     public int64 statuses_count {
       get { return _statuses_count; }
     }
-    public string note {
+    public unowned string note {
       get { return _note; }
     }
-    public string url {
+    public unowned string url {
       get { return _url; }
     }
-    public string avatar {
+    public unowned string avatar {
       get { return _avatar; }
     }
-    public string avatar_static {
+    public unowned string avatar_static {
       get { return _avatar_static; }
     }
-    public string header {
+    public unowned string header {
       get { return _header; }
     }
-    public string header_static {
+    public unowned string header_static {
       get { return _header_static; }
     }
     
-    // @json_node : A json object that you gat from /accounts/verify_credentials
-    public Account (Json.Object json_obj) {
+    internal Account (Json.Object json_obj) {
       
       json_obj.foreach_member ((obj, mem, node) => {
         

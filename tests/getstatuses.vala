@@ -1,4 +1,4 @@
-void get_followers () {
+void get_statuses () {
   
   string website = load_website ();
   string[] ci_cs = load_ci_cs ();
@@ -10,18 +10,18 @@ void get_followers () {
   
   try {
     
-    var list = app.get_followers (account_id);
+    var list = app.get_statuses (account_id);
     
-    list.foreach ((account) => {
+    /*list.foreach ((account) => {
       output_account_propaties (account);
-    });
+    });*/
     
   } catch (Error e) {
     stderr.printf ("%s\n", e.message);
   }
 }
-
-void get_followers_async () {
+/*
+void get_statuses_async () {
   
   var loop = new MainLoop ();
   
@@ -34,10 +34,10 @@ void get_followers_async () {
   var app = new Gomphoterium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
   stdout.printf ("begin function\n");
-  app.get_followers_async.begin (account_id, (obj, res) => {
+  app.get_statuses_async.begin (account_id, (obj, res) => {
     stdout.printf ("\nbegin async method");
     try{
-      var list = app.get_followers_async.end (res);
+      var list = app.get_statuses_async.end (res);
       
       list.foreach ((account) => {
         output_account_propaties (account);
@@ -51,7 +51,7 @@ void get_followers_async () {
   });
   stdout.printf ("end function\n");
   loop.run ();
-}
+}*/
 
 void output_account_propaties (Gomphoterium.Account account) {
   
@@ -62,7 +62,7 @@ void output_account_propaties (Gomphoterium.Account account) {
   display_name : %s
   locked : %s
   created_at : %s
-  followers_count : %""" + int64.FORMAT + """
+  statuses_count : %""" + int64.FORMAT + """
   following_count : %""" + int64.FORMAT + """
   statuses_count : %""" + int64.FORMAT + """
   note : %s
@@ -72,7 +72,7 @@ void output_account_propaties (Gomphoterium.Account account) {
   header : %s
   header_static %s
   """, account.id, account.username, account.acct, account.display_name,
-  account.locked.to_string (), account.created_at, account.followers_count, account.following_count,
+  account.locked.to_string (), account.created_at, account.statuses_count, account.following_count,
   account.statuses_count, account.note, account.url, account.avatar,
   account.avatar_static, account.header, account.header_static);
 }
@@ -143,8 +143,8 @@ int64 load_account_id () {
 int main (string[] args) {
   GLib.Test.init (ref args);
   
-  GLib.Test.add_func ("/getfollowers/get_followers", get_followers);
-  GLib.Test.add_func ("/getfollowers/get_followers_async", get_followers_async);
+  GLib.Test.add_func ("/getstatuses/get_statuses", get_statuses);
+  //GLib.Test.add_func ("/getstatuses/get_statuses_async", get_statuses_async);
   
   return GLib.Test.run ();
 }
