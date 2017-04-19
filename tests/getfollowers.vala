@@ -12,7 +12,7 @@ void get_followers () {
     var list = app.get_followers (account_id);
     
     list.foreach ((account) => {
-      output_account_propaties (account);
+      output_account (account);
     });
     
   } catch (Error e) {
@@ -38,7 +38,7 @@ void get_followers_async () {
       var list = app.get_followers_async.end (res);
       
       list.foreach ((account) => {
-        output_account_propaties (account);
+        output_account (account);
       });
       
       stdout.printf ("\nend async method\n");
@@ -51,7 +51,7 @@ void get_followers_async () {
   loop.run ();
 }
 
-void output_account_propaties (Gomphoterium.Account account) {
+void output_account (Gomphoterium.Account account) {
   
   stdout.printf ("""
   id : %""" + int64.FORMAT + """

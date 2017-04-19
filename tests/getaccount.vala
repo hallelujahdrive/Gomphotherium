@@ -10,7 +10,7 @@ void get_account () {
   try {
     var account = app.get_account (account_id);
     
-    output_account_propaties (account);
+    output_account (account);
     
   } catch (Error e) {
     stderr.printf ("%s\n", e.message);
@@ -34,7 +34,7 @@ void get_account_async () {
     try{
       var account = app.get_account_async.end (res);
       
-      output_account_propaties (account);
+      output_account (account);
       
       stdout.printf ("\nend async method\n");
     }catch (Error e) {
@@ -46,7 +46,7 @@ void get_account_async () {
   loop.run ();
 }
 
-void output_account_propaties (Gomphoterium.Account account) {
+void output_account (Gomphoterium.Account account) {
   
   stdout.printf ("""
   id : %""" + int64.FORMAT + """

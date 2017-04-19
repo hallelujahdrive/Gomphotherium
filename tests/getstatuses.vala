@@ -12,7 +12,7 @@ void get_statuses () {
     var list = app.get_statuses (account_id);
     
     list.foreach ((status) => {
-      output_status_properties (status);
+      output_status (status);
     });
     
   } catch (Error e) {
@@ -39,7 +39,7 @@ void get_statuses_async () {
       var list = app.get_statuses_async.end (res);
       
       list.foreach ((account) => {
-        output_account_propaties (account);
+        output_account (account);
       });
       
       stdout.printf ("\nend async method\n");
@@ -52,7 +52,7 @@ void get_statuses_async () {
   loop.run ();
 }*/
 
-void output_account_propaties (Gomphoterium.Account account) {
+void output_account (Gomphoterium.Account account) {
   
   stdout.printf ("""
   id : %""" + int64.FORMAT + """
@@ -76,7 +76,7 @@ void output_account_propaties (Gomphoterium.Account account) {
   account.avatar_static, account.header, account.header_static);
 }
 
-void output_status_properties (Gomphoterium.Status status) {
+void output_status (Gomphoterium.Status status) {
   
   stdout.printf ("""
   id : %""" + int64.FORMAT + """
@@ -85,8 +85,20 @@ void output_status_properties (Gomphoterium.Status status) {
   account : %s
   in_reply_to_id : %""" + int64.FORMAT + """
   in_reply_to_account_id : %""" + int64.FORMAT + """
-  reblog :
-  content : %s
+  reblog :""",
+  status.id, status.uri, status.url, status.account.username, status.in_reply_to_id,
+  status.in_reply_to_account_id);
+  
+  if (status.reblog != null) {
+    stdout.printf ("\n");
+    output_status (status.reblog);
+    stdout.printf ("\n");
+  } else {
+    stdout.printf (" null\n");
+  }
+  
+  stdout.printf (
+  """  content : %s
   created_at : %s
   reblogs_count : %""" + int64.FORMAT + """
   favorites_count : %""" + int64.FORMAT + """
@@ -95,16 +107,91 @@ void output_status_properties (Gomphoterium.Status status) {
   sensitive : %s
   splier_text : %s
   visibility : %s
-  media_attachments :
-  mentions :
-  tags :
-  application:
-  """,status.id, status.uri, status.url, status.account.username, status.in_reply_to_id,
-  status.in_reply_to_account_id, status.content, status.created_at, status.reblogs_count,
+  media_attachments : """,
+  status.content, status.created_at, status.reblogs_count,
   status.favorites_count, status.reblogged.to_string (), status.favorited.to_string (),
-  status.sensitive.to_string (), status.spoiler_text, status.visibility
-  );
+  status.sensitive.to_string (), status.spoiler_text, status.visibility);
   
+  if (status.media_attachments.length () == 0) {
+    stdout.printf ("none");
+  }
+  stdout.printf ("\n");
+  status.media_attachments.foreach ((media_attachment) => {
+    stdout.printf ("\n");
+    output_attachment (media_attachment);
+  });
+  
+  stdout.printf("  mentions : ");
+  if (status.mentions.length () == 0) {
+    stdout.printf ("none");
+  }
+  stdout.printf ("\n");
+  status.mentions.foreach ((mention) => {
+    output_mention (mention);
+    stdout.printf ("\n");
+  });
+  
+  stdout.printf ("  tags : ");
+  if (status.tags.length () == 0) {
+    stdout.printf ("none");
+  }
+  stdout.printf ("\n");
+  status.tags.foreach ((tag) => {
+    output_tag (tag);
+    stdout.printf ("\n");
+  });
+  
+  stdout.printf ("  application : ");
+  if (status.application != null) {
+    stdout.printf ("\n");
+    output_application (status.application);
+  } else {
+    stdout.printf ("null\n");
+  }
+  
+}
+
+void output_attachment (Gomphoterium.Attachment attachment) {
+  
+  stdout.printf ("""
+  id : %""" + int64.FORMAT + """
+  type : %s
+  url : %s
+  remote_url : %s
+  preview_url : %s
+  text_url : %s
+  """, attachment.id, attachment.media_type, attachment.url, attachment.remote_url,
+  attachment.preview_url, attachment.text_url);
+  
+}
+
+void output_mention (Gomphoterium.Mention mention) {
+  
+  stdout.printf ("""
+  url : %s
+  username : %s
+  acct : %s
+  id : %""" + int64.FORMAT + """
+  """, mention.url, mention.username, mention.acct, mention.id );
+  
+}
+
+void output_tag (Gomphoterium.Tag tag) {
+  
+  stdout.printf ("""
+  name : %s
+  url : %s
+  """, tag.name, tag.url);
+  
+}
+
+void output_application (Gomphoterium.Application application) {
+  
+  stdout.printf ("""
+  name : %s
+  website : %s
+  """, application.name, application.website);
+    
 }
 
 string load_website () {

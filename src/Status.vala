@@ -45,7 +45,7 @@ namespace Gomphoterium {
     public int64? in_reply_to_account_id {
       get { return _in_reply_to_account_id; }
     }
-    private weak Status? reblog {
+    public weak Status? reblog {
       get { return _reblog; }
     }
     public unowned string content {
@@ -145,7 +145,6 @@ namespace Gomphoterium {
           break;
           case "application" :
           if (node.get_node_type () != NodeType.NULL) {
-            stdout.printf ("application : %s\n", node.get_value_type ().name ());
             _application = new Application (node.get_object ());
           }
           break;

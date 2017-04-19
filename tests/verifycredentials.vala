@@ -9,7 +9,7 @@ void verify_credentials () {
   try {
     var account = app.verify_credentials ();
     
-    output_account_propaties (account);
+    output_account (account);
     
   } catch (Error e) {
     stderr.printf ("%s\n", e.message);
@@ -29,7 +29,7 @@ void verify_credentials_async () {
   try {
     var account = app.verify_credentials ();
     
-    output_account_propaties (account);
+    output_account (account);
     
   } catch (Error e) {
     stderr.printf ("%s\n", e.message);
@@ -42,7 +42,7 @@ void verify_credentials_async () {
     try{
       var account = app.verify_credentials_async.end (res);
       
-      output_account_propaties (account);
+      output_account (account);
       
       stdout.printf ("\nend async method\n");
     }catch (Error e) {
@@ -54,7 +54,7 @@ void verify_credentials_async () {
   loop.run ();
 }
 
-void output_account_propaties (Gomphoterium.Account account) {
+void output_account (Gomphoterium.Account account) {
   
   stdout.printf ("""
   id : %""" + int64.FORMAT + """
