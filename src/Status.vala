@@ -21,13 +21,13 @@ namespace Gomphoterium {
     private bool _sensitive;  // Whether media attachments should be hidden by default
     private string _spoiler_text; // If not empty, warning text that should be displayed before the actual content
     private string _visibility; // One of: public, unlisted, private, direct
-    private List<Attachment> _media_attachments;  // An array of Attachments
-    private List<Mention> _mentions;  // An array of Mentions
-    private List<Tag> _tags;  // An array of Tags
+    private List<Attachment> _media_attachments = new List<Attachment> ();  // An array of Attachments
+    private List<Mention> _mentions = new List<Mention> ();  // An array of Mentions
+    private List<Tag> _tags = new List<Tag> ();  // An array of Tags
     private Application _application; // Application from which the status was posted
     
     // Properties
-    private int64 id {
+    public int64 id {
       get { return _id; }
     }
     public unowned string uri {
@@ -39,10 +39,10 @@ namespace Gomphoterium {
     public weak Account account {
       get { return _account; }
     }
-    private int64? in_reply_to_id {
+    public int64? in_reply_to_id {
       get { return _in_reply_to_id; }
     }
-    private int64? in_reply_to_account_id {
+    public int64? in_reply_to_account_id {
       get { return _in_reply_to_account_id; }
     }
     private weak Status? reblog {
@@ -81,11 +81,77 @@ namespace Gomphoterium {
     public unowned List<Mention> mentions {
       get { return _mentions; }
     }
-    public weak Application application {
+    public unowned List<Tag> tags {
+      get { return _tags; }
+    }
+    public weak Application? application {
       get { return _application; }
     }
     
     internal Status (Json.Object json_obj) {
+      
+      json_obj.foreach_member ((obj, mem, node) => {
+        
+        switch (mem) {
+          case "id" : _id = node.get_int ();
+          break;
+          case "uri" : _uri = node.get_string ();
+          break;
+          case "url" : _url = node.get_string ();
+          break;
+          case "account" : _account = new Account (node.get_object ());
+          break;
+          case "in_reply_to_id" : _in_reply_to_id = node.get_int ();
+          break;
+          case "in_reply_to_account_id": _in_reply_to_account_id = node.get_int ();
+          break;
+          case "reblog" :
+          if (node.get_node_type () != NodeType.NULL) {
+            _reblog = new Status (node.get_object ());
+          }
+          break;
+          case "content" : _content = node.get_string ();
+          break;
+          case "created_at" : _created_at = node.get_string ();
+          break;
+          case "reblogs_count" : _reblogs_count = node.get_int ();
+          break;
+          case "favorites_count" : _favorites_count = node.get_int ();
+          break;
+          case "reblogged" : _reblogged = node.get_boolean ();
+          break;
+          case "favorited" : _favorited = node.get_boolean ();
+          break;
+          case "sensitive" : _sensitive = node.get_boolean ();
+          break;
+          case "spoiler_text" : _spoiler_text = node.get_string ();
+          break;
+          case "visibility" : _visibility = node.get_string ();
+          break;
+          case "media_attachments" :
+          node.get_array ().foreach_element ((array, index, node) => {
+            _media_attachments.append (new Attachment (node.get_object ()));
+          });
+          break;
+          case "mentions" :
+          node.get_array ().foreach_element ((array, index, node) => {
+            _mentions.append (new Mention (node.get_object ()));
+          });
+          break;
+          case "tags" :
+          node.get_array ().foreach_element ((array, index, node) => {
+            _tags.append (new Tag (node.get_object ()));
+          });
+          break;
+          case "application" :
+          if (node.get_node_type () != NodeType.NULL) {
+            stdout.printf ("application : %s\n", node.get_value_type ().name ());
+            _application = new Application (node.get_object ());
+          }
+          break;
+        }
+        
+      });
       
     }
   }

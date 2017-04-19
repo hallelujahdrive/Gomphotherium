@@ -4,7 +4,6 @@ void get_statuses () {
   string[] ci_cs = load_ci_cs ();
   string access_token = load_access_token ();
   int64 account_id = load_account_id ();
-  stdout.printf ("%" + int64.FORMAT, account_id);
     
   var app = new Gomphoterium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
@@ -12,9 +11,9 @@ void get_statuses () {
     
     var list = app.get_statuses (account_id);
     
-    /*list.foreach ((account) => {
-      output_account_propaties (account);
-    });*/
+    list.foreach ((status) => {
+      output_status_properties (status);
+    });
     
   } catch (Error e) {
     stderr.printf ("%s\n", e.message);
@@ -75,6 +74,37 @@ void output_account_propaties (Gomphoterium.Account account) {
   account.locked.to_string (), account.created_at, account.statuses_count, account.following_count,
   account.statuses_count, account.note, account.url, account.avatar,
   account.avatar_static, account.header, account.header_static);
+}
+
+void output_status_properties (Gomphoterium.Status status) {
+  
+  stdout.printf ("""
+  id : %""" + int64.FORMAT + """
+  uri : %s
+  url : %s
+  account : %s
+  in_reply_to_id : %""" + int64.FORMAT + """
+  in_reply_to_account_id : %""" + int64.FORMAT + """
+  reblog :
+  content : %s
+  created_at : %s
+  reblogs_count : %""" + int64.FORMAT + """
+  favorites_count : %""" + int64.FORMAT + """
+  reblogged : %s
+  favorited : %s
+  sensitive : %s
+  splier_text : %s
+  visibility : %s
+  media_attachments :
+  mentions :
+  tags :
+  application:
+  """,status.id, status.uri, status.url, status.account.username, status.in_reply_to_id,
+  status.in_reply_to_account_id, status.content, status.created_at, status.reblogs_count,
+  status.favorites_count, status.reblogged.to_string (), status.favorited.to_string (),
+  status.sensitive.to_string (), status.spoiler_text, status.visibility
+  );
+  
 }
 
 string load_website () {

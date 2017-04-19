@@ -4,7 +4,6 @@ void get_followers () {
   string[] ci_cs = load_ci_cs ();
   string access_token = load_access_token ();
   int64 account_id = load_account_id ();
-  stdout.printf ("%" + int64.FORMAT, account_id);
     
   var app = new Gomphoterium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
@@ -29,7 +28,6 @@ void get_followers_async () {
   string[] ci_cs = load_ci_cs ();
   string access_token = load_access_token ();
   int64 account_id = load_account_id ();
-  stdout.printf ("%" + int64.FORMAT, account_id);
     
   var app = new Gomphoterium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   

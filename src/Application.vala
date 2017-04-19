@@ -13,10 +13,21 @@ namespace Gomphoterium {
       get { return _name; }
     }
     public unowned string? website {
-      get { return _name; }
+      get { return _website; }
     }
     
     internal Application (Json.Object json_obj) {
+      
+      json_obj.foreach_member ((obj, mem, node) => {
+        
+        switch (mem) {
+          case "name" : _name = node.get_string ();
+          break;
+          case "website" : _website = node.get_string ();
+          break;
+        }
+        
+      });
       
     }
     

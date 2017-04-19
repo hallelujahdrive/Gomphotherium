@@ -20,11 +20,26 @@ namespace Gomphoterium {
     public unowned string acct {
       get { return _acct; }
     }
-    public unowned int64 id {
+    public int64 id {
       get { return _id; }
     }
     
     internal Mention (Json.Object json_obj) {
+      
+      json_obj.foreach_member ((obj, mem, node) => {
+        
+        switch (mem) {
+          case "url" : _url = node.get_string ();
+          break;
+          case "username" : _username = node.get_string ();
+          break;
+          case "acct" : _acct = node.get_string ();
+          break;
+          case "id" : _id = node.get_int ();
+          break;
+        }
+      
+      });
       
     }
   }

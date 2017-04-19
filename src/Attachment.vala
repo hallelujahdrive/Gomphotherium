@@ -34,6 +34,25 @@ namespace Gomphoterium {
     
     internal Attachment (Json.Object json_obj) {
       
+      json_obj.foreach_member ((obj, mem, node) => {
+        
+        switch (mem) {
+          case "id" : _id = node.get_int ();
+          break;
+          case "type" : _type = node.get_string ();
+          break;
+          case "url" : _url = node.get_string ();
+          break;
+          case "remote_url" : _remote_url = node.get_string ();
+          break;
+          case "preview_url" : _preview_url = node.get_string ();
+          break;
+          case "text_url" : _text_url = node.get_string ();
+          break;
+        }
+        
+      });
+      
     }
     
   }

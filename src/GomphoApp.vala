@@ -1,6 +1,5 @@
 using Json;
 using Rest;
-using Soup;
 
 namespace Gomphoterium {
   
@@ -339,14 +338,16 @@ namespace Gomphoterium {
         
         proxy_call.run();
         
-        stdout.printf ("%s\n", proxy_call.get_payload());
+        var data = proxy_call.get_payload();
+        //stdout.printf ("%s\n", data);
         
         /*var json_array = parse_json_array (proxy_call.get_payload());*/
+        var json_array = parse_json_array (data);
         var list = new List<Status> ();
-        
-        /*json_array.foreach_element ((array, index, node) => {
+                
+        json_array.foreach_element ((array, index, node) => {
           list.append (new Status (node.get_object ()));
-        });*/
+        });
         
         return (owned) list;
         
