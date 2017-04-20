@@ -54,30 +54,6 @@ void verify_credentials_async () {
   loop.run ();
 }
 
-void output_account (Gomphotherium.Account account) {
-  
-  stdout.printf ("""
-  id : %""" + int64.FORMAT + """
-  username : %s
-  acct : %s
-  display_name : %s
-  locked : %s
-  created_at : %s
-  followers_count : %""" + int64.FORMAT + """
-  following_count : %""" + int64.FORMAT + """
-  statuses_count : %""" + int64.FORMAT + """
-  note : %s
-  url : %s
-  avatar : %s
-  avatar_static : %s
-  header : %s
-  header_static %s
-  """, account.id, account.username, account.acct, account.display_name,
-  account.locked.to_string (), account.created_at, account.followers_count, account.following_count,
-  account.statuses_count, account.note, account.url, account.avatar,
-  account.avatar_static, account.header, account.header_static);
-}
-
 int main (string[] args) {
   GLib.Test.init (ref args);
   

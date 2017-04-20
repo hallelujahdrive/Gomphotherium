@@ -6,6 +6,6 @@ libdir=@libdir@
 Name: gomphoterium
 Description: Mastodon library
 Version: 0.0.0
-Requires: glib-2.0 libsoup-2.4 json-glib-1.0 rest-0.7
+Requires: glib-2.0 json-glib-1.0 rest-0.7
 Cflags: -I${includedir}
-Libs: -L${libdir} -lglib-2.0 -lsoup-2.4 ljson-glib-1.0 -lruribitaki -lrest-0.7
+Libs: -L${libdir} -lglib-2.0 ljson-glib-1.0 -lruribitaki -lrest-0.7

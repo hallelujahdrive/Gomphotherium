@@ -12,7 +12,7 @@ pc_DATA = gomphotherium.pc
 
 vapi_DATA = \
 						gomphotherium.deps \
-						gomphotherium.vapi 
+						gomphotherium.vapi
 
 sources = \
 				Account.vala \

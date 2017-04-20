@@ -1,4 +1,4 @@
-void get_statuses () {
+void get_relationships () {
   
   string website = load_website ();
   string[] ci_cs = load_ci_cs ();
@@ -9,10 +9,10 @@ void get_statuses () {
   
   try {
     
-    var list = app.get_statuses (account_id);
+    var list = app.get_relationships ({account_id});
     
-    list.foreach ((status) => {
-      output_status (status);
+    list.foreach ((relationship) => {
+      output_relationship (relationship);
     });
     
   } catch (Error e) {
@@ -20,7 +20,7 @@ void get_statuses () {
   }
 }
 
-void get_statuses_async () {
+void get_relationships_async () {
   
   var loop = new MainLoop ();
   
@@ -32,13 +32,13 @@ void get_statuses_async () {
   var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
   stdout.printf ("begin function\n");
-  app.get_statuses_async.begin (account_id, (obj, res) => {
+  app.get_relationships_async.begin ({account_id}, (obj, res) => {
     stdout.printf ("\nbegin async method");
     try{
-      var list = app.get_statuses_async.end (res);
+      var list = app.get_relationships_async.end (res);
       
-      list.foreach ((status) => {
-        output_status (status);
+      list.foreach ((relationship) => {
+        output_relationship (relationship);
       });
       
       stdout.printf ("\nend async method\n");
@@ -54,8 +54,8 @@ void get_statuses_async () {
 int main (string[] args) {
   GLib.Test.init (ref args);
   
-  GLib.Test.add_func ("/getstatuses/get_statuses", get_statuses);
-  GLib.Test.add_func ("/getstatuses/get_statuses_async", get_statuses_async);
+  GLib.Test.add_func ("/getrelationships/get_relationships", get_relationships);
+  GLib.Test.add_func ("/getrelationships/get_relationships_async", get_relationships_async);
   
   return GLib.Test.run ();
 }

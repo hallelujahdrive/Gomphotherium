@@ -15,9 +15,9 @@ namespace Gomphotherium {
     private string _content;  // Body of the status; this will contain HTML (remote HTML already sanitized)
     private string _created_at; // The time the status was created
     private int64 _reblogs_count; // The number of reblogs for the status
-    private int64 _favorites_count; // The number of favourites for the status
+    private int64 _favourites_count; // The number of favourites for the status
     private bool _reblogged; // Whether the authenticated user has reblogged the status
-    private bool _favorited;  // Whether the authenticated user has favourited the status
+    private bool _favourited;  // Whether the authenticated user has favourited the status
     private bool _sensitive;  // Whether media attachments should be hidden by default
     private string _spoiler_text; // If not empty, warning text that should be displayed before the actual content
     private string _visibility; // One of: public, unlisted, private, direct
@@ -57,14 +57,14 @@ namespace Gomphotherium {
     public int64 reblogs_count {
       get { return _reblogs_count; }
     }
-    public int64 favorites_count {
-      get { return _favorites_count; }
+    public int64 favourites_count {
+      get { return _favourites_count; }
     }
     public bool reblogged {
       get { return _reblogged; }
     }
-    public bool favorited {
-      get { return _favorited; }
+    public bool favourited {
+      get { return _favourited; }
     }
     public bool sensitive {
       get { return _sensitive; }
@@ -116,11 +116,11 @@ namespace Gomphotherium {
           break;
           case "reblogs_count" : _reblogs_count = node.get_int ();
           break;
-          case "favorites_count" : _favorites_count = node.get_int ();
+          case "favourites_count" : _favourites_count = node.get_int ();
           break;
           case "reblogged" : _reblogged = node.get_boolean ();
           break;
-          case "favorited" : _favorited = node.get_boolean ();
+          case "favourited" : _favourited = node.get_boolean ();
           break;
           case "sensitive" : _sensitive = node.get_boolean ();
           break;

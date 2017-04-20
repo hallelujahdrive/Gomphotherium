@@ -339,9 +339,7 @@ namespace Gomphotherium {
         proxy_call.run();
         
         var data = proxy_call.get_payload();
-        //stdout.printf ("%s\n", data);
-        
-        /*var json_array = parse_json_array (proxy_call.get_payload());*/
+
         var json_array = parse_json_array (data);
         var list = new List<Status> ();
                 
@@ -396,9 +394,68 @@ namespace Gomphotherium {
     
     
     // Getting an account's relationships
-    /*public List<Relationship> get_relationships (int64 id) {
+    public List<Relationship> get_relationships (int64[] ids) throws Error {
       
-    }*/
+      var proxy_call = proxy.new_call ();
+      setup_get_relationships_proxy_call (ref proxy_call, ids);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var data = proxy_call.get_payload();
+
+        var json_array = parse_json_array (data);
+        var list = new List<Relationship> ();
+                
+        json_array.foreach_element ((array, index, node) => {
+          list.append (new Relationship (node.get_object ()));
+        });
+        
+        return (owned) list;
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Getting an account's relationships asynchronously
+    public async List<Relationship> get_relationships_async (int64[] ids) throws Error {
+      
+      Error error = null;
+      var list = new List<Relationship> ();
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_relationships_proxy_call (ref proxy_call, ids);
+      
+
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_array = parse_json_array (proxy_call.get_payload());
+          
+          json_array.foreach_element ((array, index, node) => {
+            list.append (new Relationship (node.get_object ()));
+          });
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        get_relationships_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return (owned) list;
+    }
         
     // Set proxy params to oauth
     private void setup_oauth_proxy_call (ref ProxyCall proxy_call, string email, string password, string scope) {
@@ -448,6 +505,21 @@ namespace Gomphotherium {
       }
       
       proxy_call.set_function(ENDPOINT_ACCOUNTS_STATUSES.printf (id));
+      proxy_call.set_method("GET");
+    
+    }
+    
+    // Set proxy params to get relatiopnships
+    private void setup_get_relationships_proxy_call (ref ProxyCall proxy_call, int64[] ids) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_ACCOUNTS_RELATIONSHIPS);
+      
+      if (ids != null) {
+        // 配列を渡せないので保留
+        proxy_call.add_param (PARAM_ID + "");
+      }
+      
       proxy_call.set_method("GET");
     
     }
