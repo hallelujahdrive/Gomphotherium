@@ -1,0 +1,4 @@
+*
+!*.vala
+!*.am
+!.gitignore
