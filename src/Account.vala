@@ -1,6 +1,6 @@
 using Json;
 
-namespace Gomphoterium {
+namespace Gomphotherium {
   
   public class Account {
     

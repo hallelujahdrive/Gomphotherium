@@ -2,17 +2,17 @@ AUTOMAKE_OPTIONS = subdir-objects
 
 AM_CPPFLAGS = $(GOM_CFLAGS)
 
-BUILT_SOURCES = libgomphoterium_la_vala.stamp
+BUILT_SOURCES = libgomphotherium_la_vala.stamp
 
-lib_LTLIBRARIES = libgomphoterium.la
+lib_LTLIBRARIES = libgomphotherium.la
 
-include_HEADERS = gomphoterium.h
+include_HEADERS = gomphotherium.h
 
-pc_DATA = gomphoterium.pc
+pc_DATA = gomphotherium.pc
 
 vapi_DATA = \
-						gomphoterium.deps \
-						gomphoterium.vapi 
+						gomphotherium.deps \
+						gomphotherium.vapi 
 
 sources = \
 				Account.vala \
@@ -20,6 +20,7 @@ sources = \
 				Attachment.vala \
 				GomphoApp.vala \
 				Mention.vala \
+				Relationship.vala \
 				Status.vala \
 				Tag.vala \
 				endpoints.vala \
@@ -29,13 +30,13 @@ sources = \
 
 csources = $(sources:.vala=.c)
 
-gomphoterium.vapi gomphoterium.h libgomphoterium_la_vala.stamp : $(sources)
-	@$(VALAC) $^ --vapi=gomphoterium.vapi -C --header gomphoterium.h @GOM_VALA_FLAGS@
+gomphotherium.vapi gomphotherium.h libgomphotherium_la_vala.stamp : $(sources)
+	@$(VALAC) $^ --vapi=gomphotherium.vapi -C --header gomphotherium.h @GOM_VALA_FLAGS@
 	
-libgomphoterium_la_LIBADD = @GOM_LIBS@
-libgomphoterium_la_LDFLAGS= -X -shared -X -fPIC -vsrsion-info 0:0:0
-libgomphoterium_la_VALASOURCES = $(sources)
-libgomphoterium_la_SOURCES = libgomphoterium_la_vala.stamp \
+libgomphotherium_la_LIBADD = @GOM_LIBS@
+libgomphotherium_la_LDFLAGS= -X -shared -X -fPIC -vsrsion-info 0:0:0
+libgomphotherium_la_VALASOURCES = $(sources)
+libgomphotherium_la_SOURCES = libgomphotherium_la_vala.stamp \
 															 $(csources)
 
 CLEANFILES = *.c *.h *.o *.lo *.lib *.vapi .libs/* 

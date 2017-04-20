@@ -1,4 +1,4 @@
-namespace Gomphoterium {
+namespace Gomphotherium {
   private const string PARAM_CLIENT_ID = "client_id";
   private const string PARAM_CLIENT_NAME = "client_name";
   private const string PARAM_CLIENT_SECRET = "client_secret";

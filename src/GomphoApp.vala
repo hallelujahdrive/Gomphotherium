@@ -1,7 +1,7 @@
 using Json;
 using Rest;
 
-namespace Gomphoterium {
+namespace Gomphotherium {
   
   public class GomphoApp {
     
@@ -356,14 +356,14 @@ namespace Gomphoterium {
       }
     }
     
-    // Getting an account's following asynchronously
- /*   public async List<Account> get_statuses_async (int64 id) throws Error {
+    // Getting an account's statuses asynchronously
+    public async List<Status> get_statuses_async (int64 id) throws Error {
       
       Error error = null;
-      var list = new List<Account> ();
+      var list = new List<Status> ();
       
       var proxy_call = proxy.new_call ();
-      setup_get_following_proxy_call (ref proxy_call, id);
+      setup_get_statuses_proxy_call (ref proxy_call, id);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
@@ -374,14 +374,14 @@ namespace Gomphoterium {
           var json_array = parse_json_array (proxy_call.get_payload());
           
           json_array.foreach_element ((array, index, node) => {
-            list.append (new Account (node.get_object ()));
+            list.append (new Status (node.get_object ()));
           });
           
         } catch (Error e) {
           error = e;
         }
         
-        get_following_async.callback ();
+        get_statuses_async.callback ();
         
       });
 
@@ -392,6 +392,12 @@ namespace Gomphoterium {
       }
       
       return (owned) list;
+    }
+    
+    
+    // Getting an account's relationships
+    /*public List<Relationship> get_relationships (int64 id) {
+      
     }*/
         
     // Set proxy params to oauth

@@ -5,7 +5,7 @@ void get_statuses () {
   string access_token = load_access_token ();
   int64 account_id = load_account_id ();
     
-  var app = new Gomphoterium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     
@@ -19,7 +19,7 @@ void get_statuses () {
     stderr.printf ("%s\n", e.message);
   }
 }
-/*
+
 void get_statuses_async () {
   
   var loop = new MainLoop ();
@@ -28,9 +28,8 @@ void get_statuses_async () {
   string[] ci_cs = load_ci_cs ();
   string access_token = load_access_token ();
   int64 account_id = load_account_id ();
-  stdout.printf ("%" + int64.FORMAT, account_id);
     
-  var app = new Gomphoterium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
   stdout.printf ("begin function\n");
   app.get_statuses_async.begin (account_id, (obj, res) => {
@@ -38,8 +37,8 @@ void get_statuses_async () {
     try{
       var list = app.get_statuses_async.end (res);
       
-      list.foreach ((account) => {
-        output_account (account);
+      list.foreach ((status) => {
+        output_status (status);
       });
       
       stdout.printf ("\nend async method\n");
@@ -50,9 +49,9 @@ void get_statuses_async () {
   });
   stdout.printf ("end function\n");
   loop.run ();
-}*/
+}
 
-void output_account (Gomphoterium.Account account) {
+void output_account (Gomphotherium.Account account) {
   
   stdout.printf ("""
   id : %""" + int64.FORMAT + """
@@ -76,7 +75,7 @@ void output_account (Gomphoterium.Account account) {
   account.avatar_static, account.header, account.header_static);
 }
 
-void output_status (Gomphoterium.Status status) {
+void output_status (Gomphotherium.Status status) {
   
   stdout.printf ("""
   id : %""" + int64.FORMAT + """
@@ -151,7 +150,7 @@ void output_status (Gomphoterium.Status status) {
   
 }
 
-void output_attachment (Gomphoterium.Attachment attachment) {
+void output_attachment (Gomphotherium.Attachment attachment) {
   
   stdout.printf ("""
   id : %""" + int64.FORMAT + """
@@ -165,7 +164,7 @@ void output_attachment (Gomphoterium.Attachment attachment) {
   
 }
 
-void output_mention (Gomphoterium.Mention mention) {
+void output_mention (Gomphotherium.Mention mention) {
   
   stdout.printf ("""
   url : %s
@@ -176,7 +175,7 @@ void output_mention (Gomphoterium.Mention mention) {
   
 }
 
-void output_tag (Gomphoterium.Tag tag) {
+void output_tag (Gomphotherium.Tag tag) {
   
   stdout.printf ("""
   name : %s
@@ -185,83 +184,20 @@ void output_tag (Gomphoterium.Tag tag) {
   
 }
 
-void output_application (Gomphoterium.Application application) {
+void output_application (Gomphotherium.Application application) {
   
   stdout.printf ("""
   name : %s
   website : %s
   """, application.name, application.website);
-    
-}
-
-string load_website () {
-  string read = "";
-  try {
-    string filename = "website.txt";
-
-    FileUtils.get_contents (filename, out read);
-
-} catch (FileError e) {
-    stderr.printf ("%s\n", e.message);
-  }
   
-  return read.replace ("\n", "");
-}
-
-string[] load_ci_cs () {
-  string[] ci_cs = new string[2];
-  try {
-    string filename = "ci_cs.txt";
-    var file = File.new_for_path (filename);
-    
-    var dis = new DataInputStream (file.read ());
-    
-    int i = 0;
-    string line;
-    while ((line = dis.read_line (null)) != null && i < 2) {
-      ci_cs[i++] = line.split (":")[1];
-    }
-
-} catch (Error e) {
-    stderr.printf ("%s\n", e.message);
-  }
-  
-  return ci_cs;
-}
-
-string load_access_token () {
-  string read = "";
-  try {
-    string filename = "access_token.txt";
-
-    FileUtils.get_contents (filename, out read);
-
-} catch (FileError e) {
-    stderr.printf ("%s\n", e.message);
-  }
-  
-  return read.split (":")[1].replace ("\n", "");
-}
-
-int64 load_account_id () {
-  string read = "";
-  try {
-    string filename = "account_id.txt";
-
-    FileUtils.get_contents (filename, out read);
-
-} catch (FileError e) {
-    stderr.printf ("%s\n", e.message);
-  }
-  
-  return int64.parse (read.split (":")[1].replace ("\n", ""));
 }
 
 int main (string[] args) {
   GLib.Test.init (ref args);
   
   GLib.Test.add_func ("/getstatuses/get_statuses", get_statuses);
-  //GLib.Test.add_func ("/getstatuses/get_statuses_async", get_statuses_async);
+  GLib.Test.add_func ("/getstatuses/get_statuses_async", get_statuses_async);
   
   return GLib.Test.run ();
 }

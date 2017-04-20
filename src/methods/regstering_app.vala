@@ -2,21 +2,19 @@ using Json;
 using Rest;
 using Soup;
 
-using Gomphoterium.RegisteringUtils;
-
-namespace Gomphoterium { 
+namespace Gomphotherium { 
   // Registing an GomphoApp
   // @instance_website : URL to Instance you want to regist 
   // @client_name : Name of your GomphoApp
   // @redirect_uris : (nullable) Where the user should be redirected after authorization
   // @scope : This can be a space-separated list of the following items: "read", "write" and "follow"
   // @app_website : (nullable) URL to the homepage of your app
-  public Gomphoterium.GomphoApp registering_app (string instance_website, string client_name,string? redirect_uris, string scopes, string? app_website = null) throws Error {
+  public GomphoApp registering_app (string instance_website, string client_name,string? redirect_uris, string scopes, string? app_website = null) throws Error {
         
     var proxy = new Rest.Proxy (instance_website, false);
     var proxy_call = proxy.new_call ();
     
-    setup_proxy_call (ref proxy_call, client_name, redirect_uris, scopes, app_website);
+    setup_oauth_proxy_call (ref proxy_call, client_name, redirect_uris, scopes, app_website);
     
     try {
       proxy_call.run ();
@@ -40,7 +38,7 @@ namespace Gomphoterium {
     var proxy = new Rest.Proxy (instance_website, false);
     var proxy_call = proxy.new_call ();
     
-    setup_proxy_call (ref proxy_call, client_name, redirect_uris, scopes, app_website);
+    setup_oauth_proxy_call (ref proxy_call, client_name, redirect_uris, scopes, app_website);
     
     GomphoApp app = null;
 
@@ -71,24 +69,22 @@ namespace Gomphoterium {
     return app;
   }
   
-    namespace RegisteringUtils {
+  // set params
+  private void setup_oauth_proxy_call (ref ProxyCall proxy_call, string client_name, string? redirect_uris, string scopes, string? website) {
       
-      // set params
-      private void setup_proxy_call (ref ProxyCall proxy_call, string client_name, string? redirect_uris, string scopes, string? website) {
-          
-      // for no redirect, use urn:ietf:wg:oauth:2.0:oob
-      if (redirect_uris == null) {
-        redirect_uris = "urn:ietf:wg:oauth:2.0:oob";
-      }
-      
-      proxy_call.add_params (PARAM_CLIENT_NAME, client_name, PARAM_REDIRECT_URIS, "urn:ietf:wg:oauth:2.0:oob", PARAM_SCOPES, scopes);
-      
-      if (website != null) {
-        proxy_call.add_param (PARAM_WEBSITE, website);
-      }
-      
-      proxy_call.set_function (ENDPOINT_APPS);
-      proxy_call.set_method ("POST");
-    }
+  // for no redirect, use urn:ietf:wg:oauth:2.0:oob
+  if (redirect_uris == null) {
+    redirect_uris = "urn:ietf:wg:oauth:2.0:oob";
+  }
+  
+  proxy_call.add_params (PARAM_CLIENT_NAME, client_name, PARAM_REDIRECT_URIS, "urn:ietf:wg:oauth:2.0:oob", PARAM_SCOPES, scopes);
+  
+  if (website != null) {
+    proxy_call.add_param (PARAM_WEBSITE, website);
+  }
+  
+  proxy_call.set_function (ENDPOINT_APPS);
+  proxy_call.set_method ("POST");
+
   }
 }

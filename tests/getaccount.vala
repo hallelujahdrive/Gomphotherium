@@ -5,7 +5,7 @@ void get_account () {
   string access_token = load_access_token ();
   int64 account_id = load_account_id ();
     
-  var app = new Gomphoterium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     var account = app.get_account (account_id);
@@ -26,7 +26,7 @@ void get_account_async () {
   string access_token = load_access_token ();
   int64 account_id = load_account_id ();
     
-  var app = new Gomphoterium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
   stdout.printf ("begin function\n");
   app.get_account_async.begin (account_id, (obj, res) => {
@@ -46,7 +46,7 @@ void get_account_async () {
   loop.run ();
 }
 
-void output_account (Gomphoterium.Account account) {
+void output_account (Gomphotherium.Account account) {
   
   stdout.printf ("""
   id : %""" + int64.FORMAT + """
@@ -68,76 +68,6 @@ void output_account (Gomphoterium.Account account) {
   account.locked.to_string (), account.created_at, account.followers_count, account.following_count,
   account.statuses_count, account.note, account.url, account.avatar,
   account.avatar_static, account.header, account.header_static);
-}
-
-string load_website () {
-  
-  string read = "";
-  
-  try {
-    
-    string filename = "website.txt";
-    FileUtils.get_contents (filename, out read);
-
-} catch (FileError e) {
-    stderr.printf ("%s\n", e.message);
-  }
-  
-  return read.replace ("\n", "");
-}
-
-string[] load_ci_cs () {
-  
-  string[] ci_cs = new string[2];
-  
-  try {
-    
-    string filename = "ci_cs.txt";
-    var file = File.new_for_path (filename);
-    var dis = new DataInputStream (file.read ());
-    
-    int i = 0;
-    string line;
-    while ((line = dis.read_line (null)) != null && i < 2) {
-      ci_cs[i++] = line.split (":")[1];
-    }
-
-} catch (Error e) {
-    stderr.printf ("%s\n", e.message);
-  }
-  
-  return ci_cs;
-}
-
-string load_access_token () {
-  
-  string read = "";
-  
-  try {
-    
-    string filename = "access_token.txt";
-    FileUtils.get_contents (filename, out read);
-
-} catch (FileError e) {
-    stderr.printf ("%s\n", e.message);
-  }
-  
-  return read.split (":")[1].replace ("\n", "");
-}
-
-int64 load_account_id () {
-  
-  string read = "";
-  
-  try {
-    string filename = "account_id.txt";
-    FileUtils.get_contents (filename, out read);
-
-} catch (FileError e) {
-    stderr.printf ("%s\n", e.message);
-  }
-  
-  return int64.parse (read.split (":")[1].replace ("\n", ""));
 }
 
 int main (string[] args) {

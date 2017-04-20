@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([gomphoterium], [0], [hallelujahdrive@gmail.com])
+AC_INIT([gomphotherium], [0], [hallelujahdrive@gmail.com])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([foreign])
 
@@ -19,7 +19,6 @@ AC_PROG_INSTALL
 pkg_modules="
 	glib-2.0
 	json-glib-1.0
-	libsoup-2.4
 	rest-0.7
 	"
 
@@ -33,7 +32,6 @@ PKG_CHECK_MODULES(GOM,[$pkg_modules])
 GOM_VALA_FLAGS=" \
 	--pkg glib-2.0 \
 	--pkg json-glib-1.0 \
-	--pkg libsoup-2.4 \
 	--pkg rest-0.7
 	"
 
@@ -54,7 +52,7 @@ AC_CHECK_FUNCS([atexit memchr memset setlocale strstr])
 
 AC_CONFIG_FILES([Makefile
                  src/Makefile
-								 src/gomphoterium.pc
+								 src/gomphotherium.pc
 								 tests/Makefile])
 AC_OUTPUT
 
