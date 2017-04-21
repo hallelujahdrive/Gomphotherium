@@ -18,24 +18,44 @@ AM_VALAFLAGS = \
 						
 check_PROGRAMS = \
 							getaccount \
+							getblocks \
+							getfavourites \
 							getfollowers \
 							getfollowing \
+							getfollowrequests \
+							getinstance \
+							getmutes \
+							getnotification \
+							getnotifications \
 							getrelationships \
+							getreports \
 							getstatuses \
 							oauthtoken \
 							registeringapp \
+							search \
+							searchaccounts \
 							verifycredentials
 							
 check_LTLIBRARIES = libtestmod.la
 						
 tests_VALASOURCES = \
 				getaccount.vala \
+				getblocks.vala \
+				getfavourites.vala \
 				getfollowers.vala \
 				getfollowing.vala \
+				getfollowrequests.vala \
+				getinstance.vala \
+				getmutes.vala \
+				getnotification.vala \
+				getnotifications.vala \
 				getrelationships.vala \
+				getreports.vala \
 				getstatuses.vala \
 				oauthtoken.vala \
 				registeringapp.vala \
+				search.vala \
+				searchaccounts.vala \
 				verifycredentials.vala
 				
 testmod_VALASOURCES = \
@@ -78,20 +98,69 @@ nodist_getaccount_SOURCES = \
 getaccount_LDADD = \
 									libtestmod.la \
 									$(top_builddir)/src/libgomphotherium.la
+									
+nodist_getblocks_SOURCES = \
+												libtestmod_la_vala.stamp \
+												getblocks.c 
+getblocks_LDADD = \
+								libtestmod.la \
+								$(top_builddir)/src/libgomphotherium.la
+
+nodist_getfavourites_SOURCES = \
+														libtestmod_la_vala.stamp \
+														getfavourites.c
+getfavourites_LDADD = \
+										libtestmod.la \
+										$(top_builddir)/src/libgomphotherium.la
+										
+nodist_getfollowrequests_SOURCES = \
+																libtestmod_la_vala.stamp \
+																getfollowrequests.c
+getfollowrequests_LDADD = \
+												libtestmod.la \
+												$(top_builddir)/src/libgomphotherium.la
 
 nodist_getfollowers_SOURCES = \
-															libtestmod_la_vala.stamp \
-															getfollowers.c
+														libtestmod_la_vala.stamp \
+														getfollowers.c
 getfollowers_LDADD = \
-										libtestmod.la \
-										$(top_builddir)/src/libgomphotherium.la
+									libtestmod.la \
+									$(top_builddir)/src/libgomphotherium.la
 
 nodist_getfollowing_SOURCES = \
-															libtestmod_la_vala.stamp \
-															getfollowing.c
+														libtestmod_la_vala.stamp \
+														getfollowing.c
 getfollowing_LDADD = \
-										libtestmod.la \
-										$(top_builddir)/src/libgomphotherium.la
+									libtestmod.la \
+									$(top_builddir)/src/libgomphotherium.la
+
+nodist_getinstance_SOURCES = \
+													libtestmod_la_vala.stamp \
+													getinstance.c
+getinstance_LDADD = \
+									libtestmod.la \
+									$(top_builddir)/src/libgomphotherium.la
+
+nodist_getmutes_SOURCES = \
+												libtestmod_la_vala.stamp \
+												getmutes.c
+getmutes_LDADD = \
+							libtestmod.la \
+							$(top_builddir)/src/libgomphotherium.la
+							
+nodist_getnotifications_SOURCES = \
+															libtestmod_la_vala.stamp \
+															getnotifications.c
+getnotifications_LDADD = \
+											libtestmod.la \
+											$(top_builddir)/src/libgomphotherium.la
+											
+nodist_getnotification_SOURCES = \
+															libtestmod_la_vala.stamp \
+															getnotification.c
+getnotification_LDADD = \
+											libtestmod.la \
+											$(top_builddir)/src/libgomphotherium.la
 
 nodist_getrelationships_SOURCES = \
 															libtestmod_la_vala.stamp \
@@ -99,6 +168,13 @@ nodist_getrelationships_SOURCES = \
 getrelationships_LDADD = \
 										libtestmod.la \
 										$(top_builddir)/src/libgomphotherium.la
+
+nodist_getreports_SOURCES = \
+												libtestmod_la_vala.stamp \
+												getreports.c
+getreports_LDADD = \
+								libtestmod.la \
+								$(top_builddir)/src/libgomphotherium.la
 
 nodist_getstatuses_SOURCES = \
 															libtestmod_la_vala.stamp \
@@ -115,11 +191,25 @@ oauthtoken_LDADD = \
 									$(top_builddir)/src/libgomphotherium.la
 
 nodist_registeringapp_SOURCES = \
-																	libtestmod_la_vala.stamp \
-																	registeringapp.c
+															libtestmod_la_vala.stamp \
+															registeringapp.c
 registeringapp_LDADD = \
-											libtestmod.la \
-											$(top_builddir)/src/libgomphotherium.la
+										libtestmod.la \
+										$(top_builddir)/src/libgomphotherium.la
+
+nodist_search_SOURCES = \
+											libtestmod_la_vala.stamp \
+											search.c
+search_LDADD = \
+						libtestmod.la \
+						$(top_builddir)/src/libgomphotherium.la
+
+nodist_searchaccounts_SOURCES = \
+															libtestmod_la_vala.stamp \
+															searchaccounts.c
+searchaccounts_LDADD = \
+										libtestmod.la \
+										$(top_builddir)/src/libgomphotherium.la
 
 nodist_verifycredentials_SOURCES = \
 																		libtestmod_la_vala.stamp \

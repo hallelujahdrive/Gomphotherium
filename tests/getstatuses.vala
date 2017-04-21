@@ -59,4 +59,3 @@ int main (string[] args) {
   
   return GLib.Test.run ();
 }
-

@@ -82,3 +82,16 @@ public int64 load_account_id () {
   return int64.parse (read.split (":")[1].replace ("\n", ""));
 }
 
+public int64 load_notification_id () {
+  string read = "";
+  try {
+    string filename = "notification_id.txt";
+
+    FileUtils.get_contents (filename, out read);
+
+} catch (FileError e) {
+    stderr.printf ("%s\n", e.message);
+  }
+  
+  return int64.parse (read.split (":")[1].replace ("\n", ""));
+}

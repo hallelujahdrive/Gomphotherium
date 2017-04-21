@@ -1,18 +1,17 @@
-void get_relationships () {
+void search_accounts () {
   
   string website = load_website ();
   string[] ci_cs = load_ci_cs ();
   string access_token = load_access_token ();
-  int64 account_id = load_account_id ();
     
   var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     
-    var list = app.get_relationships (account_id);
+    var list = app.search_accounts ("a", null);
     
-    list.foreach ((relationship) => {
-      output_relationship (relationship);
+    list.foreach ((account) => {
+      output_account (account);
     });
     
   } catch (Error e) {
@@ -20,25 +19,24 @@ void get_relationships () {
   }
 }
 
-void get_relationships_async () {
+void search_accounts_async () {
   
   var loop = new MainLoop ();
   
   string website = load_website ();
   string[] ci_cs = load_ci_cs ();
   string access_token = load_access_token ();
-  int64 account_id = load_account_id ();
     
   var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
   stdout.printf ("begin function\n");
-  app.get_relationships_async.begin (account_id, (obj, res) => {
+  app.search_accounts_async.begin ("a", null, (obj, res) => {
     stdout.printf ("\nbegin async method");
     try{
-      var list = app.get_relationships_async.end (res);
+      var list = app.search_accounts_async.end (res);
       
-      list.foreach ((relationship) => {
-        output_relationship (relationship);
+      list.foreach ((account) => {
+        output_account (account);
       });
       
       stdout.printf ("\nend async method\n");
@@ -54,8 +52,8 @@ void get_relationships_async () {
 int main (string[] args) {
   GLib.Test.init (ref args);
   
-  GLib.Test.add_func ("/getrelationships/get_relationships", get_relationships);
-  GLib.Test.add_func ("/getrelationships/get_relationships_async", get_relationships_async);
+  GLib.Test.add_func ("/searchaccounts/search_accounts", search_accounts);
+  GLib.Test.add_func ("/searchaccounts/search_accounts_async", search_accounts_async);
   
   return GLib.Test.run ();
 }

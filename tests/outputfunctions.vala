@@ -153,3 +153,64 @@ public void output_relationship (Gomphotherium.Relationship relationship) {
   relationship.blocking.to_string (), relationship.muting.to_string (), relationship.requested.to_string ());
   
 }
+
+public void output_instance (Gomphotherium.Instance instance) {
+
+  stdout.printf ("""
+  url : %s
+  title : %s
+  description : %s
+  email : %s
+  """, instance.url, instance.title, instance.description, instance.email);
+
+}
+
+public void output_notification (Gomphotherium.Notification notification) {
+  
+  stdout.printf ("""
+  id : %""" + int64.FORMAT + """
+  type : %s
+  created_at : %s
+  account : 
+  """, notification.id, notification.notification_type, notification.created_at);
+  
+  output_account (notification.account);
+  stdout.printf ("\nstatus : ");
+  
+  if (notification.status != null) {
+    stdout.printf ("\n");
+    output_status (notification.status);
+    stdout.printf ("\n");
+  } else {
+    stdout.printf (" null\n");    
+  }
+  
+}
+
+public void output_report (Gomphotherium.Report report) {
+  
+  stdout.printf ("""
+  id : %""" + int64.FORMAT + """
+  action_taken : %s
+  """, report.id, report.action_taken);
+  
+}
+
+public void output_results (Gomphotherium.Results results) {
+  
+  stdout.printf("  accounts :\n");
+  results.accounts.foreach ((account) => {
+    output_account (account);
+    stdout.printf ("\n");
+  });
+  stdout.printf("  statuses :\n");
+  results.statuses.foreach ((status) => {
+    output_status (status);
+    stdout.printf ("\n");
+  });
+  stdout.printf("  hashtags :\n");
+  results.hashtags.foreach ((hashtag) => {
+    stdout.printf ("  %s\n", hashtag);
+  });
+  
+}

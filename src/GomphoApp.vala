@@ -394,10 +394,12 @@ namespace Gomphotherium {
     
     
     // Getting an account's relationships
-    public List<Relationship> get_relationships (int64[] ids) throws Error {
+    // 暫定で配列でのリクエストをオミット
+    //public List<Relationship> get_relationships (int64[] ids) throws Error {
+    public List<Relationship> get_relationships (int64 id) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_relationships_proxy_call (ref proxy_call, ids);
+      setup_get_relationships_proxy_call (ref proxy_call, id);
       
       try{
         
@@ -420,13 +422,15 @@ namespace Gomphotherium {
     }
     
     // Getting an account's relationships asynchronously
-    public async List<Relationship> get_relationships_async (int64[] ids) throws Error {
+    // 暫定で配列でのリクエストをオミット
+    //public async List<Relationship> get_relationships_async (int64[] ids) throws Error {
+    public async List<Relationship> get_relationships_async (int64 id) throws Error {
       
       Error error = null;
       var list = new List<Relationship> ();
       
       var proxy_call = proxy.new_call ();
-      setup_get_relationships_proxy_call (ref proxy_call, ids);
+      setup_get_relationships_proxy_call (ref proxy_call, id);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
@@ -456,7 +460,600 @@ namespace Gomphotherium {
       
       return (owned) list;
     }
+    
+    // Searching for accounts
+    public List<Account> search_accounts (string q, int64? limit) throws Error{
+      
+      var proxy_call = proxy.new_call ();
+      setup_search_accounts_proxy_call (ref proxy_call, q, limit);
+      
+      try{
         
+        proxy_call.run();
+        
+        var json_array = parse_json_array (proxy_call.get_payload());
+        var list = new List<Account> ();
+        
+        json_array.foreach_element ((array, index, node) => {
+          list.append (new Account (node.get_object ()));
+        });
+        
+        return (owned) list;
+        
+      }catch(Error e){
+        throw e;
+      }      
+    }
+
+    // Searching for accounts asynchronously
+    public async List<Account> search_accounts_async (string q, int64? limit) throws Error {
+      
+      Error error = null;
+      var list = new List<Account> ();
+      
+      var proxy_call = proxy.new_call ();
+      setup_search_accounts_proxy_call(ref proxy_call, q, limit);
+      
+
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_array = parse_json_array (proxy_call.get_payload());
+          
+          json_array.foreach_element ((array, index, node) => {
+            list.append (new Account (node.get_object ()));
+          });
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        search_accounts_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return (owned) list;
+    }
+
+    // Fetching a user's blocks
+    public List<Account> get_blocks () throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_blocks_proxy_call (ref proxy_call);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_array = parse_json_array (proxy_call.get_payload());
+        var list = new List<Account> ();
+        
+        json_array.foreach_element ((array, index, node) => {
+          list.append (new Account (node.get_object ()));
+        });
+        
+        return (owned) list;
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Fetching a user's blocks asynchronously
+    public async List<Account> get_blocks_async () throws Error {
+      
+      Error error = null;
+      var list = new List<Account> ();
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_blocks_proxy_call (ref proxy_call);
+      
+
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_array = parse_json_array (proxy_call.get_payload());
+          
+          json_array.foreach_element ((array, index, node) => {
+            list.append (new Account (node.get_object ()));
+          });
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        get_blocks_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return (owned) list;
+    }
+
+    // Fetching a user's favourites
+    public List<Status> get_favourites () throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_favoutrites_proxy_call (ref proxy_call);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_array = parse_json_array (proxy_call.get_payload());
+        var list = new List<Status> ();
+        
+        json_array.foreach_element ((array, index, node) => {
+          list.append (new Status (node.get_object ()));
+        });
+        
+        return (owned) list;
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Fetching a user's favourites asynchronously
+    public async List<Status> get_favourites_async () throws Error {
+      
+      Error error = null;
+      var list = new List<Status> ();
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_favoutrites_proxy_call (ref proxy_call);
+      
+
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_array = parse_json_array (proxy_call.get_payload());
+          
+          json_array.foreach_element ((array, index, node) => {
+            list.append (new Status (node.get_object ()));
+          });
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        get_favourites_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return (owned) list;
+    }
+
+    // Fetching  a list of follow requests
+    public List<Account> get_follow_requests () throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_follow_requests_proxy_call (ref proxy_call);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_array = parse_json_array (proxy_call.get_payload());
+        var list = new List<Account> ();
+        
+        json_array.foreach_element ((array, index, node) => {
+          list.append (new Account (node.get_object ()));
+        });
+        
+        return (owned) list;
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Fetching  a list of follow requests asynchronously
+    public async List<Account> get_follow_requests_async () throws Error {
+      
+      Error error = null;
+      var list = new List<Account> ();
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_follow_requests_proxy_call (ref proxy_call);
+      
+
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_array = parse_json_array (proxy_call.get_payload());
+          
+          json_array.foreach_element ((array, index, node) => {
+            list.append (new Account (node.get_object ()));
+          });
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        get_follow_requests_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return (owned) list;
+    }
+
+    // Getting instance information
+    public Instance get_instance () throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_instance_proxy_call (ref proxy_call);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_obj = parse_json_object (proxy_call.get_payload());
+        return new Instance (json_obj);
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Getting instance information asynchronously
+    public async Instance get_instance_async () throws Error {
+      
+      Error error = null;      
+      Instance instance = null;
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_instance_proxy_call (ref proxy_call);
+      
+
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_obj = parse_json_object (proxy_call.get_payload());
+          instance = new Instance (json_obj);
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        get_instance_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return instance;
+    }
+
+    // Fetching a user's mutes
+    public List<Account> get_mutes () throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_mutes_proxy_call (ref proxy_call);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_array = parse_json_array (proxy_call.get_payload());
+        var list = new List<Account> ();
+        
+        json_array.foreach_element ((array, index, node) => {
+          list.append (new Account (node.get_object ()));
+        });
+        
+        return (owned) list;
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Fetching a user's mutes asynchronously
+    public async List<Account> get_mutes_async () throws Error {
+      
+      Error error = null;
+      var list = new List<Account> ();
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_mutes_proxy_call (ref proxy_call);
+      
+
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_array = parse_json_array (proxy_call.get_payload());
+          
+          json_array.foreach_element ((array, index, node) => {
+            list.append (new Account (node.get_object ()));
+          });
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        get_mutes_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return (owned) list;
+    }
+
+    // Fetching a user's notifications
+    public List<Gomphotherium.Notification> get_notifications () throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_notifications_proxy_call (ref proxy_call);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_array = parse_json_array (proxy_call.get_payload());
+        var list = new List<Gomphotherium.Notification> ();
+        
+        json_array.foreach_element ((array, index, node) => {
+          list.append (new Gomphotherium.Notification (node.get_object ()));
+        });
+        
+        return (owned) list;
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Fetching a user's notifications asynchronously
+    public async List<Gomphotherium.Notification> get_notifications_async () throws Error {
+      
+      Error error = null;
+      var list = new List<Gomphotherium.Notification> ();
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_notifications_proxy_call (ref proxy_call);
+      
+
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_array = parse_json_array (proxy_call.get_payload());
+          
+          json_array.foreach_element ((array, index, node) => {
+            list.append (new Gomphotherium.Notification (node.get_object ()));
+          });
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        get_notifications_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return (owned) list;
+    }
+
+    // Getting a single notification
+    public Gomphotherium.Notification get_notification (int64 id) throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_notification_proxy_call (ref proxy_call, id);
+      
+      try{
+        
+        proxy_call.run();
+
+        var json_obj = parse_json_object (proxy_call.get_payload());
+        return new Gomphotherium.Notification (json_obj);
+        
+      }catch(Error error){
+        throw error;
+      }
+    }
+    
+    // Getting a single notification
+    public async Gomphotherium.Notification get_notification_async (int64 id) throws Error {
+      
+      Error error = null;
+      Gomphotherium.Notification notification = null;
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_notification_proxy_call (ref proxy_call, id);
+      
+
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_obj = parse_json_object (proxy_call.get_payload());
+          notification = new Gomphotherium.Notification (json_obj);
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        get_notification_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return notification;
+    }
+
+    // Fetching a user's reports
+    public List<Report> get_reports () throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_reports_proxy_call (ref proxy_call);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_array = parse_json_array (proxy_call.get_payload());
+        var list = new List<Report> ();
+        
+        json_array.foreach_element ((array, index, node) => {
+          list.append (new Report (node.get_object ()));
+        });
+        
+        return (owned) list;
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Fetching a user's reports asynchronously
+    public async List<Report> get_reports_async () throws Error {
+      
+      Error error = null;
+      var list = new List<Report> ();
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_reports_proxy_call (ref proxy_call);
+      
+
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_array = parse_json_array (proxy_call.get_payload());
+          
+          json_array.foreach_element ((array, index, node) => {
+            list.append (new Report (node.get_object ()));
+          });
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        get_reports_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return (owned) list;
+    }
+    
+    // Searching for content
+    public Results search (string q, bool resolve) throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_search_proxy_call (ref proxy_call, q, resolve);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_obj = parse_json_object (proxy_call.get_payload());
+        return new Results (json_obj);
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Searching for content asynchronously
+    public async Results search_async (string q, bool resolve) throws Error {
+      
+      Error error = null;      
+      Results results = null;
+      
+      var proxy_call = proxy.new_call ();
+      setup_search_proxy_call (ref proxy_call, q, resolve);
+      
+
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_obj = parse_json_object (proxy_call.get_payload());
+          results = new Results (json_obj);
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        search_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return results;
+    }
+    
     // Set proxy params to oauth
     private void setup_oauth_proxy_call (ref ProxyCall proxy_call, string email, string password, string scope) {
       
@@ -510,16 +1107,56 @@ namespace Gomphotherium {
     }
     
     // Set proxy params to get relatiopnships
-    private void setup_get_relationships_proxy_call (ref ProxyCall proxy_call, int64[] ids) {
+    private void setup_get_relationships_proxy_call (ref ProxyCall proxy_call, int64 id) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
       proxy_call.set_function(ENDPOINT_ACCOUNTS_RELATIONSHIPS);
       
-      if (ids != null) {
-        // 配列を渡せないので保留
-        proxy_call.add_param (PARAM_ID + "");
+      // 配列を渡せないので暫定
+      proxy_call.add_param (PARAM_ID, id.to_string ());
+      
+      proxy_call.set_method("GET");
+    
+    }
+    
+    // Set proxy params to search accounts
+    private void setup_search_accounts_proxy_call (ref ProxyCall proxy_call, string q, int64? limit) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_ACCOUNTS_SEARCH);
+      proxy_call.add_param (PARAM_Q, q);
+      
+      if (limit != null) {
+        proxy_call.add_param (PARAM_LIMIT, limit.to_string ());
       }
       
+      proxy_call.set_method("GET");
+    
+    }
+    
+    // Set proxy params to fetch blocks
+    private void setup_get_blocks_proxy_call (ref ProxyCall proxy_call) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_BLOCKS);
+      proxy_call.set_method("GET");
+    
+    }
+    
+    // Set proxy params to fetch favoutites
+    private void setup_get_favoutrites_proxy_call (ref ProxyCall proxy_call) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_FAVOURITES);
+      proxy_call.set_method("GET");
+    
+    }
+
+    // Set proxy params to fetch follow requests
+    private void setup_get_follow_requests_proxy_call (ref ProxyCall proxy_call) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_FOLLOW_REQUESTS);
       proxy_call.set_method("GET");
     
     }
@@ -529,6 +1166,62 @@ namespace Gomphotherium {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
       proxy_call.set_function(ENDPOINT_ACCOUNTS_VERIFY_CREDENTIALS);
+      proxy_call.set_method("GET");
+    
+    }
+    
+    // Set proxy params to get instance information
+    private void setup_get_instance_proxy_call (ref ProxyCall proxy_call) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_INSTANCE);
+      proxy_call.set_method("GET");
+    
+    }
+    
+    // Set proxy params to fetch mutes
+    private void setup_get_mutes_proxy_call (ref ProxyCall proxy_call) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_MUTES);
+      proxy_call.set_method("GET");
+    
+    }
+    
+    // Set proxy params to fetch notifications
+    private void setup_get_notifications_proxy_call (ref ProxyCall proxy_call) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_NOTIFICATIONS);
+      proxy_call.set_method("GET");
+    
+    }
+    
+    // Set proxy params to get a single notification
+    private void setup_get_notification_proxy_call (ref ProxyCall proxy_call, int64 id) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_NOTIFICATION.printf (id));
+      proxy_call.set_method("GET");
+    
+    }
+    
+    // Set proxy params to fetch reports
+    private void setup_get_reports_proxy_call (ref ProxyCall proxy_call) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_REPORTS);
+      proxy_call.set_method("GET");
+    
+    }
+    
+    // Set proxy params to search for content
+    private void setup_search_proxy_call (ref ProxyCall proxy_call, string q, bool resolve) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_SEARCH);
+      proxy_call.add_param (PARAM_Q, q);
+      proxy_call.add_param (PARAM_RESOLVE, resolve.to_string ());
       proxy_call.set_method("GET");
     
     }

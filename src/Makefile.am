@@ -19,8 +19,12 @@ sources = \
 				Application.vala \
 				Attachment.vala \
 				GomphoApp.vala \
+				Instance.vala \
 				Mention.vala \
+				Notification.vala \
 				Relationship.vala \
+				Report.vala \
+				Results.vala \
 				Status.vala \
 				Tag.vala \
 				endpoints.vala \
