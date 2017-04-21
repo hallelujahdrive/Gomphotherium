@@ -19,17 +19,25 @@ AM_VALAFLAGS = \
 check_PROGRAMS = \
 							getaccount \
 							getblocks \
+							getcard \
+							getcontext \
+							getfavouritedby \
 							getfavourites \
 							getfollowers \
 							getfollowing \
 							getfollowrequests \
+							gethometimeline \
 							getinstance \
 							getmutes \
 							getnotification \
 							getnotifications \
+							getpublictimeline \
+							getrebloggedby \
 							getrelationships \
 							getreports \
+							getstatus \
 							getstatuses \
+							gettagtimeline \
 							oauthtoken \
 							registeringapp \
 							search \
@@ -41,17 +49,25 @@ check_LTLIBRARIES = libtestmod.la
 tests_VALASOURCES = \
 				getaccount.vala \
 				getblocks.vala \
+				getcard.vala \
+				getcontext.vala \
+				getfavouritedby.vala \
 				getfavourites.vala \
 				getfollowers.vala \
 				getfollowing.vala \
 				getfollowrequests.vala \
 				getinstance.vala \
+				gethometimeline.vala \
 				getmutes.vala \
 				getnotification.vala \
 				getnotifications.vala \
+				getpublictimeline.vala \
+				getrebloggedby.vala \
 				getrelationships.vala \
 				getreports.vala \
+				getstatus.vala \
 				getstatuses.vala \
+				gettagtimeline.vala \
 				oauthtoken.vala \
 				registeringapp.vala \
 				search.vala \
@@ -106,6 +122,27 @@ getblocks_LDADD = \
 								libtestmod.la \
 								$(top_builddir)/src/libgomphotherium.la
 
+nodist_getcard_SOURCES = \
+													libtestmod_la_vala.stamp \
+													getcard.c 
+getcard_LDADD = \
+							libtestmod.la \
+							$(top_builddir)/src/libgomphotherium.la
+							
+nodist_getcontext_SOURCES = \
+														libtestmod_la_vala.stamp \
+														getcontext.c 
+getcontext_LDADD = \
+									libtestmod.la \
+									$(top_builddir)/src/libgomphotherium.la
+									
+nodist_getfavouritedby_SOURCES = \
+														libtestmod_la_vala.stamp \
+														getfavouritedby.c
+getfavouritedby_LDADD = \
+										libtestmod.la \
+										$(top_builddir)/src/libgomphotherium.la
+
 nodist_getfavourites_SOURCES = \
 														libtestmod_la_vala.stamp \
 														getfavourites.c
@@ -140,6 +177,13 @@ nodist_getinstance_SOURCES = \
 getinstance_LDADD = \
 									libtestmod.la \
 									$(top_builddir)/src/libgomphotherium.la
+									
+nodist_gethometimeline_SOURCES = \
+													libtestmod_la_vala.stamp \
+													gethometimeline.c
+gethometimeline_LDADD = \
+									libtestmod.la \
+									$(top_builddir)/src/libgomphotherium.la
 
 nodist_getmutes_SOURCES = \
 												libtestmod_la_vala.stamp \
@@ -162,6 +206,20 @@ getnotification_LDADD = \
 											libtestmod.la \
 											$(top_builddir)/src/libgomphotherium.la
 
+nodist_getpublictimeline_SOURCES = \
+													libtestmod_la_vala.stamp \
+													getpublictimeline.c
+getpublictimeline_LDADD = \
+									libtestmod.la \
+									$(top_builddir)/src/libgomphotherium.la
+
+nodist_getrebloggedby_SOURCES = \
+															libtestmod_la_vala.stamp \
+															getrebloggedby.c
+getrebloggedby_LDADD = \
+										libtestmod.la \
+										$(top_builddir)/src/libgomphotherium.la
+
 nodist_getrelationships_SOURCES = \
 															libtestmod_la_vala.stamp \
 															getrelationships.c
@@ -175,6 +233,13 @@ nodist_getreports_SOURCES = \
 getreports_LDADD = \
 								libtestmod.la \
 								$(top_builddir)/src/libgomphotherium.la
+								
+nodist_getstatus_SOURCES = \
+														libtestmod_la_vala.stamp \
+														getstatus.c
+getstatus_LDADD = \
+									libtestmod.la \
+									$(top_builddir)/src/libgomphotherium.la
 
 nodist_getstatuses_SOURCES = \
 															libtestmod_la_vala.stamp \
@@ -182,6 +247,13 @@ nodist_getstatuses_SOURCES = \
 getstatuses_LDADD = \
 										libtestmod.la \
 										$(top_builddir)/src/libgomphotherium.la
+										
+nodist_gettagtimeline_SOURCES = \
+													libtestmod_la_vala.stamp \
+													gettagtimeline.c
+gettagtimeline_LDADD = \
+									libtestmod.la \
+									$(top_builddir)/src/libgomphotherium.la
 
 nodist_oauthtoken_SOURCES = \
 														libtestmod_la_vala.stamp \

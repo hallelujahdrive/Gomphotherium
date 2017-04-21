@@ -1054,6 +1054,475 @@ namespace Gomphotherium {
       return results;
     }
     
+    // Fetching a status
+    public Status get_status (int64 id) throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_status_proxy_call (ref proxy_call, id);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_obj = parse_json_object (proxy_call.get_payload());
+        return new Status (json_obj);
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Fetching a status asynchronously
+    public async Status get_status_async (int64 id) throws Error {
+      
+      Error error = null;      
+      Status status = null;
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_status_proxy_call (ref proxy_call, id);
+      
+
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_obj = parse_json_object (proxy_call.get_payload());
+          status = new Status (json_obj);
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        get_status_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return status;
+    }
+    
+    // Getting status context
+    public Context get_context (int64 id) throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_context_proxy_call (ref proxy_call, id);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_obj = parse_json_object (proxy_call.get_payload());
+        return new Context (json_obj);
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Getting status context asynchronously
+    public async Context get_context_async (int64 id) throws Error {
+      
+      Error error = null;      
+      Context context = null;
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_context_proxy_call (ref proxy_call, id);
+      
+
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_obj = parse_json_object (proxy_call.get_payload());
+          context = new Context (json_obj);
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        get_context_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return context;
+    }
+
+    // Getting a card associated with a status
+    public Card get_card (int64 id) throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_card_proxy_call (ref proxy_call, id);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_obj = parse_json_object (proxy_call.get_payload());
+        return new Card (json_obj);
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Getting a card associated with a status asynchronously
+    public async Card get_card_async (int64 id) throws Error {
+      
+      Error error = null;      
+      Card card = null;
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_card_proxy_call (ref proxy_call, id);
+      
+
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_obj = parse_json_object (proxy_call.get_payload());
+          card = new Card (json_obj);
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        get_card_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return card;
+    }
+    
+    // Getting who reblogged a status
+    public List<Account> get_reblogged_by (int64 id) throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_reblogged_by_proxy_call (ref proxy_call, id);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_array = parse_json_array (proxy_call.get_payload());
+        var list = new List<Account> ();
+        
+        json_array.foreach_element ((array, index, node) => {
+          list.append (new Account (node.get_object ()));
+        });
+        
+        return (owned) list;
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Getting who reblogged a status asynchronously
+    public async List<Account> get_reblogged_by_async (int64 id) throws Error {
+      
+      Error error = null;
+      var list = new List<Account> ();
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_reblogged_by_proxy_call (ref proxy_call, id);
+      
+
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_array = parse_json_array (proxy_call.get_payload());
+          
+          json_array.foreach_element ((array, index, node) => {
+            list.append (new Account (node.get_object ()));
+          });
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        get_reblogged_by_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return (owned) list;
+    }
+
+    // Getting who favourited a status
+    public List<Account> get_favourited_by (int64 id) throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_favourited_by_proxy_call (ref proxy_call, id);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_array = parse_json_array (proxy_call.get_payload());
+        var list = new List<Account> ();
+        
+        json_array.foreach_element ((array, index, node) => {
+          list.append (new Account (node.get_object ()));
+        });
+        
+        return (owned) list;
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Getting who favourited a status asynchronously
+    public async List<Account> get_favourited_by_async (int64 id) throws Error {
+      
+      Error error = null;
+      var list = new List<Account> ();
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_favourited_by_proxy_call (ref proxy_call, id);
+      
+
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_array = parse_json_array (proxy_call.get_payload());
+          
+          json_array.foreach_element ((array, index, node) => {
+            list.append (new Account (node.get_object ()));
+          });
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        get_favourited_by_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return (owned) list;
+    }
+
+    // Retrieving home timeline
+    public List<Status> get_home_timeline () throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_home_timeline_proxy_call (ref proxy_call);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_array = parse_json_array (proxy_call.get_payload());
+        var list = new List<Status> ();
+        
+        json_array.foreach_element ((array, index, node) => {
+          list.append (new Status (node.get_object ()));
+        });
+        
+        return (owned) list;
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Retrieving home timeline asynchronously
+    public async List<Status> get_home_timeline_async () throws Error {
+      
+      Error error = null;
+      var list = new List<Status> ();
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_home_timeline_proxy_call (ref proxy_call);
+      
+
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_array = parse_json_array (proxy_call.get_payload());
+          
+          json_array.foreach_element ((array, index, node) => {
+            list.append (new Status (node.get_object ()));
+          });
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        get_home_timeline_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return (owned) list;
+    }
+    
+    // Retrieving public timeline
+    public List<Status> get_public_timeline (bool local) throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_public_timeline_proxy_call (ref proxy_call, local);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_array = parse_json_array (proxy_call.get_payload());
+        var list = new List<Status> ();
+        
+        json_array.foreach_element ((array, index, node) => {
+          list.append (new Status (node.get_object ()));
+        });
+        
+        return (owned) list;
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Retrieving public timeline asynchronously
+    public async List<Status> get_public_timeline_async (bool local) throws Error {
+      
+      Error error = null;
+      var list = new List<Status> ();
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_public_timeline_proxy_call (ref proxy_call, local);
+      
+
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_array = parse_json_array (proxy_call.get_payload());
+          
+          json_array.foreach_element ((array, index, node) => {
+            list.append (new Status (node.get_object ()));
+          });
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        get_public_timeline_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return (owned) list;
+    }
+    
+    // Retrieving htag timeline
+    public List<Status> get_tag_timeline (string hashtag, bool local) throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_tag_timeline_proxy_call (ref proxy_call, hashtag, local);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_array = parse_json_array (proxy_call.get_payload());
+        var list = new List<Status> ();
+        
+        json_array.foreach_element ((array, index, node) => {
+          list.append (new Status (node.get_object ()));
+        });
+        
+        return (owned) list;
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Retrieving hashtag timeline asynchronously
+    public async List<Status> get_tag_timeline_async (string hashtag, bool local) throws Error {
+      
+      Error error = null;
+      var list = new List<Status> ();
+      
+      var proxy_call = proxy.new_call ();
+      setup_get_tag_timeline_proxy_call (ref proxy_call, hashtag, local);
+      
+
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_array = parse_json_array (proxy_call.get_payload());
+          
+          json_array.foreach_element ((array, index, node) => {
+            list.append (new Status (node.get_object ()));
+          });
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        get_tag_timeline_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return (owned) list;
+    }
+
     // Set proxy params to oauth
     private void setup_oauth_proxy_call (ref ProxyCall proxy_call, string email, string password, string scope) {
       
@@ -1225,5 +1694,80 @@ namespace Gomphotherium {
       proxy_call.set_method("GET");
     
     }
+    
+    // Set proxy params to fetch a status
+    private void setup_get_status_proxy_call (ref ProxyCall proxy_call, int64 id) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_STATUSES.printf (id));
+      proxy_call.set_method("GET");
+    
+    }
+    
+    // Set proxy params to get status context
+    private void setup_get_context_proxy_call (ref ProxyCall proxy_call, int64 id) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_STATUSES_CONTEXT.printf (id));
+      proxy_call.set_method("GET");
+    
+    }
+    
+    // Set proxy params to get a card associated with status
+    private void setup_get_card_proxy_call (ref ProxyCall proxy_call, int64 id) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_STATUSES_CARD.printf (id));
+      proxy_call.set_method("GET");
+    
+    }
+    
+    // Set proxy params to get who reblogged a status
+    private void setup_get_reblogged_by_proxy_call (ref ProxyCall proxy_call, int64 id) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_STATUSES_REBLOGGED_BY.printf (id));
+      proxy_call.set_method("GET");
+    
+    }
+    
+    // Set proxy params to get who favourited a status
+    private void setup_get_favourited_by_proxy_call (ref ProxyCall proxy_call, int64 id) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_STATUSES_FAVOURITED_BY.printf (id));
+      proxy_call.set_method("GET");
+    
+    }
+    
+    // Set proxy params to get home timeline
+    private void setup_get_home_timeline_proxy_call (ref ProxyCall proxy_call) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_TIMELINES_HOME);
+      proxy_call.set_method("GET");
+    
+    }
+    
+    // Set proxy params to get public timeline
+    private void setup_get_public_timeline_proxy_call (ref ProxyCall proxy_call, bool local) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_TIMELINES_PUBLIC);
+      proxy_call.add_param (PARAM_LOCAL, local.to_string ());
+      proxy_call.set_method("GET");
+    
+    }
+    
+    // Set proxy params to get tag timeline
+    private void setup_get_tag_timeline_proxy_call (ref ProxyCall proxy_call,string hashtag, bool local) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_TIMELINES_TAG.printf (hashtag));
+      proxy_call.add_param (PARAM_LOCAL, local.to_string ());
+      proxy_call.set_method("GET");
+    
+    }
+    
   }
 }

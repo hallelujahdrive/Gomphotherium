@@ -214,3 +214,29 @@ public void output_results (Gomphotherium.Results results) {
   });
   
 }
+
+public void output_context (Gomphotherium.Context context) {
+  
+  stdout.printf("  ancesttors :\n");
+  context.ancestors.foreach ((status) => {
+    output_status (status);
+    stdout.printf ("\n");
+  });
+  stdout.printf("  descendants :\n");
+  context.descendants.foreach ((status) => {
+    output_status (status);
+    stdout.printf ("\n");
+  });
+  
+}
+
+public void output_card (Gomphotherium.Card card) {
+  
+  stdout.printf ("""
+  url : %s
+  title : %s
+  description : %s
+  image : %s
+  """, card.url, card.title, card.description, card.image);
+  
+}

@@ -6,6 +6,7 @@ namespace Gomphotherium {
   private const string PARAM_GRANT_TYPE = "grant_type";
   private const string PARAM_ID = "id";
   private const string PARAM_LIMIT = "limit";
+  private const string PARAM_LOCAL = "local";
   private const string PARAM_ONLY_MEDIA = "only_media";
   private const string PARAM_PASSWORD = "password";
   private const string PARAM_Q = "q";

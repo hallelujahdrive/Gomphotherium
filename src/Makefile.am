@@ -18,6 +18,8 @@ sources = \
 				Account.vala \
 				Application.vala \
 				Attachment.vala \
+				Card.vala \
+				Context.vala \
 				GomphoApp.vala \
 				Instance.vala \
 				Mention.vala \
