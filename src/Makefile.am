@@ -32,7 +32,8 @@ sources = \
 				endpoints.vala \
 				params.vala \
 				methods/regstering_app.vala \
-				utils/json_utils.vala
+				utils/json_utils.vala \
+				utils/soup_utils.vala
 
 csources = $(sources:.vala=.c)
 

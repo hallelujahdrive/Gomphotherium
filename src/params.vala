@@ -7,6 +7,7 @@ namespace Gomphotherium {
   private const string PARAM_ID = "id";
   private const string PARAM_LIMIT = "limit";
   private const string PARAM_LOCAL = "local";
+  private const string PARAM_MAX_ID = "max_id";
   private const string PARAM_ONLY_MEDIA = "only_media";
   private const string PARAM_PASSWORD = "password";
   private const string PARAM_Q = "q";
@@ -14,6 +15,7 @@ namespace Gomphotherium {
   private const string PARAM_RESOLVE = "resolve";
   private const string PARAM_SCOPE = "scope";
   private const string PARAM_SCOPES = "scopes";
+  private const string PARAM_SINCE_ID = "since_id";
   private const string PARAM_USERNAME = "username";
   private const string PARAM_WEBSITE = "website";
 }

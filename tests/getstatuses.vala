@@ -32,7 +32,7 @@ void get_statuses_async () {
   var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
   stdout.printf ("begin function\n");
-  app.get_statuses_async.begin (account_id, (obj, res) => {
+  app.get_statuses_async.begin (account_id, false, false, -1, -1, -1, (obj, res) => {
     stdout.printf ("\nbegin async method");
     try{
       var list = app.get_statuses_async.end (res);

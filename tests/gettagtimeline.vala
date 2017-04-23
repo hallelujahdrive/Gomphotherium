@@ -30,7 +30,7 @@ void get_tag_timeline_async () {
   var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
   stdout.printf ("begin function\n");
-  app.get_tag_timeline_async.begin ("mastodon", false, (obj, res) => {
+  app.get_tag_timeline_async.begin ("mastodon", false, -1, -1, -1, (obj, res) => {
     stdout.printf ("\nbegin async method");
     try{
       var list = app.get_tag_timeline_async.end (res);

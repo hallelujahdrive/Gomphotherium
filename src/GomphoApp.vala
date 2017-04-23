@@ -1,5 +1,6 @@
 using Json;
 using Rest;
+using Soup;
 
 namespace Gomphotherium {
   
@@ -205,10 +206,10 @@ namespace Gomphotherium {
     }
     
     // Getting an account's followers
-    public List<Account> get_followers (int64 id) throws Error {
+    public List<Account> get_followers (int64 id, int64? max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_followers_proxy_call (ref proxy_call, id);
+      setup_get_followers_proxy_call (ref proxy_call, id, max_id, since_id, limit);
       
       try{
         
@@ -229,13 +230,13 @@ namespace Gomphotherium {
     }
     
     // Getting an account's followers asynchronously
-    public async List<Account> get_followers_async (int64 id) throws Error {
+    public async List<Account> get_followers_async (int64 id, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       Error error = null;
       var list = new List<Account> ();
       
       var proxy_call = proxy.new_call ();
-      setup_get_followers_proxy_call (ref proxy_call, id);
+      setup_get_followers_proxy_call (ref proxy_call, id, max_id, since_id, limit);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
@@ -267,10 +268,10 @@ namespace Gomphotherium {
     }
     
     // Getting an account's following
-    public List<Account> get_following (int64 id) throws Error {
+    public List<Account> get_following (int64 id, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_following_proxy_call (ref proxy_call, id);
+      setup_get_following_proxy_call (ref proxy_call, id, max_id, since_id, limit);
       
       try{
         
@@ -291,13 +292,13 @@ namespace Gomphotherium {
     }
     
     // Getting an account's following asynchronously
-    public async List<Account> get_following_async (int64 id) throws Error {
+    public async List<Account> get_following_async (int64 id, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       Error error = null;
       var list = new List<Account> ();
       
       var proxy_call = proxy.new_call ();
-      setup_get_following_proxy_call (ref proxy_call, id);
+      setup_get_following_proxy_call (ref proxy_call, id, max_id, since_id, limit);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
@@ -329,10 +330,10 @@ namespace Gomphotherium {
     }
     
     // Getting an account's statuses
-    public List<Status> get_statuses (int64 id) throws Error {
+    public List<Status> get_statuses (int64 id, bool only_media = false, bool exclude_replies = false, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_statuses_proxy_call (ref proxy_call, id);
+      setup_get_statuses_proxy_call (ref proxy_call, id, only_media, exclude_replies, max_id, since_id, limit);
       
       try{
         
@@ -355,13 +356,13 @@ namespace Gomphotherium {
     }
     
     // Getting an account's statuses asynchronously
-    public async List<Status> get_statuses_async (int64 id) throws Error {
+    public async List<Status> get_statuses_async (int64 id, bool only_media = false, bool exclude_replies = false, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       Error error = null;
       var list = new List<Status> ();
       
       var proxy_call = proxy.new_call ();
-      setup_get_statuses_proxy_call (ref proxy_call, id);
+      setup_get_statuses_proxy_call (ref proxy_call, id, only_media, exclude_replies, max_id, since_id, limit);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
@@ -394,64 +395,80 @@ namespace Gomphotherium {
     
     
     // Getting an account's relationships
-    // 暫定で配列でのリクエストをオミット
-    //public List<Relationship> get_relationships (int64[] ids) throws Error {
-    public List<Relationship> get_relationships (int64 id) throws Error {
+    public List<Relationship> get_relationships (int64[] ids) throws Error {
       
-      var proxy_call = proxy.new_call ();
-      setup_get_relationships_proxy_call (ref proxy_call, id);
+      Error error = null;
       
-      try{
-        
-        proxy_call.run();
-        
-        var data = proxy_call.get_payload();
+      var session = new Soup.Session ();
+      var message = relationships_message_new (ids);
+      
+      session.send_message (message);
+      
+      var data = message.response_body.data;
+      var data_str = ((string) data).substring (0, data.length);
+      
+      if (!handle_error_from_message (message, out error)) {
+        throw error;
+      }  
 
-        var json_array = parse_json_array (data);
+      try {
+        var json_array = parse_json_array (data_str);
+
         var list = new List<Relationship> ();
                 
         json_array.foreach_element ((array, index, node) => {
           list.append (new Relationship (node.get_object ()));
         });
-        
+
         return (owned) list;
-        
-      }catch(Error e){
+      
+      } catch (Error e) {
         throw e;
       }
     }
     
     // Getting an account's relationships asynchronously
-    // 暫定で配列でのリクエストをオミット
-    //public async List<Relationship> get_relationships_async (int64[] ids) throws Error {
-    public async List<Relationship> get_relationships_async (int64 id) throws Error {
+    public async List<Relationship> get_relationships_async (int64[] ids) throws Error {
       
       Error error = null;
       var list = new List<Relationship> ();
       
-      var proxy_call = proxy.new_call ();
-      setup_get_relationships_proxy_call (ref proxy_call, id);
+      var session = new Soup.Session ();
+      var message = relationships_message_new (ids);
       
+      SourceFunc callback = get_relationships_async.callback;
+      
+      ThreadFunc<void*> run = () => {
+        var loop = new MainLoop ();
+        session.queue_message (message, (sess, mess) => {
+              
+          if (!handle_error_from_message (mess, out error)) {
+            loop.quit();
+          }
+          
+          var data = message.response_body.data;
+          var data_str = ((string) data).substring (0, data.length);
 
-      proxy_call.invoke_async.begin (null, (obj, res) => {
-        try {
-        
-          proxy_call.invoke_async.end (res);
+          try {
+            var json_array = parse_json_array (data_str);
+                    
+            json_array.foreach_element ((array, index, node) => {
+              list.append (new Relationship (node.get_object ()));
+            });
+          } catch (Error e) {
+            error = e;
+          }
           
-          var json_array = parse_json_array (proxy_call.get_payload());
-          
-          json_array.foreach_element ((array, index, node) => {
-            list.append (new Relationship (node.get_object ()));
-          });
-          
-        } catch (Error e) {
-          error = e;
-        }
+          loop.quit ();
+        });
+        loop.run ();
+        Idle.add ((owned) callback);
         
-        get_relationships_async.callback ();
-        
-      });
-
+        return null;
+      };
+      
+      new Thread<void*> (null, run);
+      
       yield;
       
       if (error != null) {
@@ -462,7 +479,7 @@ namespace Gomphotherium {
     }
     
     // Searching for accounts
-    public List<Account> search_accounts (string q, int64? limit) throws Error{
+    public List<Account> search_accounts (string q, int limit = -1) throws Error{
       
       var proxy_call = proxy.new_call ();
       setup_search_accounts_proxy_call (ref proxy_call, q, limit);
@@ -486,7 +503,7 @@ namespace Gomphotherium {
     }
 
     // Searching for accounts asynchronously
-    public async List<Account> search_accounts_async (string q, int64? limit) throws Error {
+    public async List<Account> search_accounts_async (string q, int limit = -1) throws Error {
       
       Error error = null;
       var list = new List<Account> ();
@@ -524,10 +541,10 @@ namespace Gomphotherium {
     }
 
     // Fetching a user's blocks
-    public List<Account> get_blocks () throws Error {
+    public List<Account> get_blocks (int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_blocks_proxy_call (ref proxy_call);
+      setup_get_blocks_proxy_call (ref proxy_call, max_id, since_id, limit);
       
       try{
         
@@ -548,13 +565,13 @@ namespace Gomphotherium {
     }
     
     // Fetching a user's blocks asynchronously
-    public async List<Account> get_blocks_async () throws Error {
+    public async List<Account> get_blocks_async (int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       Error error = null;
       var list = new List<Account> ();
       
       var proxy_call = proxy.new_call ();
-      setup_get_blocks_proxy_call (ref proxy_call);
+      setup_get_blocks_proxy_call (ref proxy_call, max_id, since_id, limit);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
@@ -586,10 +603,10 @@ namespace Gomphotherium {
     }
 
     // Fetching a user's favourites
-    public List<Status> get_favourites () throws Error {
+    public List<Status> get_favourites (int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_favoutrites_proxy_call (ref proxy_call);
+      setup_get_favoutrites_proxy_call (ref proxy_call, max_id, since_id, limit);
       
       try{
         
@@ -610,13 +627,13 @@ namespace Gomphotherium {
     }
     
     // Fetching a user's favourites asynchronously
-    public async List<Status> get_favourites_async () throws Error {
+    public async List<Status> get_favourites_async (int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       Error error = null;
       var list = new List<Status> ();
       
       var proxy_call = proxy.new_call ();
-      setup_get_favoutrites_proxy_call (ref proxy_call);
+      setup_get_favoutrites_proxy_call (ref proxy_call, max_id, since_id, limit);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
@@ -648,10 +665,10 @@ namespace Gomphotherium {
     }
 
     // Fetching  a list of follow requests
-    public List<Account> get_follow_requests () throws Error {
+    public List<Account> get_follow_requests (int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_follow_requests_proxy_call (ref proxy_call);
+      setup_get_follow_requests_proxy_call (ref proxy_call, max_id, since_id, limit);
       
       try{
         
@@ -672,13 +689,13 @@ namespace Gomphotherium {
     }
     
     // Fetching  a list of follow requests asynchronously
-    public async List<Account> get_follow_requests_async () throws Error {
+    public async List<Account> get_follow_requests_async (int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       Error error = null;
       var list = new List<Account> ();
       
       var proxy_call = proxy.new_call ();
-      setup_get_follow_requests_proxy_call (ref proxy_call);
+      setup_get_follow_requests_proxy_call (ref proxy_call, max_id, since_id, limit);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
@@ -763,10 +780,10 @@ namespace Gomphotherium {
     }
 
     // Fetching a user's mutes
-    public List<Account> get_mutes () throws Error {
+    public List<Account> get_mutes (int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_mutes_proxy_call (ref proxy_call);
+      setup_get_mutes_proxy_call (ref proxy_call, max_id, since_id, limit);
       
       try{
         
@@ -787,13 +804,13 @@ namespace Gomphotherium {
     }
     
     // Fetching a user's mutes asynchronously
-    public async List<Account> get_mutes_async () throws Error {
+    public async List<Account> get_mutes_async (int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       Error error = null;
       var list = new List<Account> ();
       
       var proxy_call = proxy.new_call ();
-      setup_get_mutes_proxy_call (ref proxy_call);
+      setup_get_mutes_proxy_call (ref proxy_call, max_id, since_id, limit);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
@@ -825,10 +842,10 @@ namespace Gomphotherium {
     }
 
     // Fetching a user's notifications
-    public List<Gomphotherium.Notification> get_notifications () throws Error {
+    public List<Gomphotherium.Notification> get_notifications (int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_notifications_proxy_call (ref proxy_call);
+      setup_get_notifications_proxy_call (ref proxy_call, max_id, since_id, limit);
       
       try{
         
@@ -849,13 +866,13 @@ namespace Gomphotherium {
     }
     
     // Fetching a user's notifications asynchronously
-    public async List<Gomphotherium.Notification> get_notifications_async () throws Error {
+    public async List<Gomphotherium.Notification> get_notifications_async (int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       Error error = null;
       var list = new List<Gomphotherium.Notification> ();
       
       var proxy_call = proxy.new_call ();
-      setup_get_notifications_proxy_call (ref proxy_call);
+      setup_get_notifications_proxy_call (ref proxy_call, max_id, since_id, limit);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
@@ -1214,10 +1231,10 @@ namespace Gomphotherium {
     }
     
     // Getting who reblogged a status
-    public List<Account> get_reblogged_by (int64 id) throws Error {
+    public List<Account> get_reblogged_by (int64 id, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_reblogged_by_proxy_call (ref proxy_call, id);
+      setup_get_reblogged_by_proxy_call (ref proxy_call, id, max_id, since_id, limit);
       
       try{
         
@@ -1238,13 +1255,13 @@ namespace Gomphotherium {
     }
     
     // Getting who reblogged a status asynchronously
-    public async List<Account> get_reblogged_by_async (int64 id) throws Error {
+    public async List<Account> get_reblogged_by_async (int64 id, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       Error error = null;
       var list = new List<Account> ();
       
       var proxy_call = proxy.new_call ();
-      setup_get_reblogged_by_proxy_call (ref proxy_call, id);
+      setup_get_reblogged_by_proxy_call (ref proxy_call, id, max_id, since_id, limit);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
@@ -1276,10 +1293,10 @@ namespace Gomphotherium {
     }
 
     // Getting who favourited a status
-    public List<Account> get_favourited_by (int64 id) throws Error {
+    public List<Account> get_favourited_by (int64 id, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_favourited_by_proxy_call (ref proxy_call, id);
+      setup_get_favourited_by_proxy_call (ref proxy_call, id, max_id, since_id, limit);
       
       try{
         
@@ -1300,13 +1317,13 @@ namespace Gomphotherium {
     }
     
     // Getting who favourited a status asynchronously
-    public async List<Account> get_favourited_by_async (int64 id) throws Error {
+    public async List<Account> get_favourited_by_async (int64 id, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       Error error = null;
       var list = new List<Account> ();
       
       var proxy_call = proxy.new_call ();
-      setup_get_favourited_by_proxy_call (ref proxy_call, id);
+      setup_get_favourited_by_proxy_call (ref proxy_call, id, max_id, since_id, limit);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
@@ -1338,10 +1355,10 @@ namespace Gomphotherium {
     }
 
     // Retrieving home timeline
-    public List<Status> get_home_timeline () throws Error {
+    public List<Status> get_home_timeline (int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_home_timeline_proxy_call (ref proxy_call);
+      setup_get_home_timeline_proxy_call (ref proxy_call, max_id, since_id, limit);
       
       try{
         
@@ -1362,13 +1379,13 @@ namespace Gomphotherium {
     }
     
     // Retrieving home timeline asynchronously
-    public async List<Status> get_home_timeline_async () throws Error {
+    public async List<Status> get_home_timeline_async (int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       Error error = null;
       var list = new List<Status> ();
       
       var proxy_call = proxy.new_call ();
-      setup_get_home_timeline_proxy_call (ref proxy_call);
+      setup_get_home_timeline_proxy_call (ref proxy_call, max_id, since_id, limit);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
@@ -1400,10 +1417,10 @@ namespace Gomphotherium {
     }
     
     // Retrieving public timeline
-    public List<Status> get_public_timeline (bool local) throws Error {
+    public List<Status> get_public_timeline (bool local = false, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_public_timeline_proxy_call (ref proxy_call, local);
+      setup_get_public_timeline_proxy_call (ref proxy_call, local, max_id, since_id, limit);
       
       try{
         
@@ -1424,13 +1441,13 @@ namespace Gomphotherium {
     }
     
     // Retrieving public timeline asynchronously
-    public async List<Status> get_public_timeline_async (bool local) throws Error {
+    public async List<Status> get_public_timeline_async (bool local = false, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       Error error = null;
       var list = new List<Status> ();
       
       var proxy_call = proxy.new_call ();
-      setup_get_public_timeline_proxy_call (ref proxy_call, local);
+      setup_get_public_timeline_proxy_call (ref proxy_call, local, max_id, since_id, limit);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
@@ -1462,10 +1479,10 @@ namespace Gomphotherium {
     }
     
     // Retrieving htag timeline
-    public List<Status> get_tag_timeline (string hashtag, bool local) throws Error {
+    public List<Status> get_tag_timeline (string hashtag, bool local = false, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_tag_timeline_proxy_call (ref proxy_call, hashtag, local);
+      setup_get_tag_timeline_proxy_call (ref proxy_call, hashtag, local, max_id, since_id, limit);
       
       try{
         
@@ -1486,13 +1503,13 @@ namespace Gomphotherium {
     }
     
     // Retrieving hashtag timeline asynchronously
-    public async List<Status> get_tag_timeline_async (string hashtag, bool local) throws Error {
+    public async List<Status> get_tag_timeline_async (string hashtag, bool local = false, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       Error error = null;
       var list = new List<Status> ();
       
       var proxy_call = proxy.new_call ();
-      setup_get_tag_timeline_proxy_call (ref proxy_call, hashtag, local);
+      setup_get_tag_timeline_proxy_call (ref proxy_call, hashtag, local, max_id, since_id, limit);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
@@ -1541,25 +1558,27 @@ namespace Gomphotherium {
     }
     
     // Set proxy params to get followers
-    private void setup_get_followers_proxy_call (ref ProxyCall proxy_call, int64 id) {
+    private void setup_get_followers_proxy_call (ref ProxyCall proxy_call, int64 id, int64 max_id, int64 since_id, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      set_ids_and_limit_to_proxy_call (ref proxy_call, max_id, since_id, limit);
       proxy_call.set_function(ENDPOINT_ACCOUNTS_FOLLOWERS.printf (id));
       proxy_call.set_method("GET");
     
     }
     
     // Set proxy params to get following
-    private void setup_get_following_proxy_call (ref ProxyCall proxy_call, int64 id) {
+    private void setup_get_following_proxy_call (ref ProxyCall proxy_call, int64 id, int64 max_id, int64 since_id, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      set_ids_and_limit_to_proxy_call (ref proxy_call, max_id, since_id, limit);
       proxy_call.set_function(ENDPOINT_ACCOUNTS_FOLLOWING.printf (id));
       proxy_call.set_method("GET");
     
     }
     
     // Set proxy params to get statuses
-    private void setup_get_statuses_proxy_call (ref ProxyCall proxy_call, int64 id, bool? only_media = false, bool? exclude_replies = false) {
+    private void setup_get_statuses_proxy_call (ref ProxyCall proxy_call, int64 id, bool only_media, bool exclude_replies, int64 max_id, int64 since_id, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
       
@@ -1575,45 +1594,33 @@ namespace Gomphotherium {
     
     }
     
-    // Set proxy params to get relatiopnships
-    private void setup_get_relationships_proxy_call (ref ProxyCall proxy_call, int64 id) {
-      
-      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      proxy_call.set_function(ENDPOINT_ACCOUNTS_RELATIONSHIPS);
-      
-      // 配列を渡せないので暫定
-      proxy_call.add_param (PARAM_ID, id.to_string ());
-      
-      proxy_call.set_method("GET");
-    
-    }
-    
     // Set proxy params to search accounts
-    private void setup_search_accounts_proxy_call (ref ProxyCall proxy_call, string q, int64? limit) {
+    private void setup_search_accounts_proxy_call (ref ProxyCall proxy_call, string q, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      proxy_call.set_function(ENDPOINT_ACCOUNTS_SEARCH);
       proxy_call.add_param (PARAM_Q, q);
       
-      if (limit != null) {
+      if (limit >= 0) {
         proxy_call.add_param (PARAM_LIMIT, limit.to_string ());
       }
       
+      proxy_call.set_function(ENDPOINT_ACCOUNTS_SEARCH);
       proxy_call.set_method("GET");
     
     }
     
     // Set proxy params to fetch blocks
-    private void setup_get_blocks_proxy_call (ref ProxyCall proxy_call) {
+    private void setup_get_blocks_proxy_call (ref ProxyCall proxy_call, int64 max_id, int64 since_id, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      set_ids_and_limit_to_proxy_call (ref proxy_call, max_id, since_id, limit);
       proxy_call.set_function(ENDPOINT_BLOCKS);
       proxy_call.set_method("GET");
     
     }
     
     // Set proxy params to fetch favoutites
-    private void setup_get_favoutrites_proxy_call (ref ProxyCall proxy_call) {
+    private void setup_get_favoutrites_proxy_call (ref ProxyCall proxy_call, int64 max_id, int64 since_id, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
       proxy_call.set_function(ENDPOINT_FAVOURITES);
@@ -1622,9 +1629,10 @@ namespace Gomphotherium {
     }
 
     // Set proxy params to fetch follow requests
-    private void setup_get_follow_requests_proxy_call (ref ProxyCall proxy_call) {
+    private void setup_get_follow_requests_proxy_call (ref ProxyCall proxy_call, int64 max_id, int64 since_id, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      set_ids_and_limit_to_proxy_call (ref proxy_call, max_id, since_id, limit);
       proxy_call.set_function(ENDPOINT_FOLLOW_REQUESTS);
       proxy_call.set_method("GET");
     
@@ -1649,18 +1657,20 @@ namespace Gomphotherium {
     }
     
     // Set proxy params to fetch mutes
-    private void setup_get_mutes_proxy_call (ref ProxyCall proxy_call) {
+    private void setup_get_mutes_proxy_call (ref ProxyCall proxy_call, int64 max_id, int64 since_id, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      set_ids_and_limit_to_proxy_call (ref proxy_call, max_id, since_id, limit);
       proxy_call.set_function(ENDPOINT_MUTES);
       proxy_call.set_method("GET");
     
     }
     
     // Set proxy params to fetch notifications
-    private void setup_get_notifications_proxy_call (ref ProxyCall proxy_call) {
+    private void setup_get_notifications_proxy_call (ref ProxyCall proxy_call, int64 max_id, int64 since_id, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      set_ids_and_limit_to_proxy_call (ref proxy_call, max_id, since_id, limit);
       proxy_call.set_function(ENDPOINT_NOTIFICATIONS);
       proxy_call.set_method("GET");
     
@@ -1723,51 +1733,93 @@ namespace Gomphotherium {
     }
     
     // Set proxy params to get who reblogged a status
-    private void setup_get_reblogged_by_proxy_call (ref ProxyCall proxy_call, int64 id) {
+    private void setup_get_reblogged_by_proxy_call (ref ProxyCall proxy_call, int64 id, int64 max_id, int64 since_id, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      set_ids_and_limit_to_proxy_call (ref proxy_call, max_id, since_id, limit);
       proxy_call.set_function(ENDPOINT_STATUSES_REBLOGGED_BY.printf (id));
       proxy_call.set_method("GET");
     
     }
     
     // Set proxy params to get who favourited a status
-    private void setup_get_favourited_by_proxy_call (ref ProxyCall proxy_call, int64 id) {
+    private void setup_get_favourited_by_proxy_call (ref ProxyCall proxy_call, int64 id, int64 max_id, int64 since_id, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      set_ids_and_limit_to_proxy_call (ref proxy_call, max_id, since_id, limit);
       proxy_call.set_function(ENDPOINT_STATUSES_FAVOURITED_BY.printf (id));
       proxy_call.set_method("GET");
     
     }
     
     // Set proxy params to get home timeline
-    private void setup_get_home_timeline_proxy_call (ref ProxyCall proxy_call) {
+    private void setup_get_home_timeline_proxy_call (ref ProxyCall proxy_call, int64 max_id, int64 since_id, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      set_ids_and_limit_to_proxy_call (ref proxy_call, max_id, since_id, limit);
       proxy_call.set_function(ENDPOINT_TIMELINES_HOME);
       proxy_call.set_method("GET");
     
     }
     
     // Set proxy params to get public timeline
-    private void setup_get_public_timeline_proxy_call (ref ProxyCall proxy_call, bool local) {
+    private void setup_get_public_timeline_proxy_call (ref ProxyCall proxy_call, bool local, int64 max_id, int64 since_id, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      proxy_call.set_function(ENDPOINT_TIMELINES_PUBLIC);
+      set_ids_and_limit_to_proxy_call (ref proxy_call, max_id, since_id, limit);
       proxy_call.add_param (PARAM_LOCAL, local.to_string ());
+      proxy_call.set_function(ENDPOINT_TIMELINES_PUBLIC);
+
       proxy_call.set_method("GET");
     
     }
     
     // Set proxy params to get tag timeline
-    private void setup_get_tag_timeline_proxy_call (ref ProxyCall proxy_call,string hashtag, bool local) {
+    private void setup_get_tag_timeline_proxy_call (ref ProxyCall proxy_call,string hashtag, bool local, int64 max_id, int64 since_id, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      proxy_call.set_function(ENDPOINT_TIMELINES_TAG.printf (hashtag));
+      set_ids_and_limit_to_proxy_call (ref proxy_call, max_id, since_id, limit);
       proxy_call.add_param (PARAM_LOCAL, local.to_string ());
+      proxy_call.set_function(ENDPOINT_TIMELINES_TAG.printf (hashtag));
       proxy_call.set_method("GET");
     
     }
     
+    // Generate a soup message to get relatiopnships
+    private Soup.Message relationships_message_new (int64[] ids) {
+      
+      var message = new Soup.Message ("GET", _website + ENDPOINT_ACCOUNTS_RELATIONSHIPS);
+      var sb = new StringBuilder ();
+      
+      int i = 0;
+      foreach (int64 id in ids) {
+        sb.append (PARAM_ID);
+        sb.append ("[]=");
+        sb.append (id.to_string ());
+        if (++i < ids.length) {
+          sb.append ("&");
+        }
+      }
+      
+      message.request_headers.append ("Authorization"," Bearer " + _access_token);
+      message.set_request ("application/x-www-form-urlencoded", Soup.MemoryUse.COPY, sb.str.data);
+      
+      return message;
+    
+    }
+    
+    private void set_ids_and_limit_to_proxy_call (ref ProxyCall proxy_call, int64 max_id, int64 since_id, int limit) {
+      
+      if (max_id >= 0) {
+        proxy_call.add_param (PARAM_MAX_ID, max_id.to_string ());
+      }
+      if (since_id >= 0) {
+        proxy_call.add_param (PARAM_SINCE_ID, since_id.to_string ());
+      }
+      if (limit >= 0) {
+        proxy_call.add_param (PARAM_LIMIT, limit.to_string ());
+      }
+      
+    }
   }
 }

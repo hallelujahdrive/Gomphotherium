@@ -19,6 +19,7 @@ AC_PROG_INSTALL
 pkg_modules="
 	glib-2.0
 	json-glib-1.0
+  libsoup-2.4
 	rest-0.7
 	"
 
@@ -32,6 +33,7 @@ PKG_CHECK_MODULES(GOM,[$pkg_modules])
 GOM_VALA_FLAGS=" \
 	--pkg glib-2.0 \
 	--pkg json-glib-1.0 \
+  --pkg libsoup-2.4 \
 	--pkg rest-0.7
 	"
 

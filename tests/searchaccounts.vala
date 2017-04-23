@@ -8,7 +8,7 @@ void search_accounts () {
   
   try {
     
-    var list = app.search_accounts ("a", null);
+    var list = app.search_accounts ("a");
     
     list.foreach ((account) => {
       output_account (account);
@@ -30,7 +30,7 @@ void search_accounts_async () {
   var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
   stdout.printf ("begin function\n");
-  app.search_accounts_async.begin ("a", null, (obj, res) => {
+  app.search_accounts_async.begin ("a", -1, (obj, res) => {
     stdout.printf ("\nbegin async method");
     try{
       var list = app.search_accounts_async.end (res);

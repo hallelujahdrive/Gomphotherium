@@ -9,7 +9,7 @@ void get_relationships () {
   
   try {
     
-    var list = app.get_relationships (account_id);
+    var list = app.get_relationships ({account_id});
     
     list.foreach ((relationship) => {
       output_relationship (relationship);
@@ -32,7 +32,7 @@ void get_relationships_async () {
   var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
   stdout.printf ("begin function\n");
-  app.get_relationships_async.begin (account_id, (obj, res) => {
+  app.get_relationships_async.begin ({account_id}, (obj, res) => {
     stdout.printf ("\nbegin async method");
     try{
       var list = app.get_relationships_async.end (res);
