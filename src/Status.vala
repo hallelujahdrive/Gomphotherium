@@ -30,10 +30,10 @@ namespace Gomphotherium {
     public int64 id {
       get { return _id; }
     }
-    public unowned string uri {
+    public string uri {
       get { return _uri; }
     }
-    public unowned string url {
+    public string url {
       get { return _url; }
     }
     public weak Account account {
@@ -48,10 +48,10 @@ namespace Gomphotherium {
     public weak Status? reblog {
       get { return _reblog; }
     }
-    public unowned string content {
+    public string content {
       get { return _content; }
     }
-    public unowned string created_at{
+    public string created_at{
       get { return _created_at; }
     }
     public int64 reblogs_count {
@@ -69,19 +69,19 @@ namespace Gomphotherium {
     public bool sensitive {
       get { return _sensitive; }
     }
-    public unowned string spoiler_text{
+    public string spoiler_text{
       get { return _spoiler_text; }
     }
-    public unowned string visibility{
+    public string visibility{
       get { return _visibility; }
     }
-    public unowned List<Attachment> media_attachments {
+    public List<Attachment> media_attachments {
       get { return _media_attachments; }
     }
-    public unowned List<Mention> mentions {
+    public List<Mention> mentions {
       get { return _mentions; }
     }
-    public unowned List<Tag> tags {
+    public List<Tag> tags {
       get { return _tags; }
     }
     public weak Application? application {

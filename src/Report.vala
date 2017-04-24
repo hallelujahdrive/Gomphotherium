@@ -12,7 +12,7 @@ namespace Gomphotherium {
     public int64 id {
       get { return _id; }
     }
-    public unowned string action_taken {
+    public string action_taken {
       get { return _action_taken; }
     }
     

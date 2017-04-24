@@ -25,19 +25,19 @@ namespace Gomphotherium {
     public int64 id {
       get { return _id; }
     }
-    public unowned string username {
+    public string username {
       get { return _username; }
     }
-    public unowned string acct {
+    public string acct {
       get { return _acct; }
     }
-    public unowned string display_name {
+    public string display_name {
       get { return _display_name; }
     }
     public bool locked {
       get { return _locked; }
     }
-    public unowned string created_at {
+    public string created_at {
       get { return _created_at; }
     }
     public int64 followers_count {
@@ -49,22 +49,22 @@ namespace Gomphotherium {
     public int64 statuses_count {
       get { return _statuses_count; }
     }
-    public unowned string note {
+    public string note {
       get { return _note; }
     }
-    public unowned string url {
+    public string url {
       get { return _url; }
     }
-    public unowned string avatar {
+    public string avatar {
       get { return _avatar; }
     }
-    public unowned string avatar_static {
+    public string avatar_static {
       get { return _avatar_static; }
     }
-    public unowned string header {
+    public string header {
       get { return _header; }
     }
-    public unowned string header_static {
+    public string header_static {
       get { return _header_static; }
     }
     

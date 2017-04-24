@@ -11,16 +11,16 @@ namespace Gomphotherium {
     private string _email;  // An email address which can be used to contact the instance administrator
     
     // Properties
-    public unowned string url {
+    public string url {
       get { return _url; }
     }
-    public unowned string title {
+    public string title {
       get { return _title; }
     }
-    public unowned string description {
+    public string description {
       get { return _description; }
     }
-    public unowned string email {
+    public string email {
       get { return _email; }
     }
     

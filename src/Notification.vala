@@ -15,10 +15,10 @@ namespace Gomphotherium {
     public int64 id {
       get { return _id; }
     }
-    public unowned string notification_type {
+    public string notification_type {
       get { return _type; }
     }
-    public unowned string created_at {
+    public string created_at {
       get { return _created_at; }
     }
     public weak Account account {

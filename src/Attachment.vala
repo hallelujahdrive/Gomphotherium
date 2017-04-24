@@ -16,19 +16,19 @@ namespace Gomphotherium {
     public int64 id {
       get { return _id; }
     }
-    public unowned string media_type {
+    public string media_type {
       get { return _type; }
     }
-    public unowned string url {
+    public string url {
       get { return _url; }
     }
-    public unowned string remote_url {
+    public string remote_url {
       get { return _remote_url; }
     }
-    public unowned string preview_url {
+    public string preview_url {
       get { return _preview_url; }
     }
-    public unowned string text_url {
+    public string text_url {
       get { return _text_url; }
     }
     

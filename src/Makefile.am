@@ -17,10 +17,12 @@ vapi_DATA = \
 sources = \
 				Account.vala \
 				Application.vala \
+				AsyncGomphoApp.vala \
 				Attachment.vala \
 				Card.vala \
 				Context.vala \
 				GomphoApp.vala \
+				GomphoAppBase.vala \
 				Instance.vala \
 				Mention.vala \
 				Notification.vala \

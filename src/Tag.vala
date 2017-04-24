@@ -9,10 +9,10 @@ namespace Gomphotherium {
     private string _url;  // The URL of the hashtag
     
     // Properties
-    public unowned string name {
+    public string name {
       get { return _name; }
     }
-    public unowned string url {
+    public string url {
       get { return _name; }
     }
         

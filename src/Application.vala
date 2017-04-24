@@ -9,10 +9,10 @@ namespace Gomphotherium {
     private string _website;  // Homepage URL of the app
     
     // Propaties
-    public unowned string name {
+    public string name {
       get { return _name; }
     }
-    public unowned string? website {
+    public string? website {
       get { return _website; }
     }
     

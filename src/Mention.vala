@@ -11,13 +11,13 @@ namespace Gomphotherium {
     private int64 _id;  // Account ID
     
     // Properties;
-    public unowned string url {
+    public string url {
       get { return _url; }
     }
-    public unowned string username {
+    public string username {
       get { return _username; }
     }
-    public unowned string acct {
+    public string acct {
       get { return _acct; }
     }
     public int64 id {
