@@ -39,7 +39,7 @@ check_PROGRAMS = \
 							getstatuses \
 							gettagtimeline \
 							oauthtoken \
-							registeringapp \
+							registerapp \
 							search \
 							searchaccounts \
 							streaminghashtag \
@@ -72,7 +72,7 @@ tests_VALASOURCES = \
 				getstatuses.vala \
 				gettagtimeline.vala \
 				oauthtoken.vala \
-				registeringapp.vala \
+				registerapp.vala \
 				search.vala \
 				searchaccounts.vala \
 				streaminghashtag.vala \
@@ -268,10 +268,10 @@ oauthtoken_LDADD = \
 									libtestmod.la \
 									$(top_builddir)/src/libgomphotherium.la
 
-nodist_registeringapp_SOURCES = \
+nodist_registerapp_SOURCES = \
 																libtestmod_la_vala.stamp \
-																registeringapp.c
-registeringapp_LDADD = \
+																registerapp.c
+registerapp_LDADD = \
 											libtestmod.la \
 											$(top_builddir)/src/libgomphotherium.la
 

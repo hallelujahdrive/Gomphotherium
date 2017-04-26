@@ -1,4 +1,4 @@
-void registering_app () {
+void register_app () {
   
   string website = load_website ();
   
@@ -7,7 +7,7 @@ void registering_app () {
   
   try {
     
-    var app = Gomphotherium.registering_app (website, client_name, null, scopes, null);
+    var app = Gomphotherium.register_app (website, client_name, null, scopes, null);
     stdout.printf ("\nwebsite : %s\nclient_id : %s\nclient_secret : %s\n", app.website, app.client_id, app.client_secret);
   
   } catch (Error e) {
@@ -16,7 +16,7 @@ void registering_app () {
   
 }
 
-void registering_app_async () {
+void register_app_async () {
   var loop = new MainLoop ();
   
   string website = load_website ();
@@ -25,10 +25,10 @@ void registering_app_async () {
   string scopes = "read write follow";
   
   stdout.printf ("begin function\n");
-  Gomphotherium.registering_app_async.begin (website, client_name, null, scopes, null, (obj, res) => {
+  Gomphotherium.register_app_async.begin (website, client_name, null, scopes, null, (obj, res) => {
     stdout.printf ("\nbegin async method");
     try {
-      var app = Gomphotherium.registering_app_async.end (res);
+      var app = Gomphotherium.register_app_async.end (res);
       stdout.printf ("\nwebsite : %s\nclient_id : %s\nclient_secret : %s\n", app.website, app.client_id, app.client_secret);
       stdout.printf ("\nend async method\n");
     } catch (Error e) {
@@ -43,8 +43,8 @@ void registering_app_async () {
 int main (string[] args) {
   GLib.Test.init (ref args);
   
-  GLib.Test.add_func ("/registeringapp/registring_app", registering_app);
-  GLib.Test.add_func ("/registeringapp/registring_app_async", registering_app_async);
+  GLib.Test.add_func ("/registerapp/registring_app", register_app);
+  GLib.Test.add_func ("/registerapp/registring_app_async", register_app_async);
   
   return GLib.Test.run ();
 }

@@ -2,13 +2,13 @@ using Json;
 using Rest;
 
 namespace Gomphotherium { 
-  // Registing an GomphoApp
+  // Registering an GomphoApp
   // @instance_website : URL to Instance you want to regist 
   // @client_name : Name of your GomphoApp
   // @redirect_uris : (nullable) Where the user should be redirected after authorization
   // @scope : This can be a space-separated list of the following items: "read", "write" and "follow"
   // @app_website : (nullable) URL to the homepage of your app
-  public GomphoApp registering_app (string instance_website, string client_name,string? redirect_uris, string scopes, string? app_website = null) throws Error {
+  public GomphoApp register_app (string instance_website, string client_name,string? redirect_uris, string scopes, string? app_website = null) throws Error {
         
     var proxy = new Rest.Proxy (instance_website, false);
     var proxy_call = proxy.new_call ();
@@ -30,7 +30,7 @@ namespace Gomphotherium {
   }
   
   // Registing an GomphoApp asynchronously
-  public async GomphoApp registering_app_async (string instance_website, string client_name,string? redirect_uris, string scopes, string? app_website) throws Error {
+  public async GomphoApp register_app_async (string instance_website, string client_name,string? redirect_uris, string scopes, string? app_website) throws Error {
     
     Error error = null;
     
@@ -55,7 +55,7 @@ namespace Gomphotherium {
         error = e;
       }
         
-      registering_app_async.callback ();
+      register_app_async.callback ();
         
       });
 

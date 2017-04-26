@@ -37,7 +37,7 @@ sources = \
 				endpoints.vala \
 				event_types.vala \
 				params.vala \
-				methods/regstering_app.vala \
+				methods/regster_app.vala \
 				utils/json_utils.vala \
 				utils/soup_utils.vala
 

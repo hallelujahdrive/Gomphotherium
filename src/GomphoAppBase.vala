@@ -14,7 +14,7 @@ namespace Gomphotherium {
     
     protected Rest.Proxy proxy;
 
-    // Propaties   
+    // Propaties
     public string website {
       get { return _website; }
     }
@@ -213,7 +213,7 @@ namespace Gomphotherium {
     protected void setup_get_status_proxy_call (ref ProxyCall proxy_call, int64 id) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      proxy_call.set_function(ENDPOINT_STATUSES.printf (id));
+      proxy_call.set_function(ENDPOINT_STATUSES_ID.printf (id));
       proxy_call.set_method("GET");
     
     }
