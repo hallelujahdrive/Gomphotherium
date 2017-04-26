@@ -22,6 +22,9 @@ namespace Gomphotherium {
   private const string ENDPOINT_STATUSES_CONTEXT = "/api/v1/statuses/%" + int64.FORMAT + "/context";
   private const string ENDPOINT_STATUSES_FAVOURITED_BY = "/api/v1/statuses/%" + int64.FORMAT + "/favourited_by";
   private const string ENDPOINT_STATUSES_REBLOGGED_BY = "/api/v1/statuses/%" + int64.FORMAT + "/reblogged_by";
+  private const string ENDPOINT_STREAMING_PUBLIC = "/api/v1/streaming/public";
+  private const string ENDPOINT_STREAMING_HASHTAG = "/api/v1/streaming/hashtag";
+  private const string ENDPOINT_STREAMING_USER = "/api/v1/streaming/user";
   private const string ENDPOINT_TIMELINES_HOME = "/api/v1/timelines/home";
   private const string ENDPOINT_TIMELINES_PUBLIC = "/api/v1/timelines/public";
   private const string ENDPOINT_TIMELINES_TAG = "/api/v1/timelines/tag/%s";

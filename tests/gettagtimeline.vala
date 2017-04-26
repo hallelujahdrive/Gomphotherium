@@ -8,7 +8,7 @@ void get_tag_timeline () {
   
   try {
     
-    var list = app.get_tag_timeline ("mastodon", false);
+    var list = app.get_tag_timeline ("mastodon", true);
     
     list.foreach ((status) => {
       output_status (status);
@@ -30,7 +30,7 @@ void get_tag_timeline_async () {
   var app = new Gomphotherium.AsyncGomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
   stdout.printf ("begin function\n");
-  app.get_tag_timeline_async.begin ("mastodon", false, -1, -1, -1, (obj, res) => {
+  app.get_tag_timeline_async.begin ("mastodon", true, -1, -1, -1, (obj, res) => {
     stdout.printf ("\nbegin async method");
     try{
       var list = app.get_tag_timeline_async.end (res);

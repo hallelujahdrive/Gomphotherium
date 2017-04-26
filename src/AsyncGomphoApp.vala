@@ -895,7 +895,7 @@ namespace Gomphotherium {
     }
     
     // Retrieving public timeline asynchronously
-    public async List<Status> get_public_timeline_async (bool local = false, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    public async List<Status> get_public_timeline_async (bool local = true, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       Error error = null;
       var list = new List<Status> ();
@@ -933,7 +933,7 @@ namespace Gomphotherium {
     }
     
     // Retrieving hashtag timeline asynchronously
-    public async List<Status> get_tag_timeline_async (string hashtag, bool local = false, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    public async List<Status> get_tag_timeline_async (string hashtag, bool local = true, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       Error error = null;
       var list = new List<Status> ();

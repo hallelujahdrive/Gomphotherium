@@ -561,7 +561,7 @@ namespace Gomphotherium {
     }
     
     // Retrieving public timeline
-    public List<Status> get_public_timeline (bool local = false, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    public List<Status> get_public_timeline (bool local = true, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       var proxy_call = proxy.new_call ();
       setup_get_public_timeline_proxy_call (ref proxy_call, local, max_id, since_id, limit);
@@ -585,7 +585,7 @@ namespace Gomphotherium {
     }
     
     // Retrieving htag timeline
-    public List<Status> get_tag_timeline (string hashtag, bool local = false, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    public List<Status> get_tag_timeline (string hashtag, bool local = true, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       var proxy_call = proxy.new_call ();
       setup_get_tag_timeline_proxy_call (ref proxy_call, hashtag, local, max_id, since_id, limit);

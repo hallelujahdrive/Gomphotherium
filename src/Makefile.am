@@ -21,8 +21,10 @@ sources = \
 				Attachment.vala \
 				Card.vala \
 				Context.vala \
+				Delete.vala \
 				GomphoApp.vala \
 				GomphoAppBase.vala \
+				GomphoStream.vala \
 				Instance.vala \
 				Mention.vala \
 				Notification.vala \
@@ -30,8 +32,10 @@ sources = \
 				Report.vala \
 				Results.vala \
 				Status.vala \
+				StreamHead.vala \
 				Tag.vala \
 				endpoints.vala \
+				event_types.vala \
 				params.vala \
 				methods/regstering_app.vala \
 				utils/json_utils.vala \

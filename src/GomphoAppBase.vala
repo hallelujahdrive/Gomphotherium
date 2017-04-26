@@ -4,7 +4,7 @@ using Soup;
 
 namespace Gomphotherium {
   
-  public class GomphoAppBase {
+  public class GomphoAppBase : GLib.Object {
     
     // Property-backing fields
     protected string _website;
@@ -271,9 +271,12 @@ namespace Gomphotherium {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
       set_ids_and_limit_to_proxy_call (ref proxy_call, max_id, since_id, limit);
-      proxy_call.add_param (PARAM_LOCAL, local.to_string ());
+     
+      if (local) {
+        proxy_call.add_param (PARAM_LOCAL, "");
+      }
+      
       proxy_call.set_function(ENDPOINT_TIMELINES_PUBLIC);
-
       proxy_call.set_method("GET");
     
     }
@@ -283,7 +286,11 @@ namespace Gomphotherium {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
       set_ids_and_limit_to_proxy_call (ref proxy_call, max_id, since_id, limit);
-      proxy_call.add_param (PARAM_LOCAL, local.to_string ());
+      
+      if (local) {
+        proxy_call.add_param (PARAM_LOCAL, "");
+      }
+      
       proxy_call.set_function(ENDPOINT_TIMELINES_TAG.printf (hashtag));
       proxy_call.set_method("GET");
     

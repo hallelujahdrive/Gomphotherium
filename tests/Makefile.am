@@ -42,6 +42,9 @@ check_PROGRAMS = \
 							registeringapp \
 							search \
 							searchaccounts \
+							streaminghashtag \
+							streamingpublic \
+							streaminguser \
 							verifycredentials
 							
 check_LTLIBRARIES = libtestmod.la
@@ -72,6 +75,9 @@ tests_VALASOURCES = \
 				registeringapp.vala \
 				search.vala \
 				searchaccounts.vala \
+				streaminghashtag.vala \
+				streamingpublic.vala \
+				streaminguser.vala \
 				verifycredentials.vala
 				
 testmod_VALASOURCES = \
@@ -263,25 +269,46 @@ oauthtoken_LDADD = \
 									$(top_builddir)/src/libgomphotherium.la
 
 nodist_registeringapp_SOURCES = \
-															libtestmod_la_vala.stamp \
-															registeringapp.c
+																libtestmod_la_vala.stamp \
+																registeringapp.c
 registeringapp_LDADD = \
-										libtestmod.la \
-										$(top_builddir)/src/libgomphotherium.la
+											libtestmod.la \
+											$(top_builddir)/src/libgomphotherium.la
 
 nodist_search_SOURCES = \
-											libtestmod_la_vala.stamp \
-											search.c
+												libtestmod_la_vala.stamp \
+												search.c
 search_LDADD = \
-						libtestmod.la \
-						$(top_builddir)/src/libgomphotherium.la
+							libtestmod.la \
+							$(top_builddir)/src/libgomphotherium.la
 
 nodist_searchaccounts_SOURCES = \
 															libtestmod_la_vala.stamp \
 															searchaccounts.c
 searchaccounts_LDADD = \
-										libtestmod.la \
-										$(top_builddir)/src/libgomphotherium.la
+											libtestmod.la \
+											$(top_builddir)/src/libgomphotherium.la
+													
+nodist_streaminghashtag_SOURCES = \
+																		libtestmod_la_vala.stamp \
+																		streaminghashtag.c
+streaminghashtag_LDADD = \
+													libtestmod.la \
+													$(top_builddir)/src/libgomphotherium.la
+															
+streamingpublic_LDADD = \
+												libtestmod.la \
+												$(top_builddir)/src/libgomphotherium.la								
+nodist_streamingpublic_SOURCES = \
+																	libtestmod_la_vala.stamp \
+																	streamingpublic.c
+															
+nodist_streaminguser_SOURCES = \
+																libtestmod_la_vala.stamp \
+																streaminguser.c
+streaminguser_LDADD = \
+											libtestmod.la \
+											$(top_builddir)/src/libgomphotherium.la
 
 nodist_verifycredentials_SOURCES = \
 																		libtestmod_la_vala.stamp \

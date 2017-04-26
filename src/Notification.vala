@@ -2,7 +2,7 @@ using Json;
 
 namespace Gomphotherium {
   
-  public class Notification {
+  public class Notification : Gomphotherium.Object {
     
     // Property-backing fields
     private int64 _id;

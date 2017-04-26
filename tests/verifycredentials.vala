@@ -6,6 +6,8 @@ void verify_credentials () {
     
   var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
+  string test = app.website;
+  
   try {
     var account = app.verify_credentials ();
     

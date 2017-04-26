@@ -16,6 +16,7 @@ namespace Gomphotherium {
   private const string PARAM_SCOPE = "scope";
   private const string PARAM_SCOPES = "scopes";
   private const string PARAM_SINCE_ID = "since_id";
+  private const string PARAM_TAG = "tag";
   private const string PARAM_USERNAME = "username";
   private const string PARAM_WEBSITE = "website";
 }
