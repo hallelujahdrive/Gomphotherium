@@ -98,6 +98,60 @@ namespace Gomphotherium {
     
     }
     
+    // Set proxy params to follow
+    protected void setup_follow_proxy_call (ref ProxyCall proxy_call, int64 id) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);     
+      proxy_call.set_function (ENDPOINT_ACCOUNTS_FOLLOW.printf (id));
+      proxy_call.set_method ("POST");
+      
+    }
+    
+    // Set proxy params to unfollow
+    protected void setup_unfollow_proxy_call (ref ProxyCall proxy_call, int64 id) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);     
+      proxy_call.set_function (ENDPOINT_ACCOUNTS_UNFOLLOW.printf (id));
+      proxy_call.set_method ("POST");
+      
+    }    
+    
+    // Set proxy params to block
+    protected void setup_block_proxy_call (ref ProxyCall proxy_call, int64 id) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);     
+      proxy_call.set_function (ENDPOINT_ACCOUNTS_BLOCK.printf (id));
+      proxy_call.set_method ("POST");
+      
+    }
+    
+    // Set proxy params to unblock
+    protected void setup_unblock_proxy_call (ref ProxyCall proxy_call, int64 id) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);     
+      proxy_call.set_function (ENDPOINT_ACCOUNTS_UNBLOCK.printf (id));
+      proxy_call.set_method ("POST");
+      
+    }
+    
+    // Set proxy params to mute
+    protected void setup_mute_proxy_call (ref ProxyCall proxy_call, int64 id) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);     
+      proxy_call.set_function (ENDPOINT_ACCOUNTS_MUTE.printf (id));
+      proxy_call.set_method ("POST");
+      
+    }
+    
+    // Set proxy params to unmute
+    protected void setup_unmute_proxy_call (ref ProxyCall proxy_call, int64 id) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);     
+      proxy_call.set_function (ENDPOINT_ACCOUNTS_UNMUTE.printf (id));
+      proxy_call.set_method ("POST");
+      
+    }
+    
     // Set proxy params to search accounts
     protected void setup_search_accounts_proxy_call (ref ProxyCall proxy_call, string q, int limit) {
       
@@ -142,6 +196,35 @@ namespace Gomphotherium {
     
     }
     
+    // Set proxy params to authorize follow requests
+    protected void setup_authorize_follow_requests_proxy_call (ref ProxyCall proxy_call, int64 id) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_FOLLOW_REQUESTS_AUTHORIZE.printf (id));
+      proxy_call.set_method("POST");
+      
+    }
+
+    // Set proxy params to reject follow requests
+    protected void setup_reject_follow_requests_proxy_call (ref ProxyCall proxy_call, int64 id) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_FOLLOW_REQUESTS_REJECT.printf (id));
+      proxy_call.set_method("POST");
+      
+    }
+    
+    // Set proxy params to follow a remote user
+    protected void setup_remote_follow_proxy_call (ref ProxyCall proxy_call, string uri) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.add_param (PARAM_URI, uri);
+      proxy_call.set_function(ENDPOINT_FOLLOWS);
+      proxy_call.set_method("POST");
+    
+    }
+    
+    
     // Set proxy params to verify credentials
     protected void setup_verify_credentials_proxy_call (ref ProxyCall proxy_call) {
       
@@ -158,6 +241,17 @@ namespace Gomphotherium {
       proxy_call.set_function(ENDPOINT_INSTANCE);
       proxy_call.set_method("GET");
     
+    }
+    
+    // Set proxy parasm to upload media
+    protected void setup_upload_media_proxy_call (ref ProxyCall proxy_call, File file) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      // 保留
+      // proxy_call.add_parama (PARAM_FILE, file);
+      proxy_call.set_function(ENDPOINT_MEDIA);
+      proxy_call.set_method("POST");
+      
     }
     
     // Set proxy params to fetch mutes
@@ -186,6 +280,15 @@ namespace Gomphotherium {
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
       proxy_call.set_function(ENDPOINT_NOTIFICATION.printf (id));
       proxy_call.set_method("GET");
+    
+    }
+    
+    // Set proxy params to clear notifications
+    protected void setup_clear_notifications_proxy_call (ref ProxyCall proxy_call) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function(ENDPOINT_NOTIFICATIONS_CLIEAR);
+      proxy_call.set_method("POST");
     
     }
     
@@ -317,6 +420,32 @@ namespace Gomphotherium {
       
       return message;
     
+    }
+    
+    // Generate a soup message to report a user
+    protected Soup.Message report_message_new (int64 account_id, int64[] status_ids, string comment) throws Erro {
+      
+      var message = new Soup.Message ("POST", _website + ENDPOINT_REPORTS);
+      var sb = new StringBuilder ();
+      
+      sb.append (PARAM_ACCOUNT_ID);
+      sb.append ("=");
+      sb.append (account_id.to_string ());
+      sb.append ("&");
+      foreach (int64 id in ids) {
+        sb.append (PARAM_STATUS_IDS);
+        sb.append ("[]=");
+        sb.append (id.to_string ());
+        sb.append ("&");
+      }
+      sb.append (PARAM_COMMENT);
+      sb.append ("=");
+      sb.append (comment);
+      
+      message.request_headers.append ("Authorization"," Bearer " + _access_token);
+      message.set_request ("application/x-www-form-urlencoded", Soup.MemoryUse.COPY, sb.str.data);
+      
+      return message;
     }
     
     protected void set_ids_and_limit_to_proxy_call (ref ProxyCall proxy_call, int64 max_id, int64 since_id, int limit) {

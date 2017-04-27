@@ -447,7 +447,6 @@ namespace Gomphotherium {
       var proxy_call = proxy.new_call ();
       setup_get_instance_proxy_call (ref proxy_call);
       
-
       proxy_call.invoke_async.begin (null, (obj, res) => {
         try {
         

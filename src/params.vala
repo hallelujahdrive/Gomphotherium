@@ -1,8 +1,11 @@
 namespace Gomphotherium {
+  private const string PARAM_ACCOUNT_ID = "account_id";
   private const string PARAM_CLIENT_ID = "client_id";
   private const string PARAM_CLIENT_NAME = "client_name";
   private const string PARAM_CLIENT_SECRET = "client_secret";
+  private const string PARAM_COMMENT = "comment";
   private const string PARAM_EXCLUDE_REPLIES = "exclude_replies";
+  private const string PARAM_FILE = "file";
   private const string PARAM_GRANT_TYPE = "grant_type";
   private const string PARAM_ID = "id";
   private const string PARAM_LIMIT = "limit";
@@ -16,7 +19,9 @@ namespace Gomphotherium {
   private const string PARAM_SCOPE = "scope";
   private const string PARAM_SCOPES = "scopes";
   private const string PARAM_SINCE_ID = "since_id";
+  private const string PARAM_STATUS_IDS = "status_ids";
   private const string PARAM_TAG = "tag";
+  private const string PARAM_URI = "uri";
   private const string PARAM_USERNAME = "username";
   private const string PARAM_WEBSITE = "website";
 }

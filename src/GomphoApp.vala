@@ -128,9 +128,7 @@ namespace Gomphotherium {
         
         proxy_call.run();
         
-        var data = proxy_call.get_payload();
-
-        var json_array = parse_json_array (data);
+        var json_array = parse_json_array (proxy_call.get_payload());
         var list = new List<Status> ();
                 
         json_array.foreach_element ((array, index, node) => {
@@ -144,6 +142,114 @@ namespace Gomphotherium {
       }
     }
     
+    // Following an account
+    public Relationship follow (int64 id) throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_follow_proxy_call (ref proxy_call, id);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_obj = parse_json_object (proxy_call.get_payload());
+        return new Relationship (json_obj);
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Unfollowing an account
+    public Relationship unfollow (int64 id) throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_unfollow_proxy_call (ref proxy_call, id);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_obj = parse_json_object (proxy_call.get_payload());
+        return new Relationship (json_obj);
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+
+    // Blocking an account
+    public Relationship block (int64 id) throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_block_proxy_call (ref proxy_call, id);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_obj = parse_json_object (proxy_call.get_payload());
+        return new Relationship (json_obj);
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Unblocking an account
+    public Relationship unblock (int64 id) throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_unblock_proxy_call (ref proxy_call, id);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_obj = parse_json_object (proxy_call.get_payload());
+        return new Relationship (json_obj);
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Muting an account
+    public Relationship mute (int64 id) throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_mute_proxy_call (ref proxy_call, id);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_obj = parse_json_object (proxy_call.get_payload());
+        return new Relationship (json_obj);
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Unmuting an account
+    public Relationship unmute (int64 id) throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_unmute_proxy_call (ref proxy_call, id);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_obj = parse_json_object (proxy_call.get_payload());
+        return new Relationship (json_obj);
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+
     // Getting an account's relationships
     public List<Relationship> get_relationships (int64[] ids) throws Error {
       
@@ -272,6 +378,50 @@ namespace Gomphotherium {
         throw e;
       }
     }
+    
+    // Authorizing follow requests
+    public void authorize_follow_requests (int64 id) throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_authorize_follow_requests_proxy_call (ref proxy_call, id);
+
+      try{
+        proxy_call.run();
+      }catch(Error e){
+        throw e;
+      }
+    }
+
+    // Rejecting follow requests
+    public void reject_follow_requests (int64 id) throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_reject_follow_requests_proxy_call (ref proxy_call, id);
+
+      try{
+        proxy_call.run();
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Following a remote user
+    public Account remote_follow (string uri) throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_remote_follow_proxy_call (ref proxy_call, uri);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_obj = parse_json_object (proxy_call.get_payload());
+        return new Account (json_obj);
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
 
     // Getting instance information
     public Instance get_instance () throws Error {
@@ -291,39 +441,21 @@ namespace Gomphotherium {
       }
     }
     
-    // Getting instance information asynchronously
-    public async Instance get_instance_async () throws Error {
-      
-      Error error = null;      
-      Instance instance = null;
+    public Attachment upload_media (File file) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_instance_proxy_call (ref proxy_call);
+      setup_upload_media_proxy_call (ref proxy_call);
       
-
-      proxy_call.invoke_async.begin (null, (obj, res) => {
-        try {
+      try{
         
-          proxy_call.invoke_async.end (res);
-          
-          var json_obj = parse_json_object (proxy_call.get_payload());
-          instance = new Instance (json_obj);
-          
-        } catch (Error e) {
-          error = e;
-        }
+        proxy_call.run();
         
-        get_instance_async.callback ();
+        var json_obj = parse_json_object (proxy_call.get_payload());
+        return new Attachment (json_obj);
         
-      });
-
-      yield;
-      
-      if (error != null) {
-        throw error;
-      }
-      
-      return instance;
+      }catch(Error e){
+        throw e;
+      }      
     }
 
     // Fetching a user's mutes
@@ -387,6 +519,19 @@ namespace Gomphotherium {
         var json_obj = parse_json_object (proxy_call.get_payload());
         return new Gomphotherium.Notification (json_obj);
         
+      }catch(Error error){
+        throw error;
+      }
+    }
+    
+    // Clear notifications
+  public void clear_notifications () throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_clear_notifications_proxy_call (ref proxy_call);
+      
+      try{
+        proxy_call.run();
       }catch(Error error){
         throw error;
       }

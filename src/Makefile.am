@@ -38,6 +38,7 @@ sources = \
 				event_types.vala \
 				params.vala \
 				methods/regster_app.vala \
+				utils/file_utils.vala \
 				utils/json_utils.vala \
 				utils/soup_utils.vala
 
