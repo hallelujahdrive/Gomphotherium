@@ -15,7 +15,5 @@ namespace Gomphotherium {
       _content = content;
       
     }
-    
   }
-  
 }

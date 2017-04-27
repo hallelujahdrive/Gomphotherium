@@ -423,7 +423,7 @@ namespace Gomphotherium {
     }
     
     // Generate a soup message to report a user
-    protected Soup.Message report_message_new (int64 account_id, int64[] status_ids, string comment) throws Erro {
+    protected Soup.Message report_message_new (int64 account_id, int64[] status_ids, string comment) throws Error {
       
       var message = new Soup.Message ("POST", _website + ENDPOINT_REPORTS);
       var sb = new StringBuilder ();
@@ -432,7 +432,7 @@ namespace Gomphotherium {
       sb.append ("=");
       sb.append (account_id.to_string ());
       sb.append ("&");
-      foreach (int64 id in ids) {
+      foreach (int64 id in status_ids) {
         sb.append (PARAM_STATUS_IDS);
         sb.append ("[]=");
         sb.append (id.to_string ());
@@ -441,6 +441,57 @@ namespace Gomphotherium {
       sb.append (PARAM_COMMENT);
       sb.append ("=");
       sb.append (comment);
+      
+      message.request_headers.append ("Authorization"," Bearer " + _access_token);
+      message.set_request ("application/x-www-form-urlencoded", Soup.MemoryUse.COPY, sb.str.data);
+      
+      return message;
+    }
+    
+    // Generate a soup message to post a new status
+    protected Soup.Message post_status_message_new (string status, int64? in_reply_to_id, int64[]? media_ids, bool sensitive, string? spoiler_text, string visibility) throws Error {
+      
+      var message = new Soup.Message ("POST", _website + ENDPOINT_STATUSES);
+      var sb = new StringBuilder ();
+      
+      sb.append (PARAM_STATUS);
+      sb.append ("=");
+      sb.append (status);
+      
+      if (in_reply_to_id != null) {
+        sb.append ("&");
+        sb.append (PARAM_IN_REPLY_TO_ID);
+        sb.append ("=");
+        sb.append (in_reply_to_id.to_string ());
+      }
+      
+      if (media_ids != null && media_ids.length > 0) {
+        foreach (int64 id in media_ids) {
+          sb.append ("&");
+          sb.append (PARAM_STATUS_IDS);
+          sb.append ("[]=");
+          sb.append (id.to_string ());
+        }
+      }
+      
+      if (sensitive) {
+        sb.append ("&");
+        sb.append (PARAM_SENSITIVE);
+      }
+      
+      if (spoiler_text != null) {
+        sb.append ("&");
+        sb.append (PARAM_SPILER_TEXT);
+        sb.append ("=");
+        sb.append (spoiler_text);
+      }
+      
+      if (visibility != null) {
+        sb.append ("&");
+        sb.append (PARAM_VISIBILITY);
+        sb.append ("=");
+        sb.append (visibility);
+      }
       
       message.request_headers.append ("Authorization"," Bearer " + _access_token);
       message.set_request ("application/x-www-form-urlencoded", Soup.MemoryUse.COPY, sb.str.data);

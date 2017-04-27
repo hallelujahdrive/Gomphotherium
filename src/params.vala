@@ -8,9 +8,11 @@ namespace Gomphotherium {
   private const string PARAM_FILE = "file";
   private const string PARAM_GRANT_TYPE = "grant_type";
   private const string PARAM_ID = "id";
+  private const string PARAM_IN_REPLY_TO_ID = "in_reply_to_id";
   private const string PARAM_LIMIT = "limit";
   private const string PARAM_LOCAL = "local";
   private const string PARAM_MAX_ID = "max_id";
+  private const string PARAM_MEDIA_IDS = "media_ids";
   private const string PARAM_ONLY_MEDIA = "only_media";
   private const string PARAM_PASSWORD = "password";
   private const string PARAM_Q = "q";
@@ -18,10 +20,15 @@ namespace Gomphotherium {
   private const string PARAM_RESOLVE = "resolve";
   private const string PARAM_SCOPE = "scope";
   private const string PARAM_SCOPES = "scopes";
+  private const string PARAM_SENSITIVE = "sensitive";
   private const string PARAM_SINCE_ID = "since_id";
+  private const string PARAM_POILER_TEXT = "spiler_text";
+  private const string PARAM_SPILER_TEXT = "spiler_text";
+  private const string PARAM_STATUS = "status";
   private const string PARAM_STATUS_IDS = "status_ids";
   private const string PARAM_TAG = "tag";
   private const string PARAM_URI = "uri";
   private const string PARAM_USERNAME = "username";
+  private const string PARAM_VISIBILITY = "visibility";
   private const string PARAM_WEBSITE = "website";
 }

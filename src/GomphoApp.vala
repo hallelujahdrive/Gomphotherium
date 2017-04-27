@@ -444,7 +444,7 @@ namespace Gomphotherium {
     public Attachment upload_media (File file) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_upload_media_proxy_call (ref proxy_call);
+      setup_upload_media_proxy_call (ref proxy_call, file);
       
       try{
         
@@ -559,6 +559,30 @@ namespace Gomphotherium {
       }catch(Error e){
         throw e;
       }
+    }
+    
+    // Reporting a user
+    public Report report (int64 account_id, int64[] status_ids, string comment) {
+      
+      Error error = null;
+      
+      var session = new Soup.Session ();
+      var message = report_message_new (account_id, status_ids, comment);
+      
+      session.send_message (message);
+      
+      var data = message.response_body.data;
+      var data_str = ((string) data).substring (0, data.length);
+      
+      if (!handle_error_from_message (message, out error)) {
+        throw error;
+      }  
+
+      try {
+        return new Report (parse_json_object (data_str));
+      } catch (Error e) {
+        throw e;
+      }      
     }
     
     // Searching for content
@@ -679,6 +703,31 @@ namespace Gomphotherium {
       }catch(Error e){
         throw e;
       }
+    }
+    
+    
+    // Posting a new status
+    public Status post_status (string status, int64 in_reply_to_id = -1, int64[]? media_ids = null, bool sensitive = false, string? spoiler_text = null, string? visibility = null) throws Error {
+
+      Error error = null;
+      
+      var session = new Soup.Session ();
+      var message = post_status_message_new (status, in_reply_to_id, media_ids, sensitive, spoiler_text, visibility);
+      
+      session.send_message (message);
+      
+      var data = message.response_body.data;
+      var data_str = ((string) data).substring (0, data.length);
+      
+      if (!handle_error_from_message (message, out error)) {
+        throw error;
+      }  
+
+      try {
+        return new Status (parse_json_object (data_str));
+      } catch (Error e) {
+        throw e;
+      }         
     }
 
     // Retrieving home timeline
