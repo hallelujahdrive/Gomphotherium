@@ -17,8 +17,8 @@ namespace Gomphotherium {
   private const string ENDPOINT_FAVOURITES = "/api/v1/favourites";
   private const string ENDPOINT_FOLLOWS = "/api/v1/follows";
   private const string ENDPOINT_FOLLOW_REQUESTS = "/api/v1/follow_requests";
-  private const string ENDPOINT_FOLLOW_REQUESTS_AUTHORIZE = "/api/v1/follow_requests/" + int64.FORMAT + "/authorize";
-  private const string ENDPOINT_FOLLOW_REQUESTS_REJECT = "/api/v1/follow_requests" + int64.FORMAT + "/reject";
+  private const string ENDPOINT_FOLLOW_REQUESTS_AUTHORIZE = "/api/v1/follow_requests/%" + int64.FORMAT + "/authorize";
+  private const string ENDPOINT_FOLLOW_REQUESTS_REJECT = "/api/v1/follow_requests/%" + int64.FORMAT + "/reject";
   private const string ENDPOINT_INSTANCE = "/api/v1/instance";
   private const string ENDPOINT_MEDIA = "/api/v1/media";
   private const string ENDPOINT_MUTES = "/api/v1/mutes";

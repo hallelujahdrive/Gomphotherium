@@ -17,7 +17,7 @@ void get_account () {
     assert (account.username == "hallelujahdevelop");
     assert (account.acct == "hallelujahdevelop");
     assert (account.display_name == "hallelujahdrive-develop");
-    assert (account.locked == false);
+    assert (account.locked == true);
     assert (account.created_at == "2017-04-27T17:14:33.560Z");
     assert (account.url == "https://mstdn.jp/@hallelujahdevelop");
     assert (account.avatar == "https://media.mstdn.jp/images/accounts/avatars/000/181/311/original/c70120481d744208.png?1493313570");

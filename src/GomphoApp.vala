@@ -283,6 +283,17 @@ namespace Gomphotherium {
       }
     }
     
+    // Getting an account's relationship
+    public Relationship get_relationship (int64 id) throws Error {
+      
+      try {
+        var list = get_relationships ({id});
+        return list.nth_data (0);
+      } catch (Error e) {
+        throw e;
+      }
+    }
+    
     // Searching for accounts
     public List<Account> search_accounts (string q, int limit = -1) throws Error{
       
@@ -728,6 +739,78 @@ namespace Gomphotherium {
       } catch (Error e) {
         throw e;
       }         
+    }
+    
+    // Reblogging a status
+    public Status reblog (int64 id) throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_reblog_proxy_call (ref proxy_call, id);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_obj = parse_json_object (proxy_call.get_payload());
+        return new Status (json_obj);
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // Reblogging a status
+    public Status unreblog (int64 id) throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_unreblog_proxy_call (ref proxy_call, id);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_obj = parse_json_object (proxy_call.get_payload());
+        return new Status (json_obj);
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // favouriting a status
+    public Status favourite (int64 id) throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_favourite_proxy_call (ref proxy_call, id);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_obj = parse_json_object (proxy_call.get_payload());
+        return new Status (json_obj);
+        
+      }catch(Error e){
+        throw e;
+      }
+    }
+    
+    // unfavouriting a status
+    public Status unfavourite (int64 id) throws Error {
+      
+      var proxy_call = proxy.new_call ();
+      setup_unfavourite_proxy_call (ref proxy_call, id);
+      
+      try{
+        
+        proxy_call.run();
+        
+        var json_obj = parse_json_object (proxy_call.get_payload());
+        return new Status (json_obj);
+        
+      }catch(Error e){
+        throw e;
+      }
     }
 
     // Retrieving home timeline

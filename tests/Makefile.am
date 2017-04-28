@@ -17,6 +17,9 @@ AM_VALAFLAGS = \
 						-g
 						
 check_PROGRAMS = \
+							favouritereblogtest \
+							followtest \
+							relationshiptest \
 							getaccount \
 							getblocks \
 							getcard \
@@ -50,35 +53,38 @@ check_PROGRAMS = \
 check_LTLIBRARIES = libtestmod.la
 						
 tests_VALASOURCES = \
-				getaccount.vala \
-				getblocks.vala \
-				getcard.vala \
-				getcontext.vala \
-				getfavouritedby.vala \
-				getfavourites.vala \
-				getfollowers.vala \
-				getfollowing.vala \
-				getfollowrequests.vala \
-				getinstance.vala \
-				gethometimeline.vala \
-				getmutes.vala \
-				getnotification.vala \
-				getnotifications.vala \
-				getpublictimeline.vala \
-				getrebloggedby.vala \
-				getrelationships.vala \
-				getreports.vala \
-				getstatus.vala \
-				getstatuses.vala \
-				gettagtimeline.vala \
-				oauthtoken.vala \
-				registerapp.vala \
-				search.vala \
-				searchaccounts.vala \
-				streaminghashtag.vala \
-				streamingpublic.vala \
-				streaminguser.vala \
-				verifycredentials.vala
+									favouritereblogtest.vala \
+									followtest.vala \
+									relationshiptest.vala \
+									getaccount.vala \
+									getblocks.vala \
+									getcard.vala \
+									getcontext.vala \
+									getfavouritedby.vala \
+									getfavourites.vala \
+									getfollowers.vala \
+									getfollowing.vala \
+									getfollowrequests.vala \
+									getinstance.vala \
+									gethometimeline.vala \
+									getmutes.vala \
+									getnotification.vala \
+									getnotifications.vala \
+									getpublictimeline.vala \
+									getrebloggedby.vala \
+									getrelationships.vala \
+									getreports.vala \
+									getstatus.vala \
+									getstatuses.vala \
+									gettagtimeline.vala \
+									oauthtoken.vala \
+									registerapp.vala \
+									search.vala \
+									searchaccounts.vala \
+									streaminghashtag.vala \
+									streamingpublic.vala \
+									streaminguser.vala \
+									verifycredentials.vala
 				
 testmod_VALASOURCES = \
 											loadfunctions.vala \
@@ -113,6 +119,27 @@ libtestmod_la_VALASOURCES = $(testmod_VALASOURCES)
 libtestmod_la_LIBADD = @GOM_LIBS@
 libtestmod_la_SOURCES = libtestmod_la_vala.stamp \
 												$(testmod_VALASOURCES:.vala=.c)
+												
+nodist_favouritereblogtest_SOURCES = \
+																	libtestmod_la_vala.stamp \
+																	favouritereblogtest.c 
+favouritereblogtest_LDADD = \
+													libtestmod.la \
+													$(top_builddir)/src/libgomphotherium.la
+													
+nodist_followtest_SOURCES = \
+													libtestmod_la_vala.stamp \
+													followtest.c 
+followtest_LDADD = \
+								libtestmod.la \
+								$(top_builddir)/src/libgomphotherium.la
+												
+nodist_relationshiptest_SOURCES = \
+																libtestmod_la_vala.stamp \
+																relationshiptest.c 
+relationshiptest_LDADD = \
+											libtestmod.la \
+											$(top_builddir)/src/libgomphotherium.la
 		
 nodist_getaccount_SOURCES = \
 														libtestmod_la_vala.stamp \
