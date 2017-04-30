@@ -8,14 +8,18 @@ void oauth_token () {
   var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1]);
   
   try {
-    stdout.printf ("access_token : %s\n", app.oauth_token(email_pw[0], email_pw[1], scope));
+    var regex = new Regex ("[0-9a-z]{64}");
+    
+    string access_token = app.oauth_token(email_pw[0], email_pw[1], scope);
+    // stdout.printf ("access_token : %s\n", access_token);
+    assert (regex.match_all_full (access_token));
     
   } catch (Error e) {
     stderr.printf ("%s\n", e.message);
   } 
 }
 
-void oauth_token_async () {
+/*void oauth_token_async () {
   var loop = new MainLoop ();
   
   string website = load_website ();
@@ -40,13 +44,13 @@ void oauth_token_async () {
   });
   stdout.printf ("end function\n");
   loop.run ();
-}
+}*/
 
 int main (string[] args) {
   GLib.Test.init (ref args);
   
-  GLib.Test.add_func ("/oauthtoken/oauth_token", oauth_token);
-  GLib.Test.add_func ("/oauthtoken/oauth_token_async", oauth_token_async);
+  GLib.Test.add_func ("/oauthtokentest/oauth_token", oauth_token);
+  // GLib.Test.add_func ("/oauthtoken/oauth_token_async", oauth_token_async);
   
   return GLib.Test.run ();
 }

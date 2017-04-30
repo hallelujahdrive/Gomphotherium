@@ -82,10 +82,39 @@ public string load_access_token_2 () {
   return read.split (":")[1].replace ("\n", "");
 }
 
+public string load_access_token_3 () {
+  string read = "";
+  try {
+    string filename = "access_token_3.txt";
+
+    FileUtils.get_contents (filename, out read);
+
+} catch (FileError e) {
+    stderr.printf ("%s\n", e.message);
+  }
+  
+  return read.split (":")[1].replace ("\n", "");
+}
+
+
 public int64 load_account_id () {
   string read = "";
   try {
     string filename = "account_id.txt";
+
+    FileUtils.get_contents (filename, out read);
+
+} catch (FileError e) {
+    stderr.printf ("%s\n", e.message);
+  }
+  
+  return int64.parse (read.split (":")[1].replace ("\n", ""));
+}
+
+public int64 load_report_account_id () {
+  string read = "";
+  try {
+    string filename = "report_account_id.txt";
 
     FileUtils.get_contents (filename, out read);
 

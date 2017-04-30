@@ -7,8 +7,13 @@ void register_app () {
   
   try {
     
+    var regex = new Regex ("[0-9a-z]{64}");
+    
     var app = Gomphotherium.register_app (website, client_name, null, scopes, null);
-    stdout.printf ("\nwebsite : %s\nclient_id : %s\nclient_secret : %s\n", app.website, app.client_id, app.client_secret);
+    // stdout.printf ("\nwebsite : %s\nclient_id : %s\nclient_secret : %s\n", app.website, app.client_id, app.client_secret);
+    
+    assert (regex.match_all_full (app.client_id));
+    assert (regex.match_all_full (app.client_secret));
   
   } catch (Error e) {
     stderr.printf ("%s\n", e.message);
@@ -16,7 +21,7 @@ void register_app () {
   
 }
 
-void register_app_async () {
+/*void register_app_async () {
   var loop = new MainLoop ();
   
   string website = load_website ();
@@ -38,13 +43,13 @@ void register_app_async () {
   });
   stdout.printf ("end function\n");
   loop.run ();
-}
+}*/
 
 int main (string[] args) {
   GLib.Test.init (ref args);
   
-  GLib.Test.add_func ("/registerapp/registring_app", register_app);
-  GLib.Test.add_func ("/registerapp/registring_app_async", register_app_async);
+  GLib.Test.add_func ("/registerapptest/registring_app", register_app);
+  // GLib.Test.add_func ("/registerapptest/registring_app_async", register_app_async);
   
   return GLib.Test.run ();
 }

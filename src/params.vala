@@ -23,7 +23,7 @@ namespace Gomphotherium {
   private const string PARAM_SENSITIVE = "sensitive";
   private const string PARAM_SINCE_ID = "since_id";
   private const string PARAM_POILER_TEXT = "spiler_text";
-  private const string PARAM_SPILER_TEXT = "spiler_text";
+  private const string PARAM_SPOILER_TEXT = "spoiler_text";
   private const string PARAM_STATUS = "status";
   private const string PARAM_STATUS_IDS = "status_ids";
   private const string PARAM_TAG = "tag";

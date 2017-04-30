@@ -485,7 +485,7 @@ namespace Gomphotherium {
     }
     
     // Generate a soup message to post a new status
-    protected Soup.Message post_status_message_new (string status, int64? in_reply_to_id, int64[]? media_ids, bool sensitive, string? spoiler_text, string visibility) throws Error {
+    protected Soup.Message post_status_message_new (string status, int64 in_reply_to_id, int64[]? media_ids, bool sensitive, string? spoiler_text, string? visibility) throws Error {
       
       var message = new Soup.Message ("POST", _website + ENDPOINT_STATUSES);
       var sb = new StringBuilder ();
@@ -494,7 +494,7 @@ namespace Gomphotherium {
       sb.append ("=");
       sb.append (status);
       
-      if (in_reply_to_id != null) {
+      if (in_reply_to_id > 0) {
         sb.append ("&");
         sb.append (PARAM_IN_REPLY_TO_ID);
         sb.append ("=");
@@ -513,11 +513,13 @@ namespace Gomphotherium {
       if (sensitive) {
         sb.append ("&");
         sb.append (PARAM_SENSITIVE);
+        sb.append ("=");
+        sb.append (sensitive.to_string ());
       }
       
       if (spoiler_text != null) {
         sb.append ("&");
-        sb.append (PARAM_SPILER_TEXT);
+        sb.append (PARAM_SPOILER_TEXT);
         sb.append ("=");
         sb.append (spoiler_text);
       }

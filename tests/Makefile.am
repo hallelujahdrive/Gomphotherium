@@ -19,7 +19,12 @@ AM_VALAFLAGS = \
 check_PROGRAMS = \
 							favouritereblogtest \
 							followtest \
+							notificationstest \
+							oauthtokentest \
+							posttest \
+							registerapptest \
 							relationshiptest \
+							reporttest \
 							getaccount \
 							getblocks \
 							getcard \
@@ -41,8 +46,6 @@ check_PROGRAMS = \
 							getstatus \
 							getstatuses \
 							gettagtimeline \
-							oauthtoken \
-							registerapp \
 							search \
 							searchaccounts \
 							streaminghashtag \
@@ -55,7 +58,12 @@ check_LTLIBRARIES = libtestmod.la
 tests_VALASOURCES = \
 									favouritereblogtest.vala \
 									followtest.vala \
+									notificationstest.vala \
+									oauthtokentest.vala \
+									posttest.vala \
+									registerapptest.vala \
 									relationshiptest.vala \
+									reporttest.vala \
 									getaccount.vala \
 									getblocks.vala \
 									getcard.vala \
@@ -77,8 +85,6 @@ tests_VALASOURCES = \
 									getstatus.vala \
 									getstatuses.vala \
 									gettagtimeline.vala \
-									oauthtoken.vala \
-									registerapp.vala \
 									search.vala \
 									searchaccounts.vala \
 									streaminghashtag.vala \
@@ -121,26 +127,63 @@ libtestmod_la_SOURCES = libtestmod_la_vala.stamp \
 												$(testmod_VALASOURCES:.vala=.c)
 												
 nodist_favouritereblogtest_SOURCES = \
-																	libtestmod_la_vala.stamp \
-																	favouritereblogtest.c 
+																				libtestmod_la_vala.stamp \
+																				favouritereblogtest.c 
 favouritereblogtest_LDADD = \
-													libtestmod.la \
-													$(top_builddir)/src/libgomphotherium.la
-													
+															libtestmod.la \
+															$(top_builddir)/src/libgomphotherium.la
+
 nodist_followtest_SOURCES = \
-													libtestmod_la_vala.stamp \
-													followtest.c 
+														libtestmod_la_vala.stamp \
+														followtest.c 
 followtest_LDADD = \
-								libtestmod.la \
-								$(top_builddir)/src/libgomphotherium.la
-												
-nodist_relationshiptest_SOURCES = \
+									libtestmod.la \
+									$(top_builddir)/src/libgomphotherium.la
+
+nodist_notificationstest_SOURCES = \
+																			libtestmod_la_vala.stamp \
+																			notificationstest.c 
+notificationstest_LDADD = \
+														libtestmod.la \
+														$(top_builddir)/src/libgomphotherium.la
+
+nodist_oauthtokentest_SOURCES = \
 																libtestmod_la_vala.stamp \
-																relationshiptest.c 
-relationshiptest_LDADD = \
+																oauthtokentest.c
+oauthtokentest_LDADD = \
 											libtestmod.la \
 											$(top_builddir)/src/libgomphotherium.la
-		
+
+nodist_posttest_SOURCES = \
+													libtestmod_la_vala.stamp \
+													posttest.c
+posttest_LDADD = \
+								libtestmod.la \
+								$(top_builddir)/src/libgomphotherium.la
+
+nodist_registerapptest_SOURCES = \
+																	libtestmod_la_vala.stamp \
+																	registerapptest.c
+registerapptest_LDADD = \
+												libtestmod.la \
+												$(top_builddir)/src/libgomphotherium.la
+
+nodist_relationshiptest_SOURCES = \
+																		libtestmod_la_vala.stamp \
+																		relationshiptest.c 
+relationshiptest_LDADD = \
+													libtestmod.la \
+													$(top_builddir)/src/libgomphotherium.la
+
+nodist_reporttest_SOURCES = \
+														libtestmod_la_vala.stamp \
+														reporttest.c 
+reporttest_LDADD = \
+									libtestmod.la \
+									$(top_builddir)/src/libgomphotherium.la
+
+
+
 nodist_getaccount_SOURCES = \
 														libtestmod_la_vala.stamp \
 														getaccount.c 
@@ -288,20 +331,6 @@ gettagtimeline_LDADD = \
 									libtestmod.la \
 									$(top_builddir)/src/libgomphotherium.la
 
-nodist_oauthtoken_SOURCES = \
-														libtestmod_la_vala.stamp \
-														oauthtoken.c
-oauthtoken_LDADD = \
-									libtestmod.la \
-									$(top_builddir)/src/libgomphotherium.la
-
-nodist_registerapp_SOURCES = \
-																libtestmod_la_vala.stamp \
-																registerapp.c
-registerapp_LDADD = \
-											libtestmod.la \
-											$(top_builddir)/src/libgomphotherium.la
-
 nodist_search_SOURCES = \
 												libtestmod_la_vala.stamp \
 												search.c
@@ -346,7 +375,5 @@ verifycredentials_LDADD = \
 		
 CLEANFILES = \
 						tests_vala.stamp \
-						$(tests_VALASOURCES:.vala=.c) \
-						$(testmod_VALASOURCES:.vala=.c) \
-						*.lo *.lib *.vapi .libs/* 
+						*.c *.o *.h *.lo *.lib *.vapi .libs/* 
 EXTRA_DIST = $(tests_VALASOURCES)

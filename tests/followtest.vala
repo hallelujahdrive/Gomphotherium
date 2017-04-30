@@ -55,8 +55,8 @@ void authorize_follow_requests () {
   string website = "https://mstdn.jp";
   string[] ci_cs = load_ci_cs ();
   string access_token = load_access_token ();
-  // hallelujahdevelop
-  int64 account_id = 181311;
+  // @chiharuprototype
+  int64 account_id = 190872;
   
   var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
@@ -73,15 +73,15 @@ void authorize_follow_requests () {
     assert (false);
   }
   
-  string access_token_2 = load_access_token_2 ();
-  // hallelujahdrive
+  string access_token_3 = load_access_token_3 ();
+  // @hallelujahdrive
   int64 account_id_2 = 116;
   
-  var app_2 = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token_2);
+  var app_3 = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token_3);
   
   // check follow requests
   try {
-    var accounts = app_2.get_follow_requests();
+    var accounts = app_3.get_follow_requests();
     assert (accounts.nth_data (0) != null);
     assert (accounts.nth_data (0).id == account_id_2);
   } catch (Error e) {
@@ -92,8 +92,7 @@ void authorize_follow_requests () {
   //authorize a follow request
   try {
     
-    app_2.authorize_follow_requests (account_id_2);
-    //app_2.reject_follow_requests (account_id_2);
+    app_3.authorize_follow_requests (account_id_2);
     
     var relationship = app.get_relationship (account_id);
     assert (relationship != null);
@@ -119,8 +118,8 @@ void reject_follow_requests () {
   string website = "https://mstdn.jp";
   string[] ci_cs = load_ci_cs ();
   string access_token = load_access_token ();
-  // hallelujahdevelop
-  int64 account_id = 181311;
+  // @chiharuprototype
+  int64 account_id = 190872;
   
   var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
@@ -137,15 +136,16 @@ void reject_follow_requests () {
     assert (false);
   }
   
-  string access_token_2 = load_access_token_2 ();
-  // hallelujahdrive
+  
+  string access_token_3 = load_access_token_3 ();
+  // @hallelujahdrive
   int64 account_id_2 = 116;
   
-  var app_2 = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token_2);
+  var app_3 = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token_3);
   
   // check follow requests
   try {
-    var accounts = app_2.get_follow_requests();
+    var accounts = app_3.get_follow_requests();
     assert (accounts.nth_data (0) != null);
     assert (accounts.nth_data (0).id == account_id_2);
   } catch (Error e) {
@@ -156,7 +156,7 @@ void reject_follow_requests () {
   //reject a follow request
   try {
     
-    app_2.reject_follow_requests (account_id_2);
+    app_3.reject_follow_requests (account_id_2);
     
     var relationship = app.get_relationship (account_id);
     assert (relationship != null);

@@ -39,10 +39,10 @@ namespace Gomphotherium {
     public weak Account account {
       get { return _account; }
     }
-    public int64? in_reply_to_id {
+    public int64 in_reply_to_id {
       get { return _in_reply_to_id; }
     }
-    public int64? in_reply_to_account_id {
+    public int64 in_reply_to_account_id {
       get { return _in_reply_to_account_id; }
     }
     public weak Status? reblog {
@@ -101,12 +101,12 @@ namespace Gomphotherium {
           break;
           case "account" : _account = new Account (node.get_object ());
           break;
-          case "in_reply_to_id" : _in_reply_to_id = node.get_int ();
+          case "in_reply_to_id" : _in_reply_to_id = node.is_null () ? -1 : node.get_int ();
           break;
-          case "in_reply_to_account_id": _in_reply_to_account_id = node.get_int ();
+          case "in_reply_to_account_id": _in_reply_to_account_id = node.is_null () ? -1 : node.get_int ();
           break;
           case "reblog" :
-          if (node.get_node_type () != NodeType.NULL) {
+          if (!node.is_null ()) {
             _reblog = new Status (node.get_object ());
           }
           break;
@@ -144,7 +144,7 @@ namespace Gomphotherium {
           });
           break;
           case "application" :
-          if (node.get_node_type () != NodeType.NULL) {
+          if (!node.is_null ()) {
             _application = new Application (node.get_object ());
           }
           break;

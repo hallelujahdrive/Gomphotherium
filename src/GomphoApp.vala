@@ -71,7 +71,7 @@ namespace Gomphotherium {
     }
     
     // Getting an account's followers
-    public List<Account> get_followers (int64 id, int64? max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    public List<Account> get_followers (int64 id, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
       var proxy_call = proxy.new_call ();
       setup_get_followers_proxy_call (ref proxy_call, id, max_id, since_id, limit);

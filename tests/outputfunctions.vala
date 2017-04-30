@@ -192,7 +192,7 @@ public void output_report (Gomphotherium.Report report) {
   stdout.printf ("""
   id : %""" + int64.FORMAT + """
   action_taken : %s
-  """, report.id, report.action_taken);
+  """, report.id, report.action_taken.to_string ());
   
 }
 

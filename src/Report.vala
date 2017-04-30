@@ -6,13 +6,13 @@ namespace Gomphotherium {
     
     // Properties-backing field
     private int64 _id;  // The ID of the report
-    private string _action_taken; // The action taken in response to the report
+    private bool _action_taken; // The action taken in response to the report
     
     // Properties
     public int64 id {
       get { return _id; }
     }
-    public string action_taken {
+    public bool action_taken {
       get { return _action_taken; }
     }
     
@@ -23,7 +23,7 @@ namespace Gomphotherium {
         switch (mem) {
           case "id" : _id = node.get_int ();
           break;
-          case "action_taken" : _action_taken = node.get_string ();
+          case "action_taken" : _action_taken = node.get_boolean ();
           break;
         }
         
