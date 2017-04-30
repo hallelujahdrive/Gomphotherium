@@ -244,11 +244,18 @@ namespace Gomphotherium {
     }
     
     // Set proxy parasm to upload media
-    protected void setup_upload_media_proxy_call (ref ProxyCall proxy_call, File file) {
+    protected void setup_upload_media_proxy_call (ref ProxyCall proxy_call, File file) throws Error {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      // 保留
-      // proxy_call.add_parama (PARAM_FILE, file);
+      
+      try {
+        // var param = new Param.with_owner (PARAM_FILE, file_to_bytes (file), "image/png", null, proxy_call, proxy_call.unref);
+        // proxy_call.add_param_full (param);
+        proxy_call.add_param (PARAM_FILE, (string) file_to_bytes (file));
+      } catch (Error e) {
+        throw e;
+      }
+      
       proxy_call.set_function (ENDPOINT_MEDIA);
       proxy_call.set_method ("POST");
       

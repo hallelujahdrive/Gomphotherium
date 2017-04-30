@@ -455,12 +455,13 @@ namespace Gomphotherium {
     public Attachment upload_media (File file) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_upload_media_proxy_call (ref proxy_call, file);
       
       try{
-        
+        stdout.printf ("debug1\n");
+        setup_upload_media_proxy_call (ref proxy_call, file);
+        stdout.printf ("debug2\n");
         proxy_call.run();
-        
+        stdout.printf ("debug3\n");
         var json_obj = parse_json_object (proxy_call.get_payload());
         return new Attachment (json_obj);
         
@@ -718,7 +719,7 @@ namespace Gomphotherium {
     
     
     // Posting a new status
-    public Status post_status (string status, int64 in_reply_to_id = -1, int64[]? media_ids = null, bool sensitive = false, string? spoiler_text = null, string? visibility = null) throws Error {
+  public Status post_status (string status, int64 in_reply_to_id = -1, int64[]? media_ids = null, bool sensitive = false, string? spoiler_text = null, string? visibility = null) throws Error {
 
       Error error = null;
       

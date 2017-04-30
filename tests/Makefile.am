@@ -25,6 +25,7 @@ check_PROGRAMS = \
 							registerapptest \
 							relationshiptest \
 							reporttest \
+							uploadtest \
 							getaccount \
 							getblocks \
 							getcard \
@@ -64,6 +65,7 @@ tests_VALASOURCES = \
 									registerapptest.vala \
 									relationshiptest.vala \
 									reporttest.vala \
+									uploadtest.vala \
 									getaccount.vala \
 									getblocks.vala \
 									getcard.vala \
@@ -182,6 +184,12 @@ reporttest_LDADD = \
 									libtestmod.la \
 									$(top_builddir)/src/libgomphotherium.la
 
+nodist_uploadtest_SOURCES = \
+														libtestmod_la_vala.stamp \
+														uploadtest.c 
+uploadtest_LDADD = \
+									libtestmod.la \
+									$(top_builddir)/src/libgomphotherium.la
 
 
 nodist_getaccount_SOURCES = \
