@@ -1,6 +1,6 @@
 namespace Gomphotherium {
   
-  public uint8[] file_to_bytes (File file) throws Error {
+  public string file_to_base64 (File file) throws Error {
     
     try {
       
@@ -10,7 +10,7 @@ namespace Gomphotherium {
       
       stdout.printf ("%s\n", Base64.encode (bytes.get_data ()));
       
-      return  ("data:image/png;base64," + Base64.encode (bytes.get_data ())).data;
+      return  Base64.encode (bytes.get_data ());
       
     } catch (Error e) {
       throw e;

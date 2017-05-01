@@ -457,12 +457,23 @@ namespace Gomphotherium {
       var proxy_call = proxy.new_call ();
       
       try{
-        stdout.printf ("debug1\n");
-        setup_upload_media_proxy_call (ref proxy_call, file);
-        stdout.printf ("debug2\n");
-        proxy_call.run();
-        stdout.printf ("debug3\n");
-        var json_obj = parse_json_object (proxy_call.get_payload());
+        
+              proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+
+        
+        var mf = new MappedFile (file.get_path (), false);
+        stdout.printf ("%s : \n%d\n", file.get_path (), mf.get_bytes ().get_data ().length);
+        var param = new Param.with_owner (PARAM_FILE, (uint8[]) mf.get_contents (), "image/png", file.get_path (), proxy_call, proxy_call.unref);
+        proxy_call.add_param_full (param);
+
+      
+      proxy_call.set_function (ENDPOINT_MEDIA);
+      proxy_call.set_method ("POST");
+        proxy_call.upload((call, total, uploaded, err, obj) => {
+                  var json_obj = parse_json_object (proxy_call.get_payload());
+        stdout.printf ("%s\n", proxy_call.get_payload());
+
+        }, proxy_call);
         return new Attachment (json_obj);
         
       }catch(Error e){

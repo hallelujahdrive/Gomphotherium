@@ -11,7 +11,9 @@ void upload_media () {
   try {
     var attachment = app.upload_media (image);
     
-    app.post_status ("This is a media uplaod test toot.", -1, {attachment.id});
+    stdout.printf ("%" + int64.FORMAT + "\n", attachment.id);
+    
+    //app.post_status ("This is a media uplaod test toot.", -1, {attachment.id});
   } catch (Error e) {
     stderr.printf ("%s\n", e.message);
   }

@@ -249,10 +249,12 @@ namespace Gomphotherium {
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
       
       try {
-        // var param = new Param.with_owner (PARAM_FILE, file_to_bytes (file), "image/png", null, proxy_call, proxy_call.unref);
-        // proxy_call.add_param_full (param);
-        proxy_call.add_param (PARAM_FILE, (string) file_to_bytes (file));
-      } catch (Error e) {
+        
+        var mf = new MappedFile (file.get_path (), false);
+        stdout.printf ("%s : \n%d\n", file.get_path (), mf.get_bytes ().get_data ().length);
+        var param = new Param.with_owner (PARAM_FILE, (uint8[]) mf.get_contents (), "image/png", file.get_path (), proxy_call, proxy_call.unref);
+        proxy_call.add_param_full (param);
+      } catch (Error e) { 
         throw e;
       }
       
