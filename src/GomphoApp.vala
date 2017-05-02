@@ -453,32 +453,27 @@ namespace Gomphotherium {
     }
     
     public Attachment upload_media (File file) throws Error {
-      
-      var proxy_call = proxy.new_call ();
-      
-      try{
-        
-              proxy_call.add_header ("Authorization"," Bearer " + _access_token);
 
-        
-        var mf = new MappedFile (file.get_path (), false);
-        stdout.printf ("%s : \n%d\n", file.get_path (), mf.get_bytes ().get_data ().length);
-        var param = new Param.with_owner (PARAM_FILE, (uint8[]) mf.get_contents (), "image/png", file.get_path (), proxy_call, proxy_call.unref);
-        proxy_call.add_param_full (param);
-
+      Error error = null;
       
-      proxy_call.set_function (ENDPOINT_MEDIA);
-      proxy_call.set_method ("POST");
-        proxy_call.upload((call, total, uploaded, err, obj) => {
-                  var json_obj = parse_json_object (proxy_call.get_payload());
-        stdout.printf ("%s\n", proxy_call.get_payload());
+      var session = new Soup.Session ();
+      var message =upload_media_message_new (file);
+      
+      session.send_message (message);
+      
+      var data = message.response_body.data;
+      var data_str = ((string) data).substring (0, data.length);
+      stdout.printf ("%s\n", data_str);
+      
+      if (!handle_error_from_message (message, out error)) {
+        throw error;
+      }  
 
-        }, proxy_call);
-        return new Attachment (json_obj);
-        
-      }catch(Error e){
+      try {
+        return new Attachment (parse_json_object (data_str));
+      } catch (Error e) {
         throw e;
-      }      
+      }
     }
 
     // Fetching a user's mutes

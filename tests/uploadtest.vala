@@ -7,19 +7,21 @@ void upload_media () {
   var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
   var image = File.new_for_path ("datas/test_image.png");
+  var info = image.query_info ("*", FileQueryInfoFlags.NONE);
   
   try {
     var attachment = app.upload_media (image);
     
-    stdout.printf ("%" + int64.FORMAT + "\n", attachment.id);
+    var status = app.post_status ("This is a media uplaod test toot.", -1, {attachment.id});
     
-    //app.post_status ("This is a media uplaod test toot.", -1, {attachment.id});
+    assert (status.media_attachments.length () > 0);
+    assert (status.media_attachments.nth_data (0).id == attachment.id);
+    
   } catch (Error e) {
     stderr.printf ("%s\n", e.message);
   }
   
 }
-
 
 int main (string[] args) {
   

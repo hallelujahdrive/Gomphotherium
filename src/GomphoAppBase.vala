@@ -243,26 +243,6 @@ namespace Gomphotherium {
     
     }
     
-    // Set proxy parasm to upload media
-    protected void setup_upload_media_proxy_call (ref ProxyCall proxy_call, File file) throws Error {
-      
-      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      
-      try {
-        
-        var mf = new MappedFile (file.get_path (), false);
-        stdout.printf ("%s : \n%d\n", file.get_path (), mf.get_bytes ().get_data ().length);
-        var param = new Param.with_owner (PARAM_FILE, (uint8[]) mf.get_contents (), "image/png", file.get_path (), proxy_call, proxy_call.unref);
-        proxy_call.add_param_full (param);
-      } catch (Error e) { 
-        throw e;
-      }
-      
-      proxy_call.set_function (ENDPOINT_MEDIA);
-      proxy_call.set_method ("POST");
-      
-    }
-    
     // Set proxy params to fetch mutes
     protected void setup_get_mutes_proxy_call (ref ProxyCall proxy_call, int64 max_id, int64 since_id, int limit) {
       
@@ -467,6 +447,27 @@ namespace Gomphotherium {
     
     }
     
+    // Generate a soup message to upload a media
+    protected Soup.Message upload_media_message_new (File file) {
+      
+      var info = file.query_info ("*", FileQueryInfoFlags.NONE);
+      string content_type = info.get_content_type ();
+      
+      var data = new uint8[info.get_size ()];
+      var dis = new DataInputStream (file.read ());
+      
+      dis.read (data);
+      var buffer = new Buffer.take (data);
+      var multipart = new Multipart ("multipart/form-data");
+      
+      multipart.append_form_file (PARAM_FILE, info.get_display_name (), content_type, buffer);
+      
+      var message = Soup.Form.request_new_from_multipart (_website + ENDPOINT_MEDIA, multipart);
+      message.request_headers.append ("Authorization"," Bearer " + _access_token);
+      
+      return message;
+    }
+    
     // Generate a soup message to report a user
     protected Soup.Message report_message_new (int64 account_id, int64[] status_ids, string comment) throws Error {
       
@@ -513,7 +514,7 @@ namespace Gomphotherium {
       if (media_ids != null && media_ids.length > 0) {
         foreach (int64 id in media_ids) {
           sb.append ("&");
-          sb.append (PARAM_STATUS_IDS);
+          sb.append (PARAM_MEDIA_IDS);
           sb.append ("[]=");
           sb.append (id.to_string ());
         }
