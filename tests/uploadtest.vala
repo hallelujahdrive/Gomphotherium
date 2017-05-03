@@ -7,7 +7,6 @@ void upload_media () {
   var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
   var image = File.new_for_path ("datas/test_image.png");
-  var info = image.query_info ("*", FileQueryInfoFlags.NONE);
   
   try {
     var attachment = app.upload_media (image);

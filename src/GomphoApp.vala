@@ -70,6 +70,34 @@ namespace Gomphotherium {
       }
     }
     
+    // Updating the current user
+    public Account update_credentials (string? display_name = null, string? note = null, File? avatar = null, File? header = null) throws Error {
+      
+      Error error = null;
+      
+      var session = new Soup.Session ();
+      var message = update_credentials_message_new (display_name, note, avatar, header);
+      
+      session.send_message (message);
+      
+      var data = message.response_body.data;
+      var data_str = ((string) data).substring (0, data.length);
+      stdout.printf ("%s\n", data_str);
+      
+      if (!handle_error_from_message (message, out error)) {
+        throw error;
+      }  
+
+      try {
+        var json_obj = parse_json_object (data_str);
+
+        return new Account (json_obj);
+      
+      } catch (Error e) {
+        throw e;
+      } 
+    }
+    
     // Getting an account's followers
     public List<Account> get_followers (int64 id, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
       
@@ -463,7 +491,6 @@ namespace Gomphotherium {
       
       var data = message.response_body.data;
       var data_str = ((string) data).substring (0, data.length);
-      stdout.printf ("%s\n", data_str);
       
       if (!handle_error_from_message (message, out error)) {
         throw error;

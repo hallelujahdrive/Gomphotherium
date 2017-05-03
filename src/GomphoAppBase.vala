@@ -61,6 +61,15 @@ namespace Gomphotherium {
     
     }
     
+    // Set proxy params to verify credentials
+    protected void setup_verify_credentials_proxy_call (ref ProxyCall proxy_call) {
+      
+      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
+      proxy_call.set_function (ENDPOINT_ACCOUNTS_VERIFY_CREDENTIALS);
+      proxy_call.set_method ("GET");
+    
+    }
+    
     // Set proxy params to get followers
     protected void setup_get_followers_proxy_call (ref ProxyCall proxy_call, int64 id, int64 max_id, int64 since_id, int limit) {
       
@@ -156,7 +165,7 @@ namespace Gomphotherium {
     protected void setup_search_accounts_proxy_call (ref ProxyCall proxy_call, string q, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      proxy_call.add_param (PARAM_Q, q);
+      proxy_call.add_param (PARAM_Q, Uri.escape_string (q));
       
       if (limit >= 0) {
         proxy_call.add_param (PARAM_LIMIT, limit.to_string ());
@@ -224,16 +233,6 @@ namespace Gomphotherium {
     
     }
     
-    
-    // Set proxy params to verify credentials
-    protected void setup_verify_credentials_proxy_call (ref ProxyCall proxy_call) {
-      
-      proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      proxy_call.set_function (ENDPOINT_ACCOUNTS_VERIFY_CREDENTIALS);
-      proxy_call.set_method ("GET");
-    
-    }
-    
     // Set proxy params to get instance information
     protected void setup_get_instance_proxy_call (ref ProxyCall proxy_call) {
       
@@ -295,7 +294,7 @@ namespace Gomphotherium {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
       proxy_call.set_function (ENDPOINT_SEARCH);
-      proxy_call.add_param (PARAM_Q, q);
+      proxy_call.add_param (PARAM_Q, Uri.escape_string (q));
       proxy_call.add_param (PARAM_RESOLVE, resolve.to_string ());
       proxy_call.set_method ("GET");
     
@@ -419,9 +418,45 @@ namespace Gomphotherium {
         proxy_call.add_param (PARAM_LOCAL, "");
       }
       
-      proxy_call.set_function (ENDPOINT_TIMELINES_TAG.printf (hashtag));
+      proxy_call.set_function (ENDPOINT_TIMELINES_TAG.printf (Uri.escape_string (hashtag)));
       proxy_call.set_method ("GET");
     
+    }
+    
+    // Generate a soup message to update credentials
+    protected Soup.Message update_credentials_message_new (string? display_name, string? note, File? avatar, File? header) {
+      
+      var message = new Soup.Message ("PATCH", _website + ENDPOINT_ACCOUNTS_UPDATE_CREDENTIALS);
+      var sb = new StringBuilder ();
+      
+      if (display_name != null) {
+        sb.append (PARAM_DISPLAY_NAME);
+        sb.append ("=");
+        sb.append (Uri.escape_string (display_name));
+        sb.append ("&");
+      }
+      if (note != null) {
+        sb.append (PARAM_DISPLAY_NAME);
+        sb.append ("=");
+        sb.append (Uri.escape_string (note));
+        sb.append ("&");
+      }
+      if (avatar != null) {
+        sb.append (PARAM_AVATAR);
+        sb.append ("=");
+        sb.append (Uri.escape_string (file_to_base64_encoded (avatar)));
+        sb.append ("&");
+      }
+      if (header != null) {
+        sb.append (PARAM_HEADER);
+        sb.append ("=");
+        sb.append (Uri.escape_string (file_to_base64_encoded (header)));
+      }
+      
+      message.request_headers.append ("Authorization"," Bearer " + _access_token);
+      message.set_request ("application/x-www-form-urlencoded", Soup.MemoryUse.COPY, sb.str.data);
+      
+      return message;
     }
     
     // Generate a soup message to get relatiopnships
@@ -451,16 +486,14 @@ namespace Gomphotherium {
     protected Soup.Message upload_media_message_new (File file) {
       
       var info = file.query_info ("*", FileQueryInfoFlags.NONE);
-      string content_type = info.get_content_type ();
       
-      var data = new uint8[info.get_size ()];
       var dis = new DataInputStream (file.read ());
+      var bytes = dis.read_bytes ((size_t) info.get_size ());
       
-      dis.read (data);
-      var buffer = new Buffer.take (data);
+      var buffer = new Buffer.take (bytes.get_data ());
       var multipart = new Multipart ("multipart/form-data");
       
-      multipart.append_form_file (PARAM_FILE, info.get_display_name (), content_type, buffer);
+      multipart.append_form_file (PARAM_FILE, info.get_display_name (), info.get_content_type (), buffer);
       
       var message = Soup.Form.request_new_from_multipart (_website + ENDPOINT_MEDIA, multipart);
       message.request_headers.append ("Authorization"," Bearer " + _access_token);
@@ -486,7 +519,7 @@ namespace Gomphotherium {
       }
       sb.append (PARAM_COMMENT);
       sb.append ("=");
-      sb.append (comment);
+      sb.append (Uri.escape_string (comment));
       
       message.request_headers.append ("Authorization"," Bearer " + _access_token);
       message.set_request ("application/x-www-form-urlencoded", Soup.MemoryUse.COPY, sb.str.data);
@@ -502,7 +535,7 @@ namespace Gomphotherium {
       
       sb.append (PARAM_STATUS);
       sb.append ("=");
-      sb.append (status);
+      sb.append (Uri.escape_string (status));
       
       if (in_reply_to_id > 0) {
         sb.append ("&");
@@ -531,7 +564,7 @@ namespace Gomphotherium {
         sb.append ("&");
         sb.append (PARAM_SPOILER_TEXT);
         sb.append ("=");
-        sb.append (spoiler_text);
+        sb.append (Uri.escape_string (spoiler_text));
       }
       
       if (visibility != null) {

@@ -1,18 +1,22 @@
 namespace Gomphotherium {
   private const string PARAM_ACCOUNT_ID = "account_id";
+  private const string PARAM_AVATAR = "avatar";
   private const string PARAM_CLIENT_ID = "client_id";
   private const string PARAM_CLIENT_NAME = "client_name";
   private const string PARAM_CLIENT_SECRET = "client_secret";
   private const string PARAM_COMMENT = "comment";
+  private const string PARAM_DISPLAY_NAME = "display_name";
   private const string PARAM_EXCLUDE_REPLIES = "exclude_replies";
   private const string PARAM_FILE = "file";
   private const string PARAM_GRANT_TYPE = "grant_type";
+  private const string PARAM_HEADER = "header";
   private const string PARAM_ID = "id";
   private const string PARAM_IN_REPLY_TO_ID = "in_reply_to_id";
   private const string PARAM_LIMIT = "limit";
   private const string PARAM_LOCAL = "local";
   private const string PARAM_MAX_ID = "max_id";
   private const string PARAM_MEDIA_IDS = "media_ids";
+  private const string PARAM_NOTE = "note";
   private const string PARAM_ONLY_MEDIA = "only_media";
   private const string PARAM_PASSWORD = "password";
   private const string PARAM_Q = "q";

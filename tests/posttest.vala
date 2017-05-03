@@ -192,7 +192,7 @@ int main (string[] args) {
   GLib.Test.add_func ("/posttest/poststatussensitive", post_status_sensitive);
   GLib.Test.add_func ("/posttest/poststatussenspolertext", post_status_spoiler_text);
   GLib.Test.add_func ("/posttest/poststatusvisibilitydirect", post_status_visibility_direct);
-  GLib.Test.add_func ("/posttest/poststatusvisibilityprivate", post_status_visibility_private);
+  GLib.Test.add_func ("/posttest/poststatusvisibilityprivate", post_status_visibility_private)*
   GLib.Test.add_func ("/posttest/poststatusvisibilityunlisted", post_status_visibility_unlisted);
   GLib.Test.add_func ("/posttest/poststatusvisibilitypublic", post_status_visibility_public);
   

@@ -17,6 +17,7 @@ AM_VALAFLAGS = \
 						-g
 						
 check_PROGRAMS = \
+							credentialstest \
 							favouritereblogtest \
 							followtest \
 							notificationstest \
@@ -57,6 +58,7 @@ check_PROGRAMS = \
 check_LTLIBRARIES = libtestmod.la
 						
 tests_VALASOURCES = \
+									credentialstest.vala \
 									favouritereblogtest.vala \
 									followtest.vala \
 									notificationstest.vala \
@@ -127,7 +129,15 @@ libtestmod_la_VALASOURCES = $(testmod_VALASOURCES)
 libtestmod_la_LIBADD = @GOM_LIBS@
 libtestmod_la_SOURCES = libtestmod_la_vala.stamp \
 												$(testmod_VALASOURCES:.vala=.c)
-												
+
+nodist_credentialstest_SOURCES = \
+																	libtestmod_la_vala.stamp \
+																	credentialstest.c 
+credentialstest_LDADD = \
+												libtestmod.la \
+												$(top_builddir)/src/libgomphotherium.la
+
+
 nodist_favouritereblogtest_SOURCES = \
 																				libtestmod_la_vala.stamp \
 																				favouritereblogtest.c 

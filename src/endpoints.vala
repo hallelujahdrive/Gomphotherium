@@ -11,6 +11,7 @@ namespace Gomphotherium {
   private const string ENDPOINT_ACCOUNTS_UNBLOCK = "/api/v1/accounts/%" + int64.FORMAT + "/unblock";
   private const string ENDPOINT_ACCOUNTS_UNFOLLOW = "/api/v1/accounts/%" + int64.FORMAT + "/unfollow";
   private const string ENDPOINT_ACCOUNTS_UNMUTE = "/api/v1/accounts/%" + int64.FORMAT + "/unmute";
+  private const string ENDPOINT_ACCOUNTS_UPDATE_CREDENTIALS = "/api/v1/accounts/update_credentials";
   private const string ENDPOINT_ACCOUNTS_VERIFY_CREDENTIALS = "/api/v1/accounts/verify_credentials";
   private const string ENDPOINT_APPS = "/api/v1/apps";
   private const string ENDPOINT_BLOCKS = "/api/v1/blocks";
