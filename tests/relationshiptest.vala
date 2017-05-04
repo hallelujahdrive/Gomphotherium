@@ -6,6 +6,7 @@ void follow () {
   // @hallelujahdevelop
   int64 account_id = 181311;
   
+  // follow
   var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
@@ -22,6 +23,33 @@ void follow () {
     assert (false);
   }
   
+  // get following  
+  int64 account_id_2 = 116;
+  try {
+    
+    var accounts = app.get_following (account_id_2);
+    
+    assert (accounts.length () > 0);
+    assert (accounts.nth_data (0).id == account_id);
+  } catch (Error e) {
+    stderr.printf ("%s\n", e.message);    
+    assert (false);
+  }
+  
+  // get followers
+  string access_token_2 = load_access_token_2 ();
+  
+  var app_2 = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token_2);
+  
+  try {
+    var accounts = app_2.get_followers (account_id);
+    
+    assert (accounts.length () > 0);
+    assert (accounts.nth_data (0).id == account_id_2);
+  } catch (Error e) {
+    stderr.printf ("%s\n", e.message);    
+    assert (false);
+  }
 }
 
 void unfollow () {
@@ -60,6 +88,7 @@ void mute () {
   
   var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
+  // mute
   try {
     
     var relationship = app.mute (account_id);
@@ -74,6 +103,16 @@ void mute () {
     assert (false);
   }
   
+  // get mutes
+  try {
+    var accounts = app.get_mutes ();
+    
+    assert (accounts.length () > 0);
+    assert (accounts.nth_data (0).id == account_id);
+  } catch (Error e) {
+    stderr.printf ("%s\n", e.message);    
+    assert (false);
+  }
 }
 
 void unmute () {
@@ -98,7 +137,6 @@ void unmute () {
   } catch (Error e) {
     stderr.printf ("%s\n", e.message);    
     assert (false);
-  
   }
 }
 
@@ -125,7 +163,16 @@ void block () {
     stderr.printf ("%s\n", e.message);    
     assert (false);
   }
-  
+
+  try {
+    var accounts = app.get_blocks ();
+    
+    assert (accounts.length () > 0);
+    assert (accounts.nth_data (0).id == account_id);
+  } catch (Error e) {
+    stderr.printf ("%s\n", e.message);    
+    assert (false);
+  }
 }
 
 void unblock () {

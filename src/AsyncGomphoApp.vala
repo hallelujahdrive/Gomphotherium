@@ -86,7 +86,7 @@ namespace Gomphotherium {
       return account;
     }    
     
-    // Getting a current user asynchronously
+    // Getting the current user asynchronously
     public async Account verify_credentials_async () throws Error {
       
       Error error = null;
@@ -121,8 +121,56 @@ namespace Gomphotherium {
       return account;
     }
     
+    // Updating the current user asynchronously
+    public async Account update_credentials_async (string? display_name, string? note, File? avatar, File? header) throws Error {
+      
+      Error error = null;
+      Account account = null;
+      
+      var session = new Soup.Session ();
+      var message = update_credentials_message_new (display_name, note, avatar, header);
+      
+      SourceFunc callback = update_credentials_async.callback;
+      
+      ThreadFunc<void*> run = () => {
+        var loop = new MainLoop ();
+        session.queue_message (message, (sess, mess) => {
+              
+          if (!handle_error_from_message (mess, out error)) {
+            loop.quit();
+          }
+          
+          var data = message.response_body.data;
+          var data_str = ((string) data).substring (0, data.length);
+
+          try {
+            var json_obj = parse_json_object (data_str);
+            account = new Account (json_obj);
+          } catch (Error e) {
+            error = e;
+          }
+          
+          loop.quit ();
+        });
+        loop.run ();
+        Idle.add ((owned) callback);
+        
+        return null;
+      };
+      
+      new Thread<void*> (null, run);
+      
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return account;
+    }
+    
     // Getting an account's followers asynchronously
-    public async List<Account> get_followers_async (int64 id, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    public async List<Account> get_followers_async (int64 id, int64 max_id, int64 since_id, int limit) throws Error {
       
       Error error = null;
       var list = new List<Account> ();
@@ -160,7 +208,7 @@ namespace Gomphotherium {
     }
     
     // Getting an account's following asynchronously
-    public async List<Account> get_following_async (int64 id, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    public async List<Account> get_following_async (int64 id, int64 max_id, int64 since_id, int limit) throws Error {
       
       Error error = null;
       var list = new List<Account> ();
@@ -198,7 +246,7 @@ namespace Gomphotherium {
     }
     
     // Getting an account's statuses asynchronously
-    public async List<Status> get_statuses_async (int64 id, bool only_media = false, bool exclude_replies = false, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    public async List<Status> get_statuses_async (int64 id, bool only_media = false, bool exclude_replies = false, int64 max_id, int64 since_id, int limit) throws Error {
       
       Error error = null;
       var list = new List<Status> ();
@@ -235,6 +283,210 @@ namespace Gomphotherium {
       return (owned) list;
     }
     
+    // Following an account asynchronously
+    public async Relationship follow_async (int64 id) throws Error {
+      
+      Error error = null;
+      Relationship relationship = null;
+      
+      var proxy_call = proxy.new_call ();
+      setup_follow_proxy_call (ref proxy_call, id);
+      
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_obj = parse_json_object (proxy_call.get_payload());
+          relationship = new Relationship (json_obj);
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        follow_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return relationship;
+    }
+    
+    // Unfollowing an account asynchronously
+    public async Relationship unfollow_async (int64 id) throws Error {
+      
+      Error error = null;
+      Relationship relationship = null;
+      
+      var proxy_call = proxy.new_call ();
+      setup_unfollow_proxy_call (ref proxy_call, id);
+      
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_obj = parse_json_object (proxy_call.get_payload());
+          relationship = new Relationship (json_obj);
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        unfollow_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return relationship;
+    }
+    
+    // Blocking an account asynchronously
+    public async Relationship block_async (int64 id) throws Error {
+      
+      Error error = null;
+      Relationship relationship = null;
+      
+      var proxy_call = proxy.new_call ();
+      setup_block_proxy_call (ref proxy_call, id);
+      
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_obj = parse_json_object (proxy_call.get_payload());
+          relationship = new Relationship (json_obj);
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        block_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return relationship;
+    }    
+
+    // Unblocking an account asynchronously
+    public async Relationship unblock_async (int64 id) throws Error {
+      
+      Error error = null;
+     Relationship relationship = null;
+      
+      var proxy_call = proxy.new_call ();
+      setup_unblock_proxy_call (ref proxy_call, id);
+      
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_obj = parse_json_object (proxy_call.get_payload());
+          relationship = new Relationship (json_obj);
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        unblock_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return relationship;
+    }
+    
+    // Muting an account asynchronously
+    public async Relationship mute_async (int64 id) throws Error {
+      
+      Error error = null;
+     Relationship relationship = null;
+      
+      var proxy_call = proxy.new_call ();
+      setup_mute_proxy_call (ref proxy_call, id);
+      
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_obj = parse_json_object (proxy_call.get_payload());
+          relationship = new Relationship (json_obj);
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        mute_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return relationship;
+    }
+
+    // Unmuting an account asynchronously
+    public async Relationship unmute_async (int64 id) throws Error {
+      
+      Error error = null;
+      Relationship relationship = null;
+      
+      var proxy_call = proxy.new_call ();
+      setup_unmute_proxy_call (ref proxy_call, id);
+      
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_obj = parse_json_object (proxy_call.get_payload());
+          relationship = new Relationship (json_obj);
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        unmute_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return relationship;
+    }
+
     // Getting an account's relationships asynchronously
     public async List<Relationship> get_relationships_async (int64[] ids) throws Error {
       
@@ -287,7 +539,7 @@ namespace Gomphotherium {
     }
 
     // Searching for accounts asynchronously
-    public async List<Account> search_accounts_async (string q, int limit = -1) throws Error {
+    public async List<Account> search_accounts_async (string q, int limit) throws Error {
       
       Error error = null;
       var list = new List<Account> ();
@@ -325,7 +577,7 @@ namespace Gomphotherium {
     }
     
     // Fetching a user's blocks asynchronously
-    public async List<Account> get_blocks_async (int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    public async List<Account> get_blocks_async (int64 max_id, int64 since_id , int limit) throws Error {
       
       Error error = null;
       var list = new List<Account> ();
@@ -363,7 +615,7 @@ namespace Gomphotherium {
     }
     
     // Fetching a user's favourites asynchronously
-    public async List<Status> get_favourites_async (int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    public async List<Status> get_favourites_async (int64 max_id , int64 since_id , int limit) throws Error {
       
       Error error = null;
       var list = new List<Status> ();
@@ -401,7 +653,7 @@ namespace Gomphotherium {
     }
     
     // Fetching  a list of follow requests asynchronously
-    public async List<Account> get_follow_requests_async (int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    public async List<Account> get_follow_requests_async (int64 max_id, int64 since_id, int limit) throws Error {
       
       Error error = null;
       var list = new List<Account> ();
@@ -438,6 +690,92 @@ namespace Gomphotherium {
       return (owned) list;
     }
     
+    // Authorizing a follow request asynchronously
+    public async void authorize_follow_request_async (int64 id) throws Error {
+      
+      Error error = null;
+      
+      var proxy_call = proxy.new_call ();
+      setup_authorize_follow_request_proxy_call (ref proxy_call, id);
+      
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+          proxy_call.invoke_async.end (res);
+        } catch (Error e) {
+          error = e;
+        }
+        
+        authorize_follow_request_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+    }
+
+    // Rejecting a follow request asynchronously
+    public async void reject_follow_request_async (int64 id) throws Error {
+      
+      Error error = null;
+      
+      var proxy_call = proxy.new_call ();
+      setup_reject_follow_request_proxy_call (ref proxy_call, id);
+      
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+          proxy_call.invoke_async.end (res);          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        reject_follow_request_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+    }
+
+    // Following a remote user asynchronously
+    public async Account remote_follow_async (string uri) throws Error {
+      
+      Error error = null;
+      Account account = null;
+      
+      var proxy_call = proxy.new_call ();
+      setup_remote_follow_proxy_call (ref proxy_call, uri);
+      
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_obj = parse_json_object (proxy_call.get_payload());
+          account = new Account (json_obj);
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        remote_follow_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return account;
+    }
+ 
     // Getting instance information asynchronously
     public async Instance get_instance_async () throws Error {
       
@@ -472,8 +810,56 @@ namespace Gomphotherium {
       return instance;
     }
     
+    // Uploading a media attachment asynchronously
+    public async Attachment upload_media_async (File file) throws Error {
+      
+      Error error = null;
+      Attachment attachment = null;
+      
+      var session = new Soup.Session ();
+      var message = upload_media_message_new (file);
+      
+      SourceFunc callback = upload_media_async.callback;
+      
+      ThreadFunc<void*> run = () => {
+        var loop = new MainLoop ();
+        session.queue_message (message, (sess, mess) => {
+              
+          if (!handle_error_from_message (mess, out error)) {
+            loop.quit();
+          }
+          
+          var data = message.response_body.data;
+          var data_str = ((string) data).substring (0, data.length);
+
+          try {
+            var json_obj = parse_json_object (data_str);
+            attachment = new Attachment(json_obj);
+          } catch (Error e) {
+            error = e;
+          }
+          
+          loop.quit ();
+        });
+        loop.run ();
+        Idle.add ((owned) callback);
+        
+        return null;
+      };
+      
+      new Thread<void*> (null, run);
+      
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return attachment;
+    }
+
     // Fetching a user's mutes asynchronously
-    public async List<Account> get_mutes_async (int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    public async List<Account> get_mutes_async (int64 max_id, int64 since_id, int limit) throws Error {
       
       Error error = null;
       var list = new List<Account> ();
@@ -511,7 +897,7 @@ namespace Gomphotherium {
     }
     
     // Fetching a user's notifications asynchronously
-    public async List<Gomphotherium.Notification> get_notifications_async (int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    public async List<Gomphotherium.Notification> get_notifications_async (int64 max_id, int64 since_id, int limit) throws Error {
       
       Error error = null;
       var list = new List<Gomphotherium.Notification> ();
@@ -548,7 +934,7 @@ namespace Gomphotherium {
       return (owned) list;
     }
     
-    // Getting a single notification
+    // Getting a single notification asynchronously
     public async Gomphotherium.Notification get_notification_async (int64 id) throws Error {
       
       Error error = null;
@@ -581,6 +967,33 @@ namespace Gomphotherium {
       }
       
       return notification;
+    }
+    
+    // Clearing notifications
+    public async void clear_notifications_async () throws Error {
+      
+      Error error = null;
+      
+      var proxy_call = proxy.new_call ();
+      setup_clear_notifications_proxy_call (ref proxy_call);
+      
+
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+          proxy_call.invoke_async.end (res);
+        } catch (Error e) {
+          error = e;
+        }
+        
+        clear_notifications_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
     }
     
     // Fetching a user's reports asynchronously
@@ -620,23 +1033,53 @@ namespace Gomphotherium {
       
       return (owned) list;
     }
-    
-    // Searching for content
-    public Results search (string q, bool resolve) throws Error {
+
+    // Reporting a user asynchronously
+    public async Report report_async (int64 account_id, int64[] status_ids, string comment) throws Error {
       
-      var proxy_call = proxy.new_call ();
-      setup_search_proxy_call (ref proxy_call, q, resolve);
+      Error error = null;
+      Report report = null;
       
-      try{
+      var session = new Soup.Session ();
+      var message = report_message_new (account_id, status_ids, comment);
+      
+      SourceFunc callback = report_async.callback;
+      
+      ThreadFunc<void*> run = () => {
+        var loop = new MainLoop ();
+        session.queue_message (message, (sess, mess) => {
+              
+          if (!handle_error_from_message (mess, out error)) {
+            loop.quit();
+          }
+          
+          var data = message.response_body.data;
+          var data_str = ((string) data).substring (0, data.length);
+
+          try {
+            var json_obj = parse_json_object (data_str);
+            report = new Report (json_obj);
+          } catch (Error e) {
+            error = e;
+          }
+          
+          loop.quit ();
+        });
+        loop.run ();
+        Idle.add ((owned) callback);
         
-        proxy_call.run();
-        
-        var json_obj = parse_json_object (proxy_call.get_payload());
-        return new Results (json_obj);
-        
-      }catch(Error e){
-        throw e;
+        return null;
+      };
+      
+      new Thread<void*> (null, run);
+      
+      yield;
+      
+      if (error != null) {
+        throw error;
       }
+      
+      return report;
     }
     
     // Searching for content asynchronously
@@ -855,8 +1298,192 @@ namespace Gomphotherium {
       return (owned) list;
     }
     
+    // Postring a new status asynchronously
+    public async Status post_status_async (string status, int64 in_reply_to_id, int64[]? media_ids, bool sensitive, string? spoiler_text, string? visibility) throws Error {
+      
+      Error error = null;
+      Status _status = null;
+      
+      var session = new Soup.Session ();
+      var message = post_status_message_new (status, in_reply_to_id, media_ids, sensitive, spoiler_text, visibility);
+      
+      SourceFunc callback = post_status_async.callback;
+      
+      ThreadFunc<void*> run = () => {
+        var loop = new MainLoop ();
+        session.queue_message (message, (sess, mess) => {
+              
+          if (!handle_error_from_message (mess, out error)) {
+            loop.quit();
+          }
+          
+          var data = message.response_body.data;
+          var data_str = ((string) data).substring (0, data.length);
+
+          try {
+            var json_obj = parse_json_object (data_str);
+            _status = new Status (json_obj);
+          } catch (Error e) {
+            error = e;
+          }
+          
+          loop.quit ();
+        });
+        loop.run ();
+        Idle.add ((owned) callback);
+        
+        return null;
+      };
+      
+      new Thread<void*> (null, run);
+      
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return _status;
+    }
+    
+    // Reblogging a status asynchronously
+    public async Status reblog_async (int64 id) throws Error {
+      
+      Error error = null;
+      Status status = null;
+      
+      var proxy_call = proxy.new_call ();
+      setup_reblog_proxy_call (ref proxy_call, id);
+      
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_obj = parse_json_object (proxy_call.get_payload());
+          status = new Status (json_obj);
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        reblog_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return status;
+    }
+
+    // Unreblogging a status asynchronously
+    public async Status unreblog_async (int64 id) throws Error {
+      
+      Error error = null;
+      Status status = null;
+      
+      var proxy_call = proxy.new_call ();
+      setup_unreblog_proxy_call (ref proxy_call, id);
+      
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_obj = parse_json_object (proxy_call.get_payload());
+          status = new Status (json_obj);
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        unreblog_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return status;
+    }
+    
+    // Favouriting a status asynchronously
+    public async Status favourite_async (int64 id) throws Error {
+      
+      Error error = null;
+      Status status = null;
+      
+      var proxy_call = proxy.new_call ();
+      setup_favourite_proxy_call (ref proxy_call, id);
+      
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_obj = parse_json_object (proxy_call.get_payload());
+          status = new Status (json_obj);
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        favourite_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return status;
+    }
+
+    // Unfavouriting a status asynchronously
+    public async Status unfavourite_async (int64 id) throws Error {
+      
+      Error error = null;
+      Status status = null;
+      
+      var proxy_call = proxy.new_call ();
+      setup_unfavourite_proxy_call (ref proxy_call, id);
+      
+      proxy_call.invoke_async.begin (null, (obj, res) => {
+        try {
+        
+          proxy_call.invoke_async.end (res);
+          
+          var json_obj = parse_json_object (proxy_call.get_payload());
+          status = new Status (json_obj);
+          
+        } catch (Error e) {
+          error = e;
+        }
+        
+        unfavourite_async.callback ();
+        
+      });
+
+      yield;
+      
+      if (error != null) {
+        throw error;
+      }
+      
+      return status;
+    }
+    
     // Retrieving home timeline asynchronously
-    public async List<Status> get_home_timeline_async (int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    public async List<Status> get_home_timeline_async (int64 max_id, int64 since_id, int limit) throws Error {
       
       Error error = null;
       var list = new List<Status> ();
@@ -894,7 +1521,7 @@ namespace Gomphotherium {
     }
     
     // Retrieving public timeline asynchronously
-    public async List<Status> get_public_timeline_async (bool local = true, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    public async List<Status> get_public_timeline_async (bool local, int64 max_id, int64 since_id, int limit) throws Error {
       
       Error error = null;
       var list = new List<Status> ();
@@ -932,7 +1559,7 @@ namespace Gomphotherium {
     }
     
     // Retrieving hashtag timeline asynchronously
-    public async List<Status> get_tag_timeline_async (string hashtag, bool local = true, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    public async List<Status> get_tag_timeline_async (string hashtag, bool local, int64 max_id, int64 since_id, int limit) throws Error {
       
       Error error = null;
       var list = new List<Status> ();
@@ -970,4 +1597,3 @@ namespace Gomphotherium {
     }
   }
 }
-

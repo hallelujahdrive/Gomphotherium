@@ -52,7 +52,7 @@ namespace Gomphotherium {
       }
     }
     
-    // Getting a current user
+    // Getting the current user
     public Account verify_credentials () throws Error {
       
       var proxy_call = proxy.new_call ();
@@ -82,7 +82,6 @@ namespace Gomphotherium {
       
       var data = message.response_body.data;
       var data_str = ((string) data).substring (0, data.length);
-      stdout.printf ("%s\n", data_str);
       
       if (!handle_error_from_message (message, out error)) {
         throw error;
@@ -418,11 +417,11 @@ namespace Gomphotherium {
       }
     }
     
-    // Authorizing follow requests
-    public void authorize_follow_requests (int64 id) throws Error {
+    // Authorizing a follow request
+    public void authorize_follow_request (int64 id) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_authorize_follow_requests_proxy_call (ref proxy_call, id);
+      setup_authorize_follow_request_proxy_call (ref proxy_call, id);
 
       try{
         proxy_call.run();
@@ -431,11 +430,11 @@ namespace Gomphotherium {
       }
     }
 
-    // Rejecting follow requests
-    public void reject_follow_requests (int64 id) throws Error {
+    // Rejecting a follow request
+    public void reject_follow_request (int64 id) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_reject_follow_requests_proxy_call (ref proxy_call, id);
+      setup_reject_follow_request_proxy_call (ref proxy_call, id);
 
       try{
         proxy_call.run();
@@ -480,6 +479,7 @@ namespace Gomphotherium {
       }
     }
     
+    // Uploading a media attachment
     public Attachment upload_media (File file) throws Error {
 
       Error error = null;
@@ -569,7 +569,7 @@ namespace Gomphotherium {
       }
     }
     
-    // Clear notifications
+    // Clearing notifications
   public void clear_notifications () throws Error {
       
       var proxy_call = proxy.new_call ();
@@ -793,7 +793,7 @@ namespace Gomphotherium {
       }
     }
     
-    // Reblogging a status
+    // Unreblogging a status
     public Status unreblog (int64 id) throws Error {
       
       var proxy_call = proxy.new_call ();

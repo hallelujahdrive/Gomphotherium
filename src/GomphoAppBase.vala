@@ -205,8 +205,8 @@ namespace Gomphotherium {
     
     }
     
-    // Set proxy params to authorize follow requests
-    protected void setup_authorize_follow_requests_proxy_call (ref ProxyCall proxy_call, int64 id) {
+    // Set proxy params to authorize a follow request
+    protected void setup_authorize_follow_request_proxy_call (ref ProxyCall proxy_call, int64 id) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
       proxy_call.set_function (ENDPOINT_FOLLOW_REQUESTS_AUTHORIZE.printf (id));
@@ -214,8 +214,8 @@ namespace Gomphotherium {
       
     }
 
-    // Set proxy params to reject follow requests
-    protected void setup_reject_follow_requests_proxy_call (ref ProxyCall proxy_call, int64 id) {
+    // Set proxy params to reject a follow request
+    protected void setup_reject_follow_request_proxy_call (ref ProxyCall proxy_call, int64 id) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
       proxy_call.set_function (ENDPOINT_FOLLOW_REQUESTS_REJECT.printf (id));
@@ -436,7 +436,7 @@ namespace Gomphotherium {
         sb.append ("&");
       }
       if (note != null) {
-        sb.append (PARAM_DISPLAY_NAME);
+        sb.append (PARAM_NOTE);
         sb.append ("=");
         sb.append (Uri.escape_string (note));
         sb.append ("&");

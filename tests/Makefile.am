@@ -20,6 +20,7 @@ check_PROGRAMS = \
 							credentialstest \
 							favouritereblogtest \
 							followtest \
+							gettest \
 							notificationstest \
 							oauthtokentest \
 							posttest \
@@ -27,33 +28,7 @@ check_PROGRAMS = \
 							relationshiptest \
 							reporttest \
 							uploadtest \
-							getaccount \
-							getblocks \
-							getcard \
-							getcontext \
-							getfavouritedby \
-							getfavourites \
-							getfollowers \
-							getfollowing \
-							getfollowrequests \
-							gethometimeline \
-							getinstance \
-							getmutes \
-							getnotification \
-							getnotifications \
-							getpublictimeline \
-							getrebloggedby \
-							getrelationships \
-							getreports \
-							getstatus \
-							getstatuses \
-							gettagtimeline \
-							search \
-							searchaccounts \
-							streaminghashtag \
-							streamingpublic \
-							streaminguser \
-							verifycredentials
+							resetcredentials
 							
 check_LTLIBRARIES = libtestmod.la
 						
@@ -61,6 +36,7 @@ tests_VALASOURCES = \
 									credentialstest.vala \
 									favouritereblogtest.vala \
 									followtest.vala \
+									gettest.vala \
 									notificationstest.vala \
 									oauthtokentest.vala \
 									posttest.vala \
@@ -68,33 +44,7 @@ tests_VALASOURCES = \
 									relationshiptest.vala \
 									reporttest.vala \
 									uploadtest.vala \
-									getaccount.vala \
-									getblocks.vala \
-									getcard.vala \
-									getcontext.vala \
-									getfavouritedby.vala \
-									getfavourites.vala \
-									getfollowers.vala \
-									getfollowing.vala \
-									getfollowrequests.vala \
-									getinstance.vala \
-									gethometimeline.vala \
-									getmutes.vala \
-									getnotification.vala \
-									getnotifications.vala \
-									getpublictimeline.vala \
-									getrebloggedby.vala \
-									getrelationships.vala \
-									getreports.vala \
-									getstatus.vala \
-									getstatuses.vala \
-									gettagtimeline.vala \
-									search.vala \
-									searchaccounts.vala \
-									streaminghashtag.vala \
-									streamingpublic.vala \
-									streaminguser.vala \
-									verifycredentials.vala
+									resetcredentials.vala
 				
 testmod_VALASOURCES = \
 											loadfunctions.vala \
@@ -137,7 +87,6 @@ credentialstest_LDADD = \
 												libtestmod.la \
 												$(top_builddir)/src/libgomphotherium.la
 
-
 nodist_favouritereblogtest_SOURCES = \
 																				libtestmod_la_vala.stamp \
 																				favouritereblogtest.c 
@@ -151,10 +100,18 @@ nodist_followtest_SOURCES = \
 followtest_LDADD = \
 									libtestmod.la \
 									$(top_builddir)/src/libgomphotherium.la
+nodist_followtest_SOURCES = \
+														libtestmod_la_vala.stamp \
+														followtest.c 
+	
+gettest_LDADD = \
+									libtestmod.la \
+									$(top_builddir)/src/libgomphotherium.la
 
 nodist_notificationstest_SOURCES = \
 																			libtestmod_la_vala.stamp \
-																			notificationstest.c 
+																			notificationstest.c
+
 notificationstest_LDADD = \
 														libtestmod.la \
 														$(top_builddir)/src/libgomphotherium.la
@@ -200,197 +157,14 @@ nodist_uploadtest_SOURCES = \
 uploadtest_LDADD = \
 									libtestmod.la \
 									$(top_builddir)/src/libgomphotherium.la
-
-
-nodist_getaccount_SOURCES = \
-														libtestmod_la_vala.stamp \
-														getaccount.c 
-getaccount_LDADD = \
-									libtestmod.la \
-									$(top_builddir)/src/libgomphotherium.la
 									
-nodist_getblocks_SOURCES = \
-												libtestmod_la_vala.stamp \
-												getblocks.c 
-getblocks_LDADD = \
-								libtestmod.la \
-								$(top_builddir)/src/libgomphotherium.la
-
-nodist_getcard_SOURCES = \
-													libtestmod_la_vala.stamp \
-													getcard.c 
-getcard_LDADD = \
-							libtestmod.la \
-							$(top_builddir)/src/libgomphotherium.la
-							
-nodist_getcontext_SOURCES = \
-														libtestmod_la_vala.stamp \
-														getcontext.c 
-getcontext_LDADD = \
-									libtestmod.la \
-									$(top_builddir)/src/libgomphotherium.la
-									
-nodist_getfavouritedby_SOURCES = \
-														libtestmod_la_vala.stamp \
-														getfavouritedby.c
-getfavouritedby_LDADD = \
-										libtestmod.la \
-										$(top_builddir)/src/libgomphotherium.la
-
-nodist_getfavourites_SOURCES = \
-														libtestmod_la_vala.stamp \
-														getfavourites.c
-getfavourites_LDADD = \
-										libtestmod.la \
-										$(top_builddir)/src/libgomphotherium.la
-										
-nodist_getfollowrequests_SOURCES = \
-																libtestmod_la_vala.stamp \
-																getfollowrequests.c
-getfollowrequests_LDADD = \
-												libtestmod.la \
-												$(top_builddir)/src/libgomphotherium.la
-
-nodist_getfollowers_SOURCES = \
-														libtestmod_la_vala.stamp \
-														getfollowers.c
-getfollowers_LDADD = \
-									libtestmod.la \
-									$(top_builddir)/src/libgomphotherium.la
-
-nodist_getfollowing_SOURCES = \
-														libtestmod_la_vala.stamp \
-														getfollowing.c
-getfollowing_LDADD = \
-									libtestmod.la \
-									$(top_builddir)/src/libgomphotherium.la
-
-nodist_getinstance_SOURCES = \
-													libtestmod_la_vala.stamp \
-													getinstance.c
-getinstance_LDADD = \
-									libtestmod.la \
-									$(top_builddir)/src/libgomphotherium.la
-									
-nodist_gethometimeline_SOURCES = \
-													libtestmod_la_vala.stamp \
-													gethometimeline.c
-gethometimeline_LDADD = \
-									libtestmod.la \
-									$(top_builddir)/src/libgomphotherium.la
-
-nodist_getmutes_SOURCES = \
-												libtestmod_la_vala.stamp \
-												getmutes.c
-getmutes_LDADD = \
-							libtestmod.la \
-							$(top_builddir)/src/libgomphotherium.la
-							
-nodist_getnotifications_SOURCES = \
-															libtestmod_la_vala.stamp \
-															getnotifications.c
-getnotifications_LDADD = \
-											libtestmod.la \
-											$(top_builddir)/src/libgomphotherium.la
-											
-nodist_getnotification_SOURCES = \
-															libtestmod_la_vala.stamp \
-															getnotification.c
-getnotification_LDADD = \
-											libtestmod.la \
-											$(top_builddir)/src/libgomphotherium.la
-
-nodist_getpublictimeline_SOURCES = \
-													libtestmod_la_vala.stamp \
-													getpublictimeline.c
-getpublictimeline_LDADD = \
-									libtestmod.la \
-									$(top_builddir)/src/libgomphotherium.la
-
-nodist_getrebloggedby_SOURCES = \
-															libtestmod_la_vala.stamp \
-															getrebloggedby.c
-getrebloggedby_LDADD = \
-										libtestmod.la \
-										$(top_builddir)/src/libgomphotherium.la
-
-nodist_getrelationships_SOURCES = \
-															libtestmod_la_vala.stamp \
-															getrelationships.c
-getrelationships_LDADD = \
-										libtestmod.la \
-										$(top_builddir)/src/libgomphotherium.la
-
-nodist_getreports_SOURCES = \
-												libtestmod_la_vala.stamp \
-												getreports.c
-getreports_LDADD = \
-								libtestmod.la \
-								$(top_builddir)/src/libgomphotherium.la
-								
-nodist_getstatus_SOURCES = \
-														libtestmod_la_vala.stamp \
-														getstatus.c
-getstatus_LDADD = \
-									libtestmod.la \
-									$(top_builddir)/src/libgomphotherium.la
-
-nodist_getstatuses_SOURCES = \
-															libtestmod_la_vala.stamp \
-															getstatuses.c
-getstatuses_LDADD = \
-										libtestmod.la \
-										$(top_builddir)/src/libgomphotherium.la
-										
-nodist_gettagtimeline_SOURCES = \
-													libtestmod_la_vala.stamp \
-													gettagtimeline.c
-gettagtimeline_LDADD = \
-									libtestmod.la \
-									$(top_builddir)/src/libgomphotherium.la
-
-nodist_search_SOURCES = \
-												libtestmod_la_vala.stamp \
-												search.c
-search_LDADD = \
-							libtestmod.la \
-							$(top_builddir)/src/libgomphotherium.la
-
-nodist_searchaccounts_SOURCES = \
-															libtestmod_la_vala.stamp \
-															searchaccounts.c
-searchaccounts_LDADD = \
-											libtestmod.la \
-											$(top_builddir)/src/libgomphotherium.la
-													
-nodist_streaminghashtag_SOURCES = \
+nodist_resetcredentials_SOURCES = \
 																		libtestmod_la_vala.stamp \
-																		streaminghashtag.c
-streaminghashtag_LDADD = \
+																		resetcredentials.c 
+resetcredentials_LDADD = \
 													libtestmod.la \
 													$(top_builddir)/src/libgomphotherium.la
-															
-streamingpublic_LDADD = \
-												libtestmod.la \
-												$(top_builddir)/src/libgomphotherium.la								
-nodist_streamingpublic_SOURCES = \
-																	libtestmod_la_vala.stamp \
-																	streamingpublic.c
-															
-nodist_streaminguser_SOURCES = \
-																libtestmod_la_vala.stamp \
-																streaminguser.c
-streaminguser_LDADD = \
-											libtestmod.la \
-											$(top_builddir)/src/libgomphotherium.la
 
-nodist_verifycredentials_SOURCES = \
-																		libtestmod_la_vala.stamp \
-																		verifycredentials.c
-verifycredentials_LDADD = \
-													libtestmod.la \
-													$(top_builddir)/src/libgomphotherium.la
-		
 CLEANFILES = \
 						tests_vala.stamp \
 						*.c *.o *.h *.lo *.lib *.vapi .libs/* 

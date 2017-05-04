@@ -82,8 +82,9 @@ void authorize_follow_requests () {
   // check follow requests
   try {
     var accounts = app_3.get_follow_requests();
-    assert (accounts.nth_data (0) != null);
-    assert (accounts.nth_data (0).id == account_id_2);
+    assert (accounts.length () > 0);
+    assert (accounts.nth_data (accounts.length () - 1) != null);
+    assert (accounts.nth_data (accounts.length () - 1).id == account_id_2);
   } catch (Error e) {
     stderr.printf ("%s\n", e.message);    
     assert (false);
@@ -92,7 +93,7 @@ void authorize_follow_requests () {
   //authorize a follow request
   try {
     
-    app_3.authorize_follow_requests (account_id_2);
+    app_3.authorize_follow_request (account_id_2);
     
     var relationship = app.get_relationship (account_id);
     assert (relationship != null);
@@ -146,8 +147,9 @@ void reject_follow_requests () {
   // check follow requests
   try {
     var accounts = app_3.get_follow_requests();
-    assert (accounts.nth_data (0) != null);
-    assert (accounts.nth_data (0).id == account_id_2);
+    assert (accounts.length () > 0);
+    assert (accounts.nth_data (accounts.length () - 1) != null);
+    assert (accounts.nth_data (accounts.length () - 1).id == account_id_2);
   } catch (Error e) {
     stderr.printf ("%s\n", e.message);    
     assert (false);
@@ -156,7 +158,7 @@ void reject_follow_requests () {
   //reject a follow request
   try {
     
-    app_3.reject_follow_requests (account_id_2);
+    app_3.reject_follow_request (account_id_2);
     
     var relationship = app.get_relationship (account_id);
     assert (relationship != null);
