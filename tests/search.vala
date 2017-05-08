@@ -29,13 +29,13 @@ void search_async () {
   stdout.printf ("begin function\n");
   app.search_async.begin ("a", true, (obj, res) => {
     stdout.printf ("\nbegin async method");
-    try{
+    try {
       var results = app.search_async.end (res);
       
       output_results (results);
       
       stdout.printf ("\nend async method\n");
-    }catch (Error e) {
+    } catch (Error e) {
       stderr.printf ("%s\n", e.message);
     }
     loop.quit();

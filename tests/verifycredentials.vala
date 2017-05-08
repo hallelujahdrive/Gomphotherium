@@ -31,13 +31,13 @@ void verify_credentials_async () {
   stdout.printf ("begin function\n");
   app.verify_credentials_async.begin ((obj, res) => {
     stdout.printf ("\nbegin async method");
-    try{
+    try {
       var account = app.verify_credentials_async.end (res);
       
       output_account (account);
       
       stdout.printf ("\nend async method\n");
-    }catch (Error e) {
+    } catch (Error e) {
       stderr.printf ("%s\n", e.message);
     }
     loop.quit();

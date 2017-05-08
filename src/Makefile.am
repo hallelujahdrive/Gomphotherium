@@ -28,6 +28,7 @@ sources = \
 				Instance.vala \
 				Mention.vala \
 				Notification.vala \
+				RangingParams.vala \
 				Relationship.vala \
 				Report.vala \
 				Results.vala \

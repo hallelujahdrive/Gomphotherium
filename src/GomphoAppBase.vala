@@ -74,7 +74,7 @@ namespace Gomphotherium {
     protected void setup_get_followers_proxy_call (ref ProxyCall proxy_call, int64 id, int64 max_id, int64 since_id, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      set_ids_and_limit_to_proxy_call (ref proxy_call, max_id, since_id, limit);
+      set_ranging_params_to_proxy_call (ref proxy_call, max_id, since_id, limit);
       proxy_call.set_function (ENDPOINT_ACCOUNTS_FOLLOWERS.printf (id));
       proxy_call.set_method ("GET");
     
@@ -84,7 +84,7 @@ namespace Gomphotherium {
     protected void setup_get_following_proxy_call (ref ProxyCall proxy_call, int64 id, int64 max_id, int64 since_id, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      set_ids_and_limit_to_proxy_call (ref proxy_call, max_id, since_id, limit);
+      set_ranging_params_to_proxy_call (ref proxy_call, max_id, since_id, limit);
       proxy_call.set_function (ENDPOINT_ACCOUNTS_FOLLOWING.printf (id));
       proxy_call.set_method ("GET");
     
@@ -180,7 +180,7 @@ namespace Gomphotherium {
     protected void setup_get_blocks_proxy_call (ref ProxyCall proxy_call, int64 max_id, int64 since_id, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      set_ids_and_limit_to_proxy_call (ref proxy_call, max_id, since_id, limit);
+      set_ranging_params_to_proxy_call (ref proxy_call, max_id, since_id, limit);
       proxy_call.set_function (ENDPOINT_BLOCKS);
       proxy_call.set_method ("GET");
     
@@ -199,7 +199,7 @@ namespace Gomphotherium {
     protected void setup_get_follow_requests_proxy_call (ref ProxyCall proxy_call, int64 max_id, int64 since_id, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      set_ids_and_limit_to_proxy_call (ref proxy_call, max_id, since_id, limit);
+      set_ranging_params_to_proxy_call (ref proxy_call, max_id, since_id, limit);
       proxy_call.set_function (ENDPOINT_FOLLOW_REQUESTS);
       proxy_call.set_method ("GET");
     
@@ -246,7 +246,7 @@ namespace Gomphotherium {
     protected void setup_get_mutes_proxy_call (ref ProxyCall proxy_call, int64 max_id, int64 since_id, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      set_ids_and_limit_to_proxy_call (ref proxy_call, max_id, since_id, limit);
+      set_ranging_params_to_proxy_call (ref proxy_call, max_id, since_id, limit);
       proxy_call.set_function (ENDPOINT_MUTES);
       proxy_call.set_method ("GET");
     
@@ -256,7 +256,7 @@ namespace Gomphotherium {
     protected void setup_get_notifications_proxy_call (ref ProxyCall proxy_call, int64 max_id, int64 since_id, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      set_ids_and_limit_to_proxy_call (ref proxy_call, max_id, since_id, limit);
+      set_ranging_params_to_proxy_call (ref proxy_call, max_id, since_id, limit);
       proxy_call.set_function (ENDPOINT_NOTIFICATIONS);
       proxy_call.set_method ("GET");
     
@@ -331,7 +331,7 @@ namespace Gomphotherium {
     protected void setup_get_reblogged_by_proxy_call (ref ProxyCall proxy_call, int64 id, int64 max_id, int64 since_id, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      set_ids_and_limit_to_proxy_call (ref proxy_call, max_id, since_id, limit);
+      set_ranging_params_to_proxy_call (ref proxy_call, max_id, since_id, limit);
       proxy_call.set_function (ENDPOINT_STATUSES_REBLOGGED_BY.printf (id));
       proxy_call.set_method ("GET");
     
@@ -341,7 +341,7 @@ namespace Gomphotherium {
     protected void setup_get_favourited_by_proxy_call (ref ProxyCall proxy_call, int64 id, int64 max_id, int64 since_id, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      set_ids_and_limit_to_proxy_call (ref proxy_call, max_id, since_id, limit);
+      set_ranging_params_to_proxy_call (ref proxy_call, max_id, since_id, limit);
       proxy_call.set_function (ENDPOINT_STATUSES_FAVOURITED_BY.printf (id));
       proxy_call.set_method ("GET");
     
@@ -387,7 +387,7 @@ namespace Gomphotherium {
     protected void setup_get_home_timeline_proxy_call (ref ProxyCall proxy_call, int64 max_id, int64 since_id, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      set_ids_and_limit_to_proxy_call (ref proxy_call, max_id, since_id, limit);
+      set_ranging_params_to_proxy_call (ref proxy_call, max_id, since_id, limit);
       proxy_call.set_function (ENDPOINT_TIMELINES_HOME);
       proxy_call.set_method ("GET");
     
@@ -397,7 +397,7 @@ namespace Gomphotherium {
     protected void setup_get_public_timeline_proxy_call (ref ProxyCall proxy_call, bool local, int64 max_id, int64 since_id, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      set_ids_and_limit_to_proxy_call (ref proxy_call, max_id, since_id, limit);
+      set_ranging_params_to_proxy_call (ref proxy_call, max_id, since_id, limit);
      
       if (local) {
         proxy_call.add_param (PARAM_LOCAL, "");
@@ -412,7 +412,7 @@ namespace Gomphotherium {
     protected void setup_get_tag_timeline_proxy_call (ref ProxyCall proxy_call,string hashtag, bool local, int64 max_id, int64 since_id, int limit) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      set_ids_and_limit_to_proxy_call (ref proxy_call, max_id, since_id, limit);
+      set_ranging_params_to_proxy_call (ref proxy_call, max_id, since_id, limit);
       
       if (local) {
         proxy_call.add_param (PARAM_LOCAL, "");
@@ -580,18 +580,25 @@ namespace Gomphotherium {
       return message;
     }
     
-    protected void set_ids_and_limit_to_proxy_call (ref ProxyCall proxy_call, int64 max_id, int64 since_id, int limit) {
+    protected void set_ranging_params_to_proxy_call (ref ProxyCall proxy_call, RangingParams ranging_paramas) {
       
-      if (max_id >= 0) {
+      if (ranging_params.max_id >= 0) {
         proxy_call.add_param (PARAM_MAX_ID, max_id.to_string ());
       }
-      if (since_id >= 0) {
+      if (ranging_params.since_id >= 0) {
         proxy_call.add_param (PARAM_SINCE_ID, since_id.to_string ());
       }
-      if (limit >= 0) {
+      if (ranging_params.limit >= 0) {
         proxy_call.add_param (PARAM_LIMIT, limit.to_string ());
       }
+    }
+    
+    protected void parse_links (string links, out string next, out string prev) {
+      var regex = new Regex ("<|>");
+      var splited = regex.split (links);
       
+      next = splited[0];
+      prev = splited[2];
     }
   }
 }

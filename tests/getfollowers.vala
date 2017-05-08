@@ -34,7 +34,7 @@ void get_followers_async () {
   stdout.printf ("begin function\n");
   app.get_followers_async.begin (account_id, -1, -1, -1, (obj, res) => {
     stdout.printf ("\nbegin async method");
-    try{
+    try {
       var list = app.get_followers_async.end (res);
       
       list.foreach ((account) => {
@@ -42,7 +42,7 @@ void get_followers_async () {
       });
       
       stdout.printf ("\nend async method\n");
-    }catch (Error e) {
+    } catch (Error e) {
       stderr.printf ("%s\n", e.message);
     }
     loop.quit();

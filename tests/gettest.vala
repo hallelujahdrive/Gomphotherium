@@ -51,6 +51,23 @@ void get_status () {
   }
 }
 
+void get_statuses () {
+  
+  string website = load_website ();
+  string[] ci_cs = load_ci_cs ();
+  // @hallelujahdrive
+  string access_token = load_access_token ();
+  int64 account_id = 116;
+    
+  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  
+  try {
+    var statuses = app.get_statuses (account_id);
+    assert (statuses.length () > 0);
+  } catch (Error e) {
+    stderr.printf ("%s\n", e.message);
+  }
+}
 
 void get_home_timeline () {
   
@@ -157,6 +174,7 @@ int main (string[] args) {
   
   GLib.Test.add_func ("/gettest/getaccount", get_account);
   GLib.Test.add_func ("/gettest/getstatus", get_status);
+  GLib.Test.add_func ("/gettest/getstatuses", get_statuses);
   GLib.Test.add_func ("/gettest/gethometimeline", get_home_timeline);
   GLib.Test.add_func ("/gettest/getpublictimeline", get_public_timeline);
   // Perhaps this API has a bug

@@ -31,13 +31,13 @@ void get_status_async () {
   stdout.printf ("begin function\n");
   app.get_status_async.begin (status_id, (obj, res) => {
     stdout.printf ("\nbegin async method");
-    try{
+    try {
       var status = app.get_status_async.end (res);
       
       output_status (status);
       
       stdout.printf ("\nend async method\n");
-    }catch (Error e) {
+    } catch (Error e) {
       stderr.printf ("%s\n", e.message);
     }
     loop.quit();

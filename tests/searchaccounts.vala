@@ -32,7 +32,7 @@ void search_accounts_async () {
   stdout.printf ("begin function\n");
   app.search_accounts_async.begin ("a", -1, (obj, res) => {
     stdout.printf ("\nbegin async method");
-    try{
+    try {
       var list = app.search_accounts_async.end (res);
       
       list.foreach ((account) => {
@@ -40,7 +40,7 @@ void search_accounts_async () {
       });
       
       stdout.printf ("\nend async method\n");
-    }catch (Error e) {
+    } catch (Error e) {
       stderr.printf ("%s\n", e.message);
     }
     loop.quit();

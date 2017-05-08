@@ -100,10 +100,7 @@ nodist_followtest_SOURCES = \
 followtest_LDADD = \
 									libtestmod.la \
 									$(top_builddir)/src/libgomphotherium.la
-nodist_followtest_SOURCES = \
-														libtestmod_la_vala.stamp \
-														followtest.c 
-	
+
 gettest_LDADD = \
 									libtestmod.la \
 									$(top_builddir)/src/libgomphotherium.la

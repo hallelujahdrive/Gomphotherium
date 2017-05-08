@@ -31,13 +31,13 @@ void get_notification_async () {
   stdout.printf ("begin function\n");
   app.get_notification_async.begin (notification_id, (obj, res) => {
     stdout.printf ("\nbegin async method");
-    try{
+    try {
       var notification = app.get_notification_async.end (res);
       
       output_notification (notification);
       
       stdout.printf ("\nend async method\n");
-    }catch (Error e) {
+    } catch (Error e) {
       stderr.printf ("%s\n", e.message);
     }
     loop.quit();

@@ -51,14 +51,14 @@ void get_account_async () {
   app.get_account_async.begin (account_id, (obj, res) => {
     assert (develop_flag == 2);
     develop_flag++;
-    try{
+    try {
       var account = app.get_account_async.end (res);
       
       output_account (account);
       
       assert (develop_flag == 3);
       develop_flag++;
-    }catch (Error e) {
+    } catch (Error e) {
       stderr.printf ("%s\n", e.message);
       assert (false);
     }

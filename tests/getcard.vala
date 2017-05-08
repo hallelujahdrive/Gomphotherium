@@ -31,13 +31,13 @@ void get_card_async () {
   stdout.printf ("begin function\n");
   app.get_card_async.begin (status_id, (obj, res) => {
     stdout.printf ("\nbegin async method");
-    try{
+    try {
       var card = app.get_card_async.end (res);
       
       output_card (card);
       
       stdout.printf ("\nend async method\n");
-    }catch (Error e) {
+    } catch (Error e) {
       stderr.printf ("%s\n", e.message);
     }
     loop.quit();

@@ -29,13 +29,13 @@ void get_instance_async () {
   stdout.printf ("begin function\n");
   app.get_instance_async.begin ((obj, res) => {
     stdout.printf ("\nbegin async method");
-    try{
+    try {
       var instance = app.get_instance_async.end (res);
       
       output_instance (instance);
       
       stdout.printf ("\nend async method\n");
-    }catch (Error e) {
+    } catch (Error e) {
       stderr.printf ("%s\n", e.message);
     }
     loop.quit();
