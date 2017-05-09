@@ -170,19 +170,27 @@ namespace Gomphotherium {
     }
     
     // Getting an account's followers asynchronously
-    public async List<Account> get_followers_async (int64 id, int64 max_id, int64 since_id, int limit) throws Error {
+    public async List<Account> get_followers_async (int64 id, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+      
+      next_params = null;
+      prev_params = null;
       
       Error error = null;
       var list = new List<Account> ();
+      RangingParams _next_params = null;
+      RangingParams _prev_params = null;
       
       var proxy_call = proxy.new_call ();
-      setup_get_followers_proxy_call (ref proxy_call, id, max_id, since_id, limit);
+      setup_get_followers_proxy_call (ref proxy_call, id, ranging_params);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
+
+          var headers = proxy_call.get_response_headers ();
+          parse_links (headers.get ("Link"), out _next_params, out _prev_params);
           
           var json_array = parse_json_array (proxy_call.get_payload());
           
@@ -204,23 +212,38 @@ namespace Gomphotherium {
         throw error;
       }
       
+      if (_next_params != null) {
+        next_params = _next_params;
+      }
+      if (_prev_params != null) {
+        prev_params = _prev_params;
+      }
+      
       return (owned) list;
     }
     
     // Getting an account's following asynchronously
-    public async List<Account> get_following_async (int64 id, int64 max_id, int64 since_id, int limit) throws Error {
+    public async List<Account> get_following_async (int64 id, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+      
+      next_params = null;
+      prev_params = null;
       
       Error error = null;
       var list = new List<Account> ();
+      RangingParams _next_params = null;
+      RangingParams _prev_params = null;
       
       var proxy_call = proxy.new_call ();
-      setup_get_following_proxy_call (ref proxy_call, id, max_id, since_id, limit);
+      setup_get_following_proxy_call (ref proxy_call, id, ranging_params);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
+
+          var headers = proxy_call.get_response_headers ();
+          parse_links (headers.get ("Link"), out _next_params, out _prev_params);
           
           var json_array = parse_json_array (proxy_call.get_payload());
           
@@ -242,23 +265,38 @@ namespace Gomphotherium {
         throw error;
       }
       
+      if (_next_params != null) {
+        next_params = _next_params;
+      }
+      if (_prev_params != null) {
+        prev_params = _prev_params;
+      }
+      
       return (owned) list;
     }
     
     // Getting an account's statuses asynchronously
-    public async List<Status> get_statuses_async (int64 id, bool only_media = false, bool exclude_replies = false, int64 max_id, int64 since_id, int limit) throws Error {
+    public async List<Status> get_statuses_async (int64 id, bool only_media = false, bool exclude_replies = false, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+      
+      next_params = null;
+      prev_params = null;
       
       Error error = null;
       var list = new List<Status> ();
+      RangingParams _next_params = null;
+      RangingParams _prev_params = null;
       
       var proxy_call = proxy.new_call ();
-      setup_get_statuses_proxy_call (ref proxy_call, id, only_media, exclude_replies, max_id, since_id, limit);
+      setup_get_statuses_proxy_call (ref proxy_call, id, only_media, exclude_replies, ranging_params);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
+
+          var headers = proxy_call.get_response_headers ();
+          parse_links (headers.get ("Link"), out _next_params, out _prev_params);
           
           var json_array = parse_json_array (proxy_call.get_payload());
           
@@ -577,19 +615,27 @@ namespace Gomphotherium {
     }
     
     // Fetching a user's blocks asynchronously
-    public async List<Account> get_blocks_async (int64 max_id, int64 since_id , int limit) throws Error {
+    public async List<Account> get_blocks_async (RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+      
+      next_params = null;
+      prev_params = null;
       
       Error error = null;
       var list = new List<Account> ();
+      RangingParams _next_params = null;
+      RangingParams _prev_params = null;
       
       var proxy_call = proxy.new_call ();
-      setup_get_blocks_proxy_call (ref proxy_call, max_id, since_id, limit);
+      setup_get_blocks_proxy_call (ref proxy_call, ranging_params);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
+
+          var headers = proxy_call.get_response_headers ();
+          parse_links (headers.get ("Link"), out _next_params, out _prev_params);
           
           var json_array = parse_json_array (proxy_call.get_payload());
           
@@ -611,23 +657,38 @@ namespace Gomphotherium {
         throw error;
       }
       
+      if (_next_params != null) {
+        next_params = _next_params;
+      }
+      if (_prev_params != null) {
+        prev_params = _prev_params;
+      }
+      
       return (owned) list;
     }
     
     // Fetching a user's favourites asynchronously
-    public async List<Status> get_favourites_async (int64 max_id , int64 since_id , int limit) throws Error {
+    public async List<Status> get_favourites_async (RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+      
+      next_params = null;
+      prev_params = null;
       
       Error error = null;
       var list = new List<Status> ();
+      RangingParams _next_params = null;
+      RangingParams _prev_params = null;
       
       var proxy_call = proxy.new_call ();
-      setup_get_favoutrites_proxy_call (ref proxy_call, max_id, since_id, limit);
+      setup_get_favoutrites_proxy_call (ref proxy_call, ranging_params);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
+
+          var headers = proxy_call.get_response_headers ();
+          parse_links (headers.get ("Link"), out _next_params, out _prev_params);
           
           var json_array = parse_json_array (proxy_call.get_payload());
           
@@ -649,23 +710,38 @@ namespace Gomphotherium {
         throw error;
       }
       
+      if (_next_params != null) {
+        next_params = _next_params;
+      }
+      if (_prev_params != null) {
+        prev_params = _prev_params;
+      }
+      
       return (owned) list;
     }
     
     // Fetching  a list of follow requests asynchronously
-    public async List<Account> get_follow_requests_async (int64 max_id, int64 since_id, int limit) throws Error {
+    public async List<Account> get_follow_requests_async (RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+      
+      next_params = null;
+      prev_params = null;
       
       Error error = null;
       var list = new List<Account> ();
+      RangingParams _next_params = null;
+      RangingParams _prev_params = null;
       
       var proxy_call = proxy.new_call ();
-      setup_get_follow_requests_proxy_call (ref proxy_call, max_id, since_id, limit);
+      setup_get_follow_requests_proxy_call (ref proxy_call, ranging_params);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
+
+          var headers = proxy_call.get_response_headers ();
+          parse_links (headers.get ("Link"), out _next_params, out _prev_params);
           
           var json_array = parse_json_array (proxy_call.get_payload());
           
@@ -859,19 +935,27 @@ namespace Gomphotherium {
     }
 
     // Fetching a user's mutes asynchronously
-    public async List<Account> get_mutes_async (int64 max_id, int64 since_id, int limit) throws Error {
+    public async List<Account> get_mutes_async (RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+      
+      next_params = null;
+      prev_params = null;
       
       Error error = null;
       var list = new List<Account> ();
+      RangingParams _next_params = null;
+      RangingParams _prev_params = null;
       
       var proxy_call = proxy.new_call ();
-      setup_get_mutes_proxy_call (ref proxy_call, max_id, since_id, limit);
+      setup_get_mutes_proxy_call (ref proxy_call, ranging_params);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
+
+          var headers = proxy_call.get_response_headers ();
+          parse_links (headers.get ("Link"), out _next_params, out _prev_params);
           
           var json_array = parse_json_array (proxy_call.get_payload());
           
@@ -893,23 +977,38 @@ namespace Gomphotherium {
         throw error;
       }
       
+      if (_next_params != null) {
+        next_params = _next_params;
+      }
+      if (_prev_params != null) {
+        prev_params = _prev_params;
+      }
+      
       return (owned) list;
     }
     
     // Fetching a user's notifications asynchronously
-    public async List<Gomphotherium.Notification> get_notifications_async (int64 max_id, int64 since_id, int limit) throws Error {
+    public async List<Gomphotherium.Notification> get_notifications_async (RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+      
+      next_params = null;
+      prev_params = null;
       
       Error error = null;
       var list = new List<Gomphotherium.Notification> ();
+      RangingParams _next_params = null;
+      RangingParams _prev_params = null;
       
       var proxy_call = proxy.new_call ();
-      setup_get_notifications_proxy_call (ref proxy_call, max_id, since_id, limit);
+      setup_get_notifications_proxy_call (ref proxy_call, ranging_params);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
+
+          var headers = proxy_call.get_response_headers ();
+          parse_links (headers.get ("Link"), out _next_params, out _prev_params);
           
           var json_array = parse_json_array (proxy_call.get_payload());
           
@@ -929,6 +1028,13 @@ namespace Gomphotherium {
       
       if (error != null) {
         throw error;
+      }
+      
+      if (_next_params != null) {
+        next_params = _next_params;
+      }
+      if (_prev_params != null) {
+        prev_params = _prev_params;
       }
       
       return (owned) list;
@@ -1223,19 +1329,27 @@ namespace Gomphotherium {
     }
     
     // Getting who reblogged a status asynchronously
-    public async List<Account> get_reblogged_by_async (int64 id, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    public async List<Account> get_reblogged_by_async (int64 id, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+      
+      next_params = null;
+      prev_params = null;
       
       Error error = null;
       var list = new List<Account> ();
+      RangingParams _next_params = null;
+      RangingParams _prev_params = null;
       
       var proxy_call = proxy.new_call ();
-      setup_get_reblogged_by_proxy_call (ref proxy_call, id, max_id, since_id, limit);
+      setup_get_reblogged_by_proxy_call (ref proxy_call, id, ranging_params);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
+
+          var headers = proxy_call.get_response_headers ();
+          parse_links (headers.get ("Link"), out _next_params, out _prev_params);
           
           var json_array = parse_json_array (proxy_call.get_payload());
           
@@ -1257,23 +1371,38 @@ namespace Gomphotherium {
         throw error;
       }
       
+      if (_next_params != null) {
+        next_params = _next_params;
+      }
+      if (_prev_params != null) {
+        prev_params = _prev_params;
+      }
+      
       return (owned) list;
     }
     
     // Getting who favourited a status asynchronously
-    public async List<Account> get_favourited_by_async (int64 id, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    public async List<Account> get_favourited_by_async (int64 id, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+      
+      next_params = null;
+      prev_params = null;
       
       Error error = null;
       var list = new List<Account> ();
+      RangingParams _next_params = null;
+      RangingParams _prev_params = null;
       
       var proxy_call = proxy.new_call ();
-      setup_get_favourited_by_proxy_call (ref proxy_call, id, max_id, since_id, limit);
+      setup_get_favourited_by_proxy_call (ref proxy_call, id, ranging_params);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
+
+          var headers = proxy_call.get_response_headers ();
+          parse_links (headers.get ("Link"), out _next_params, out _prev_params);
           
           var json_array = parse_json_array (proxy_call.get_payload());
           
@@ -1293,6 +1422,13 @@ namespace Gomphotherium {
       
       if (error != null) {
         throw error;
+      }
+      
+      if (_next_params != null) {
+        next_params = _next_params;
+      }
+      if (_prev_params != null) {
+        prev_params = _prev_params;
       }
       
       return (owned) list;
@@ -1483,19 +1619,27 @@ namespace Gomphotherium {
     }
     
     // Retrieving home timeline asynchronously
-    public async List<Status> get_home_timeline_async (int64 max_id, int64 since_id, int limit) throws Error {
+    public async List<Status> get_home_timeline_async (RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+      
+      next_params = null;
+      prev_params = null;
       
       Error error = null;
       var list = new List<Status> ();
+      RangingParams _next_params = null;
+      RangingParams _prev_params = null;
       
       var proxy_call = proxy.new_call ();
-      setup_get_home_timeline_proxy_call (ref proxy_call, max_id, since_id, limit);
+      setup_get_home_timeline_proxy_call (ref proxy_call, ranging_params);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
+
+          var headers = proxy_call.get_response_headers ();
+          parse_links (headers.get ("Link"), out _next_params, out _prev_params);
           
           var json_array = parse_json_array (proxy_call.get_payload());
           
@@ -1517,23 +1661,38 @@ namespace Gomphotherium {
         throw error;
       }
       
+      if (_next_params != null) {
+        next_params = _next_params;
+      }
+      if (_prev_params != null) {
+        prev_params = _prev_params;
+      }
+      
       return (owned) list;
     }
     
     // Retrieving public timeline asynchronously
-    public async List<Status> get_public_timeline_async (bool local, int64 max_id, int64 since_id, int limit) throws Error {
+    public async List<Status> get_public_timeline_async (bool local, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+      
+      next_params = null;
+      prev_params = null;
       
       Error error = null;
       var list = new List<Status> ();
+      RangingParams _next_params = null;
+      RangingParams _prev_params = null;
       
       var proxy_call = proxy.new_call ();
-      setup_get_public_timeline_proxy_call (ref proxy_call, local, max_id, since_id, limit);
+      setup_get_public_timeline_proxy_call (ref proxy_call, local, ranging_params);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
+
+          var headers = proxy_call.get_response_headers ();
+          parse_links (headers.get ("Link"), out _next_params, out _prev_params);
           
           var json_array = parse_json_array (proxy_call.get_payload());
           
@@ -1555,23 +1714,38 @@ namespace Gomphotherium {
         throw error;
       }
       
+      if (_next_params != null) {
+        next_params = _next_params;
+      }
+      if (_prev_params != null) {
+        prev_params = _prev_params;
+      }
+      
       return (owned) list;
     }
     
     // Retrieving hashtag timeline asynchronously
-    public async List<Status> get_tag_timeline_async (string hashtag, bool local, int64 max_id, int64 since_id, int limit) throws Error {
+    public async List<Status> get_tag_timeline_async (string hashtag, bool local, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+      
+      next_params = null;
+      prev_params = null;
       
       Error error = null;
       var list = new List<Status> ();
+      RangingParams _next_params = null;
+      RangingParams _prev_params = null;
       
       var proxy_call = proxy.new_call ();
-      setup_get_tag_timeline_proxy_call (ref proxy_call, hashtag, local, max_id, since_id, limit);
+      setup_get_tag_timeline_proxy_call (ref proxy_call, hashtag, local, ranging_params);
       
 
       proxy_call.invoke_async.begin (null, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
+
+          var headers = proxy_call.get_response_headers ();
+          parse_links (headers.get ("Link"), out _next_params, out _prev_params);
           
           var json_array = parse_json_array (proxy_call.get_payload());
           
@@ -1591,6 +1765,13 @@ namespace Gomphotherium {
       
       if (error != null) {
         throw error;
+      }
+      
+      if (_next_params != null) {
+        next_params = _next_params;
+      }
+      if (_prev_params != null) {
+        prev_params = _prev_params;
       }
       
       return (owned) list;

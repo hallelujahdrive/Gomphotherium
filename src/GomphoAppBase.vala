@@ -71,27 +71,31 @@ namespace Gomphotherium {
     }
     
     // Set proxy params to get followers
-    protected void setup_get_followers_proxy_call (ref ProxyCall proxy_call, int64 id, int64 max_id, int64 since_id, int limit) {
+    protected void setup_get_followers_proxy_call (ref ProxyCall proxy_call, int64 id, RangingParams? ranging_params) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      set_ranging_params_to_proxy_call (ref proxy_call, max_id, since_id, limit);
+      if (ranging_params != null) {
+        set_ranging_params_to_proxy_call (ref proxy_call, ranging_params);
+      }
       proxy_call.set_function (ENDPOINT_ACCOUNTS_FOLLOWERS.printf (id));
       proxy_call.set_method ("GET");
     
     }
     
     // Set proxy params to get following
-    protected void setup_get_following_proxy_call (ref ProxyCall proxy_call, int64 id, int64 max_id, int64 since_id, int limit) {
+    protected void setup_get_following_proxy_call (ref ProxyCall proxy_call, int64 id, RangingParams? ranging_params) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      set_ranging_params_to_proxy_call (ref proxy_call, max_id, since_id, limit);
+      if (ranging_params != null) {
+        set_ranging_params_to_proxy_call (ref proxy_call, ranging_params);
+      }
       proxy_call.set_function (ENDPOINT_ACCOUNTS_FOLLOWING.printf (id));
       proxy_call.set_method ("GET");
     
     }
     
     // Set proxy params to get statuses
-    protected void setup_get_statuses_proxy_call (ref ProxyCall proxy_call, int64 id, bool only_media, bool exclude_replies, int64 max_id, int64 since_id, int limit) {
+    protected void setup_get_statuses_proxy_call (ref ProxyCall proxy_call, int64 id, bool only_media, bool exclude_replies, RangingParams? ranging_params) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
       
@@ -101,7 +105,9 @@ namespace Gomphotherium {
       if (exclude_replies) {
         proxy_call.add_param (PARAM_EXCLUDE_REPLIES, exclude_replies.to_string ());
       }
-      
+      if (ranging_params != null) {
+        set_ranging_params_to_proxy_call (ref proxy_call, ranging_params);
+      }
       proxy_call.set_function (ENDPOINT_ACCOUNTS_STATUSES.printf (id));
       proxy_call.set_method ("GET");
     
@@ -177,17 +183,19 @@ namespace Gomphotherium {
     }
     
     // Set proxy params to fetch blocks
-    protected void setup_get_blocks_proxy_call (ref ProxyCall proxy_call, int64 max_id, int64 since_id, int limit) {
+    protected void setup_get_blocks_proxy_call (ref ProxyCall proxy_call, RangingParams? ranging_params) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      set_ranging_params_to_proxy_call (ref proxy_call, max_id, since_id, limit);
+      if (ranging_params != null) {
+        set_ranging_params_to_proxy_call (ref proxy_call, ranging_params);
+      };
       proxy_call.set_function (ENDPOINT_BLOCKS);
       proxy_call.set_method ("GET");
     
     }
     
     // Set proxy params to fetch favoutites
-    protected void setup_get_favoutrites_proxy_call (ref ProxyCall proxy_call, int64 max_id, int64 since_id, int limit) {
+    protected void setup_get_favoutrites_proxy_call (ref ProxyCall proxy_call, RangingParams? ranging_params) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
       proxy_call.set_function (ENDPOINT_FAVOURITES);
@@ -196,10 +204,12 @@ namespace Gomphotherium {
     }
 
     // Set proxy params to fetch follow requests
-    protected void setup_get_follow_requests_proxy_call (ref ProxyCall proxy_call, int64 max_id, int64 since_id, int limit) {
+    protected void setup_get_follow_requests_proxy_call (ref ProxyCall proxy_call, RangingParams? ranging_params) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      set_ranging_params_to_proxy_call (ref proxy_call, max_id, since_id, limit);
+      if (ranging_params != null) {
+        set_ranging_params_to_proxy_call (ref proxy_call, ranging_params);
+      }
       proxy_call.set_function (ENDPOINT_FOLLOW_REQUESTS);
       proxy_call.set_method ("GET");
     
@@ -243,20 +253,24 @@ namespace Gomphotherium {
     }
     
     // Set proxy params to fetch mutes
-    protected void setup_get_mutes_proxy_call (ref ProxyCall proxy_call, int64 max_id, int64 since_id, int limit) {
+    protected void setup_get_mutes_proxy_call (ref ProxyCall proxy_call, RangingParams? ranging_params) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      set_ranging_params_to_proxy_call (ref proxy_call, max_id, since_id, limit);
+      if (ranging_params != null) {
+        set_ranging_params_to_proxy_call (ref proxy_call, ranging_params);
+      }
       proxy_call.set_function (ENDPOINT_MUTES);
       proxy_call.set_method ("GET");
     
     }
     
     // Set proxy params to fetch notifications
-    protected void setup_get_notifications_proxy_call (ref ProxyCall proxy_call, int64 max_id, int64 since_id, int limit) {
+    protected void setup_get_notifications_proxy_call (ref ProxyCall proxy_call, RangingParams? ranging_params) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      set_ranging_params_to_proxy_call (ref proxy_call, max_id, since_id, limit);
+      if (ranging_params != null) {
+        set_ranging_params_to_proxy_call (ref proxy_call, ranging_params);
+      }
       proxy_call.set_function (ENDPOINT_NOTIFICATIONS);
       proxy_call.set_method ("GET");
     
@@ -328,20 +342,24 @@ namespace Gomphotherium {
     }
     
     // Set proxy params to get who reblogged a status
-    protected void setup_get_reblogged_by_proxy_call (ref ProxyCall proxy_call, int64 id, int64 max_id, int64 since_id, int limit) {
+    protected void setup_get_reblogged_by_proxy_call (ref ProxyCall proxy_call, int64 id, RangingParams? ranging_params) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      set_ranging_params_to_proxy_call (ref proxy_call, max_id, since_id, limit);
+      if (ranging_params != null) {
+        set_ranging_params_to_proxy_call (ref proxy_call, ranging_params);
+      }
       proxy_call.set_function (ENDPOINT_STATUSES_REBLOGGED_BY.printf (id));
       proxy_call.set_method ("GET");
     
     }
     
     // Set proxy params to get who favourited a status
-    protected void setup_get_favourited_by_proxy_call (ref ProxyCall proxy_call, int64 id, int64 max_id, int64 since_id, int limit) {
+    protected void setup_get_favourited_by_proxy_call (ref ProxyCall proxy_call, int64 id, RangingParams? ranging_params) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      set_ranging_params_to_proxy_call (ref proxy_call, max_id, since_id, limit);
+      if (ranging_params != null) {
+        set_ranging_params_to_proxy_call (ref proxy_call, ranging_params);
+      }
       proxy_call.set_function (ENDPOINT_STATUSES_FAVOURITED_BY.printf (id));
       proxy_call.set_method ("GET");
     
@@ -384,21 +402,24 @@ namespace Gomphotherium {
     }
     
     // Set proxy params to get home timeline
-    protected void setup_get_home_timeline_proxy_call (ref ProxyCall proxy_call, int64 max_id, int64 since_id, int limit) {
+    protected void setup_get_home_timeline_proxy_call (ref ProxyCall proxy_call, RangingParams? ranging_params) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      set_ranging_params_to_proxy_call (ref proxy_call, max_id, since_id, limit);
+      if (ranging_params != null) {
+        set_ranging_params_to_proxy_call (ref proxy_call, ranging_params);
+      }
       proxy_call.set_function (ENDPOINT_TIMELINES_HOME);
       proxy_call.set_method ("GET");
     
     }
     
     // Set proxy params to get public timeline
-    protected void setup_get_public_timeline_proxy_call (ref ProxyCall proxy_call, bool local, int64 max_id, int64 since_id, int limit) {
+    protected void setup_get_public_timeline_proxy_call (ref ProxyCall proxy_call, bool local, RangingParams? ranging_params) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      set_ranging_params_to_proxy_call (ref proxy_call, max_id, since_id, limit);
-     
+      if (ranging_params != null) {
+        set_ranging_params_to_proxy_call (ref proxy_call, ranging_params);
+      }
       if (local) {
         proxy_call.add_param (PARAM_LOCAL, "");
       }
@@ -409,11 +430,12 @@ namespace Gomphotherium {
     }
     
     // Set proxy params to get tag timeline
-    protected void setup_get_tag_timeline_proxy_call (ref ProxyCall proxy_call,string hashtag, bool local, int64 max_id, int64 since_id, int limit) {
+    protected void setup_get_tag_timeline_proxy_call (ref ProxyCall proxy_call,string hashtag, bool local, RangingParams? ranging_params) {
       
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
-      set_ranging_params_to_proxy_call (ref proxy_call, max_id, since_id, limit);
-      
+      if (ranging_params != null) {
+        set_ranging_params_to_proxy_call (ref proxy_call, ranging_params);
+      }   
       if (local) {
         proxy_call.add_param (PARAM_LOCAL, "");
       }
@@ -442,15 +464,26 @@ namespace Gomphotherium {
         sb.append ("&");
       }
       if (avatar != null) {
-        sb.append (PARAM_AVATAR);
-        sb.append ("=");
-        sb.append (Uri.escape_string (file_to_base64_encoded (avatar)));
-        sb.append ("&");
+        try {
+          var avatar_base64 = file_to_base64_encoded (avatar);
+          sb.append (PARAM_AVATAR);
+          sb.append ("=");
+          sb.append (Uri.escape_string (avatar_base64));
+          sb.append ("&");
+        } catch (Error e) {
+          stderr.printf ("%s\n", e.message);
+        }
       }
       if (header != null) {
-        sb.append (PARAM_HEADER);
-        sb.append ("=");
-        sb.append (Uri.escape_string (file_to_base64_encoded (header)));
+        try {
+          var header_base64 = file_to_base64_encoded (header);
+          sb.append (PARAM_HEADER);
+          sb.append ("=");
+          sb.append (Uri.escape_string (header_base64));
+          sb.append ("&");
+        } catch (Error e) {
+          stderr.printf ("%s\n", e.message);
+        }
       }
       
       message.request_headers.append ("Authorization"," Bearer " + _access_token);
@@ -483,22 +516,28 @@ namespace Gomphotherium {
     }
     
     // Generate a soup message to upload a media
-    protected Soup.Message upload_media_message_new (File file) {
+    protected Soup.Message upload_media_message_new (File file) throws Error {
       
-      var info = file.query_info ("*", FileQueryInfoFlags.NONE);
+      try {
       
-      var dis = new DataInputStream (file.read ());
-      var bytes = dis.read_bytes ((size_t) info.get_size ());
-      
-      var buffer = new Buffer.take (bytes.get_data ());
-      var multipart = new Multipart ("multipart/form-data");
-      
-      multipart.append_form_file (PARAM_FILE, info.get_display_name (), info.get_content_type (), buffer);
-      
-      var message = Soup.Form.request_new_from_multipart (_website + ENDPOINT_MEDIA, multipart);
-      message.request_headers.append ("Authorization"," Bearer " + _access_token);
-      
-      return message;
+        var info = file.query_info ("*", FileQueryInfoFlags.NONE);
+        
+        var dis = new DataInputStream (file.read ());
+        var bytes = dis.read_bytes ((size_t) info.get_size ());
+        
+        var buffer = new Buffer.take (bytes.get_data ());
+        var multipart = new Multipart ("multipart/form-data");
+        
+        multipart.append_form_file (PARAM_FILE, info.get_display_name (), info.get_content_type (), buffer);
+        
+        var message = Soup.Form.request_new_from_multipart (_website + ENDPOINT_MEDIA, multipart);
+        message.request_headers.append ("Authorization"," Bearer " + _access_token);
+        
+        return message;
+        
+      } catch (Error e) {
+        throw e;
+      }
     }
     
     // Generate a soup message to report a user
@@ -580,25 +619,39 @@ namespace Gomphotherium {
       return message;
     }
     
-    protected void set_ranging_params_to_proxy_call (ref ProxyCall proxy_call, RangingParams ranging_paramas) {
+    protected void set_ranging_params_to_proxy_call (ref ProxyCall proxy_call, RangingParams ranging_params) {
       
       if (ranging_params.max_id >= 0) {
-        proxy_call.add_param (PARAM_MAX_ID, max_id.to_string ());
+        proxy_call.add_param (PARAM_MAX_ID, ranging_params.max_id.to_string ());
       }
       if (ranging_params.since_id >= 0) {
-        proxy_call.add_param (PARAM_SINCE_ID, since_id.to_string ());
+        proxy_call.add_param (PARAM_SINCE_ID, ranging_params.since_id.to_string ());
       }
       if (ranging_params.limit >= 0) {
-        proxy_call.add_param (PARAM_LIMIT, limit.to_string ());
+        proxy_call.add_param (PARAM_LIMIT, ranging_params.limit.to_string ());
       }
     }
     
-    protected void parse_links (string links, out string next, out string prev) {
-      var regex = new Regex ("<|>");
-      var splited = regex.split (links);
+    protected void parse_links (string links, out RangingParams next_params, out RangingParams prev_params) {
       
-      next = splited[0];
-      prev = splited[2];
+      next_params = null;
+      prev_params = null;
+      
+      try {
+        var regex = new Regex ("<|>");
+        var splited = regex.split (links);
+        
+        var next_uri = new URI (splited[1]);
+        if (next_uri != null) {
+          next_params = new RangingParams.new_from_query (next_uri.get_query ());
+        }
+        var prev_uri = new URI (splited[3]);
+        if (prev_uri != null) {
+          prev_params = new RangingParams.new_from_query (prev_uri.get_query ());
+        }
+      } catch (Error e) {
+        stderr.printf ("%s\n",e.message);
+      }
     }
   }
 }

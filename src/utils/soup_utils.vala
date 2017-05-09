@@ -5,6 +5,8 @@ namespace Gomphotherium {
   
   // Fork a rest method
   private bool handle_error_from_message (Soup.Message message, out Error error) {
+    
+    error = null;
         
     if (message.status_code < 100) {
       switch (message.status_code) {

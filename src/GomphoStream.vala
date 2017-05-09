@@ -58,9 +58,9 @@ namespace Gomphotherium {
     
     
     // Returns events that are relevant to the authorized user, i.e. user timeline and notifications
-    public bool streaming_user (StreamCallback cb) throws Error {
+    public bool streaming_user (owned StreamCallback cb) throws Error {
       
-      user_stream_callback = cb;
+      user_stream_callback = (owned) cb;
       
       var proxy_call = proxy.new_call ();
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
@@ -74,14 +74,12 @@ namespace Gomphotherium {
       } catch (Error e) {
         throw e;
       }
-      
-      return true;
     }
     
     // Returns all public statuses
-    public bool streaming_public (StreamCallback cb, bool local = false) throws Error {
+    public bool streaming_public (owned StreamCallback cb, bool local = false) throws Error {
       
-      public_stream_callback = cb;
+      public_stream_callback = (owned) cb;
       
       var proxy_call = proxy.new_call ();
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
@@ -98,9 +96,9 @@ namespace Gomphotherium {
     }
     
     // Returns all public statuses for a particular hashtag (query param tag)
-    public bool streaming_hashtag (StreamCallback cb, string tag, bool local = false) throws Error {
+    public bool streaming_hashtag (owned StreamCallback cb, string tag, bool local = false) throws Error {
       
-      hashtag_stream_callback = cb;
+      hashtag_stream_callback = (owned) cb;
       
       var proxy_call = proxy.new_call ();
       proxy_call.add_header ("Authorization"," Bearer " + _access_token);
@@ -113,8 +111,6 @@ namespace Gomphotherium {
       } catch (Error e) {
         throw e;
       }
-      
-      return true;
     }
     
     
@@ -207,6 +203,10 @@ namespace Gomphotherium {
     }
     
     private bool parse_payload (string payload, out string event_type, out Gomphotherium.Object object) {
+      
+      event_type = null;
+      object = null;
+      
       string[] lines = payload.split ("\n");
       
       if (lines[0] == "<html>") {

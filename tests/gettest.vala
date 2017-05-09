@@ -61,8 +61,12 @@ void get_statuses () {
     
   var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
   
+  var params = new Gomphotherium.RangingParams (-1, -1, 20);
+  Gomphotherium.RangingParams next;
+  Gomphotherium.RangingParams prev;
+  
   try {
-    var statuses = app.get_statuses (account_id);
+    var statuses = app.get_statuses (account_id, false, false, params,out next,out prev);
     assert (statuses.length () > 0);
   } catch (Error e) {
     stderr.printf ("%s\n", e.message);

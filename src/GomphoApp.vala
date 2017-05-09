@@ -104,16 +104,16 @@ namespace Gomphotherium {
     
     // Getting an account's followers
     // @id : The ID of the account to get followers
-    // @ranging_params : (optional)
-    //  @max_id : Get a list of followers with ID less than or equal this value
-    //  @since_id : Get a list of followers with ID greater than this value
-    //  @limit : Maximum number of followers to get (Default 40, Max 80)
-    // @next_params : (optional)
-    // @prev_params : (optional)
-    public List<Account> get_followers (int64 id, RangingParams? ranging_params = null, out RangingParams? next_params = null, out RangingParams? prev_params = null) throws Error {
+    // @ranging_params : (optional) Parameters to select ranges of followers
+    // @next_params : (optional) Parameters to select next ranges of followers
+    // @prev_params : (optional) Parameters to select prev ranges of followers
+    public List<Account> get_followers (int64 id, RangingParams? ranging_params = null, out RangingParams next_params = null, out RangingParams prev_params = null) throws Error {
+      
+      next_params = null;
+      prev_params = null;
       
       var proxy_call = proxy.new_call ();
-      setup_get_followers_proxy_call (ref proxy_call, ranging_params);
+      setup_get_followers_proxy_call (ref proxy_call, id, ranging_params);
       
       try {
         
@@ -135,17 +135,20 @@ namespace Gomphotherium {
     
     // Getting an account's following
     // @id : The ID of the account to get following
-    // @max_id : (optional) Get a list of following with ID less than or equal this value
-    // @since_id : (optional) Get a list of following with ID greater than this value
-    // @limit : (optional) Maximum number of following to get (Default 40, Max 80)
-    public List<Account> get_following (int64 id, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    // @ranging_params : (optional) Parameters to select ranges of following
+    // @next_params : (optional) Parameters to select next ranges of folloeing
+    // @prev_params : (optional) Parameters to select prev ranges of following
+    public List<Account> get_following (int64 id, RangingParams? ranging_params = null, out RangingParams next_params = null, out RangingParams prev_params = null) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_following_proxy_call (ref proxy_call, id, max_id, since_id, limit);
+      setup_get_following_proxy_call (ref proxy_call, id, ranging_params);
       
       try {
         
         proxy_call.run();
+
+        var headers = proxy_call.get_response_headers ();
+        parse_links (headers.get ("Link"), out next_params, out prev_params);
         
         var json_array = parse_json_array (proxy_call.get_payload ());
         var list = new List<Account> ();
@@ -165,22 +168,20 @@ namespace Gomphotherium {
     // @id : The ID of the account to get statuses
     // @only_media : (optional) Only return statuses that have media attachments
     // @exclude_replices (optional) Skip statuses that reply to other statuses
-    // @max_id : (optional) Get a list of statuses with ID less than or equal this value
-    // @since_id : (optional) Get a list of statuses with ID greater than this value
-    // @limit : (optional) Maximum number of statuses to get (Default 20, Max 40) 	
-    public List<Status> get_statuses (int64 id, bool only_media = false, bool exclude_replies = false, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    // @ranging_params : (optional) Parameters to select ranges of statuses
+    // @next_params : (optional) Parameters to select next ranges of statuses
+    // @prev_params : (optional) Parameters to select prev ranges of statuses
+    public List<Status> get_statuses (int64 id, bool only_media = false, bool exclude_replies = false, RangingParams? ranging_params = null, out RangingParams next_params = null, out RangingParams prev_params = null) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_statuses_proxy_call (ref proxy_call, id, only_media, exclude_replies, max_id, since_id, limit);
+      setup_get_statuses_proxy_call (ref proxy_call, id, only_media, exclude_replies, ranging_params);
       
       try {
         
         proxy_call.run();
 
         var headers = proxy_call.get_response_headers ();
-        string next;
-        string prev;
-        parse_links (headers.get ("Link"), out next, out prev);
+        parse_links (headers.get ("Link"), out next_params, out prev_params);
         
         var json_array = parse_json_array (proxy_call.get_payload ());
         var list = new List<Status> ();
@@ -206,7 +207,7 @@ namespace Gomphotherium {
       try {
         
         proxy_call.run();
-        
+
         var json_obj = parse_json_object (proxy_call.get_payload ());
         return new Relationship (json_obj);
         
@@ -383,17 +384,20 @@ namespace Gomphotherium {
     }
     
     // Fetching a user's blocks
-    // @max_id : (optional) Get a list of blocks with ID less than or equal this value
-    // @since_id : (optional) Get a list of blocks with ID greater than this value
-    // @limit : (optional) Maximum number of blocks to get (Default 40, Max 80) 	
-    public List<Account> get_blocks (int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    // @ranging_params : (optional) Parameters to select ranges of blocks
+    // @next_params : (optional) Parameters to select next ranges of blocks
+    // @prev_params : (optional) Parameters to select prev ranges of blocks
+    public List<Account> get_blocks (RangingParams? ranging_params = null, out RangingParams next_params = null, out RangingParams prev_params = null) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_blocks_proxy_call (ref proxy_call, max_id, since_id, limit);
+      setup_get_blocks_proxy_call (ref proxy_call, ranging_params);
       
       try {
         
         proxy_call.run();
+        
+        var headers = proxy_call.get_response_headers ();
+        parse_links (headers.get ("Link"), out next_params, out prev_params);
         
         var json_array = parse_json_array (proxy_call.get_payload ());
         var list = new List<Account> ();
@@ -410,17 +414,20 @@ namespace Gomphotherium {
     }
 
     // Fetching a user's favourites
-    // @max_id : (optional) Get a list of favourites with ID less than or equal this value
-    // @since_id : (optional) Get a list of favourites with ID greater than this value
-    // @limit : (optional) Maximum number of favourites to get (Default 20, Max 40) 	
-    public List<Status> get_favourites (int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    // @ranging_params : (optional) Parameters to select ranges of favourites
+    // @next_params : (optional) Parameters to select next ranges of favourites
+    // @prev_params : (optional) Parameters to select prev ranges of favourites
+    public List<Status> get_favourites (RangingParams? ranging_params = null, out RangingParams next_params = null, out RangingParams prev_params = null) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_favoutrites_proxy_call (ref proxy_call, max_id, since_id, limit);
+      setup_get_favoutrites_proxy_call (ref proxy_call, ranging_params);
       
       try {
         
         proxy_call.run();
+
+        var headers = proxy_call.get_response_headers ();
+        parse_links (headers.get ("Link"), out next_params, out prev_params);
         
         var json_array = parse_json_array (proxy_call.get_payload ());
         var list = new List<Status> ();
@@ -437,17 +444,20 @@ namespace Gomphotherium {
     }
     
     // Fetching  a list of follow requests
-    // @max_id : (optional) Get a list of follow requests with ID less than or equal this value
-    // @since_id : (optional) Get a list of follow requests with ID greater than this value
-    // @limit : (optional) Maximum number of follow requests to get (Default 40, Max 80) 	
-    public List<Account> get_follow_requests (int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    // @ranging_params : (optional) Parameters to select ranges of follow requests
+    // @next_params : (optional) Parameters to select next ranges of follow requests
+    // @prev_params : (optional) Parameters to select prev ranges of follow requests
+    public List<Account> get_follow_requests (RangingParams? ranging_params = null, out RangingParams next_params = null, out RangingParams prev_params = null) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_follow_requests_proxy_call (ref proxy_call, max_id, since_id, limit);
+      setup_get_follow_requests_proxy_call (ref proxy_call, ranging_params);
       
       try {
         
         proxy_call.run();
+
+        var headers = proxy_call.get_response_headers ();
+        parse_links (headers.get ("Link"), out next_params, out prev_params);
         
         var json_array = parse_json_array (proxy_call.get_payload ());
         var list = new List<Account> ();
@@ -554,17 +564,20 @@ namespace Gomphotherium {
     }
 
     // Fetching a user's mutes
-    // @max_id : (optional) Get a list of mutes with ID less than or equal this value
-    // @since_id : (optional) Get a list of mutes with ID greater than this value
-    // @limit : (optional) Maximum number of mutes to get (Default 40, Max 80) 	
-    public List<Account> get_mutes (int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    // @ranging_params : (optional) Parameters to select ranges of mutes
+    // @next_params : (optional) Parameters to select next ranges of mutes
+    // @prev_params : (optional) Parameters to select prev ranges of mutes
+    public List<Account> get_mutes (RangingParams? ranging_params = null, out RangingParams next_params = null, out RangingParams prev_params = null) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_mutes_proxy_call (ref proxy_call, max_id, since_id, limit);
+      setup_get_mutes_proxy_call (ref proxy_call, ranging_params);
       
       try {
         
         proxy_call.run();
+
+        var headers = proxy_call.get_response_headers ();
+        parse_links (headers.get ("Link"), out next_params, out prev_params);
         
         var json_array = parse_json_array (proxy_call.get_payload ());
         var list = new List<Account> ();
@@ -581,17 +594,20 @@ namespace Gomphotherium {
     }
 
     // Fetching a user's notifications
-    // @max_id : (optional) Get a list of notifications with ID less than or equal this value
-    // @since_id : (optional) Get a list of notifications with ID greater than this value
-    // @limit : (optional) Maximum number of notifications to get (Default 15, Max 30) 	
-    public List<Gomphotherium.Notification> get_notifications (int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    // @ranging_params : (optional) Parameters to select ranges of notifications
+    // @next_params : (optional) Parameters to select next ranges of notifications
+    // @prev_params : (optional) Parameters to select prev ranges of notifications
+    public List<Gomphotherium.Notification> get_notifications (RangingParams? ranging_params = null, out RangingParams next_params = null, out RangingParams prev_params = null) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_notifications_proxy_call (ref proxy_call, max_id, since_id, limit);
+      setup_get_notifications_proxy_call (ref proxy_call, ranging_params);
       
       try {
         
         proxy_call.run();
+
+        var headers = proxy_call.get_response_headers ();
+        parse_links (headers.get ("Link"), out next_params, out prev_params);
         
         var json_array = parse_json_array (proxy_call.get_payload ());
         var list = new List<Gomphotherium.Notification> ();
@@ -667,7 +683,7 @@ namespace Gomphotherium {
     // @account_id : The ID of the account to report
     // @status_ids : The IDs of statuses to report
     // @comment : A comment to associate with the report
-    public Report report (int64 account_id, int64[] status_ids, string comment) {
+    public Report report (int64 account_id, int64[] status_ids, string comment) throws Error {
       
       Error error = null;
       
@@ -768,17 +784,20 @@ namespace Gomphotherium {
     }
     
     // Getting who reblogged a status
-    // @max_id : (optional) Get a list of reblogged with ID less than or equal this value
-    // @since_id : (optional) Get a list of reblogged with ID greater than this value
-    // @limit : (optional) Maximum number of reblogged to get (Default 40, Max 80) 	
-    public List<Account> get_reblogged_by (int64 id, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    // @ranging_params : (optional) Parameters to select ranges of reblogged by
+    // @next_params : (optional) Parameters to select next ranges of reblogged by
+    // @prev_params : (optional) Parameters to select prev ranges of reblogged by	
+    public List<Account> get_reblogged_by (int64 id, RangingParams? ranging_params = null, out RangingParams next_params = null, out RangingParams prev_params = null) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_reblogged_by_proxy_call (ref proxy_call, id, max_id, since_id, limit);
+      setup_get_reblogged_by_proxy_call (ref proxy_call, id, ranging_params);
       
       try {
         
         proxy_call.run();
+
+        var headers = proxy_call.get_response_headers ();
+        parse_links (headers.get ("Link"), out next_params, out prev_params);
         
         var json_array = parse_json_array (proxy_call.get_payload ());
         var list = new List<Account> ();
@@ -795,17 +814,20 @@ namespace Gomphotherium {
     }
 
     // Getting who favourited a status
-    // @max_id : (optional) Get a list of favourited with ID less than or equal this value
-    // @since_id : (optional) Get a list of favourited with ID greater than this value
-    // @limit : (optional) Maximum number of favourited to get (Default 40, Max 80) 	
-    public List<Account> get_favourited_by (int64 id, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    // @ranging_params : (optional) Parameters to select ranges of favoutited by
+    // @next_params : (optional) Parameters to select next ranges of favoutited by
+    // @prev_params : (optional) Parameters to select prev ranges of favoutited by
+    public List<Account> get_favourited_by (int64 id, RangingParams? ranging_params = null, out RangingParams next_params = null, out RangingParams prev_params = null) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_favourited_by_proxy_call (ref proxy_call, id, max_id, since_id, limit);
+      setup_get_favourited_by_proxy_call (ref proxy_call, id, ranging_params);
       
       try {
         
         proxy_call.run();
+
+        var headers = proxy_call.get_response_headers ();
+        parse_links (headers.get ("Link"), out next_params, out prev_params);
         
         var json_array = parse_json_array (proxy_call.get_payload ());
         var list = new List<Account> ();
@@ -929,17 +951,20 @@ namespace Gomphotherium {
     }
 
     // Retrieving home timeline
-    // @max_id : (optional) Get a list of followers with ID less than or equal this value
-    // @since_id : (optional) Get a list of followers with ID greater than this value
-    // @limit : (optional) Maximum number of followers to get (Default 40, Max 80) 	
-    public List<Status> get_home_timeline (int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    // @ranging_params : (optional) Parameters to select ranges of statuses
+    // @next_params : (optional) Parameters to select next ranges of statuses
+    // @prev_params : (optional) Parameters to select prev ranges of statuses
+    public List<Status> get_home_timeline (RangingParams? ranging_params = null, out RangingParams next_params = null, out RangingParams prev_params = null) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_home_timeline_proxy_call (ref proxy_call, max_id, since_id, limit);
+      setup_get_home_timeline_proxy_call (ref proxy_call, ranging_params);
       
       try {
         
         proxy_call.run();
+
+        var headers = proxy_call.get_response_headers ();
+        parse_links (headers.get ("Link"), out next_params, out prev_params);
         
         var json_array = parse_json_array (proxy_call.get_payload ());
         var list = new List<Status> ();
@@ -957,17 +982,20 @@ namespace Gomphotherium {
     
     // Retrieving public timeline
     // @local : (optional) Only return statuses originating from this instance
-    // @max_id : (optional) Get a list of followers with ID less than or equal this value
-    // @since_id : (optional) Get a list of followers with ID greater than this value
-    // @limit : (optional) Maximum number of followers to get (Default 40, Max 80) 	
-    public List<Status> get_public_timeline (bool local = true, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    // @ranging_params : (optional) Parameters to select ranges of statuses
+    // @next_params : (optional) Parameters to select next ranges of statuses
+    // @prev_params : (optional) Parameters to select prev ranges of statuses
+    public List<Status> get_public_timeline (bool local = true, RangingParams? ranging_params = null, out RangingParams next_params = null, out RangingParams prev_params = null) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_public_timeline_proxy_call (ref proxy_call, local, max_id, since_id, limit);
+      setup_get_public_timeline_proxy_call (ref proxy_call, local, ranging_params);
       
       try {
         
         proxy_call.run();
+
+        var headers = proxy_call.get_response_headers ();
+        parse_links (headers.get ("Link"), out next_params, out prev_params);
         
         var json_array = parse_json_array (proxy_call.get_payload ());
         var list = new List<Status> ();
@@ -986,17 +1014,20 @@ namespace Gomphotherium {
     // Retrieving htag timeline
     // @hashtag : The hashtag to search
     // @local : (optional) Only return statuses originating from this instance
-    // @max_id : (optional) Get a list of followers with ID less than or equal this value
-    // @since_id : (optional) Get a list of followers with ID greater than this value
-    // @limit : (optional) Maximum number of followers to get (Default 40, Max 80) 	
-    public List<Status> get_tag_timeline (string hashtag, bool local = true, int64 max_id = -1, int64 since_id = -1, int limit = -1) throws Error {
+    // @ranging_params : (optional) Parameters to select ranges of statuses
+    // @next_params : (optional) Parameters to select next ranges of statuses
+    // @prev_params : (optional) Parameters to select prev ranges of statuses
+    public List<Status> get_tag_timeline (string hashtag, bool local = true, RangingParams? ranging_params = null, out RangingParams next_params = null, out RangingParams prev_params = null) throws Error {
       
       var proxy_call = proxy.new_call ();
-      setup_get_tag_timeline_proxy_call (ref proxy_call, hashtag, local, max_id, since_id, limit);
+      setup_get_tag_timeline_proxy_call (ref proxy_call, hashtag, local, ranging_params);
       
       try {
         
         proxy_call.run();
+
+        var headers = proxy_call.get_response_headers ();
+        parse_links (headers.get ("Link"), out next_params, out prev_params);
         
         var json_array = parse_json_array (proxy_call.get_payload ());
         var list = new List<Status> ();

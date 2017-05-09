@@ -28,7 +28,8 @@ check_PROGRAMS = \
 							relationshiptest \
 							reporttest \
 							uploadtest \
-							resetcredentials
+							resetcredentials \
+							streaminguser
 							
 check_LTLIBRARIES = libtestmod.la
 						
@@ -44,7 +45,8 @@ tests_VALASOURCES = \
 									relationshiptest.vala \
 									reporttest.vala \
 									uploadtest.vala \
-									resetcredentials.vala
+									resetcredentials.vala \
+									streaminguser.vala
 				
 testmod_VALASOURCES = \
 											loadfunctions.vala \
@@ -159,6 +161,14 @@ nodist_resetcredentials_SOURCES = \
 																		libtestmod_la_vala.stamp \
 																		resetcredentials.c 
 resetcredentials_LDADD = \
+													libtestmod.la \
+													$(top_builddir)/src/libgomphotherium.la
+													
+
+nodist_streaminguser_SOURCES = \
+																		libtestmod_la_vala.stamp \
+																		streaminguser.c 
+streaminguser_LDADD = \
 													libtestmod.la \
 													$(top_builddir)/src/libgomphotherium.la
 
