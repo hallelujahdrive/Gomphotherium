@@ -11,7 +11,7 @@ namespace Gomphotherium {
     
     // @max_id : (oprional) Get a list of items with ID less than or equal this value
     // @since_id : (optional) Get a list of items with ID greater than this value
-    // @limit : (optional) Maximum number of items to get (Default 40, Max 80)
+    // @limit : (optional) Maximum number of items to get
     public RangingParams (int64 max_id = -1, int64 since_id = -1, int limit = -1) {
       this.max_id = max_id;
       this.since_id = since_id;

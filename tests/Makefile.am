@@ -29,6 +29,7 @@ check_PROGRAMS = \
 							reporttest \
 							uploadtest \
 							resetcredentials \
+							streamingpublic \
 							streaminguser
 							
 check_LTLIBRARIES = libtestmod.la
@@ -46,6 +47,7 @@ tests_VALASOURCES = \
 									reporttest.vala \
 									uploadtest.vala \
 									resetcredentials.vala \
+									streamingpublic.vala \
 									streaminguser.vala
 				
 testmod_VALASOURCES = \
@@ -164,6 +166,13 @@ resetcredentials_LDADD = \
 													libtestmod.la \
 													$(top_builddir)/src/libgomphotherium.la
 													
+
+nodist_streamingpublic_SOURCES = \
+																		libtestmod_la_vala.stamp \
+																		streamingpublic.c 
+streamingpublic_LDADD = \
+													libtestmod.la \
+													$(top_builddir)/src/libgomphotherium.la
 
 nodist_streaminguser_SOURCES = \
 																		libtestmod_la_vala.stamp \

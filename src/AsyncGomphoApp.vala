@@ -18,14 +18,15 @@ namespace Gomphotherium {
     // @email : A E-mail address of your account
     // @password : Your password
     // @scope : This can be a space-separated list of the following items: "read", "write" and "follow"
-    public async string oauth_token_async (string email, string password, string scope) throws Error {
+    // @cancellable : It can be used to cancel the call
+    public async string oauth_token_async (string email, string password, string scope, Cancellable? cancellable) throws Error {
       
       Error error = null;
       
       var proxy_call = proxy.new_call ();
       setup_oauth_proxy_call (ref proxy_call, email, password, scope);
       
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
           
         try {
         
@@ -52,7 +53,9 @@ namespace Gomphotherium {
     }
     
     // Getting an account asynchronously
-    public async Account get_account_async (int64 id) throws Error {
+    // @id : The ID of the account
+    // @cancellable : It can be used to cancel the callcall
+    public async Account get_account_async (int64 id, Cancellable? cancellable) throws Error {
       
       Error error = null;      
       Account account = null;
@@ -61,7 +64,7 @@ namespace Gomphotherium {
       setup_get_account_proxy_call (ref proxy_call, id);
       
 
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -87,7 +90,8 @@ namespace Gomphotherium {
     }    
     
     // Getting the current user asynchronously
-    public async Account verify_credentials_async () throws Error {
+    // @cancellable : It can be used to cancel the call
+    public async Account verify_credentials_async (Cancellable? cancellable) throws Error {
       
       Error error = null;
       Account account = null;
@@ -96,7 +100,7 @@ namespace Gomphotherium {
       setup_verify_credentials_proxy_call (ref proxy_call);
       
 
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -122,7 +126,12 @@ namespace Gomphotherium {
     }
     
     // Updating the current user asynchronously
-    public async Account update_credentials_async (string? display_name, string? note, File? avatar, File? header) throws Error {
+    // @display_name : The name to display in the user's profile
+    // @note : A new biography for the user
+    // @avatar : An image to display as the user's avatar
+    // @header : An image to display as the user's header image
+    // @cancellable : It can be used to cancel the call
+    public async Account update_credentials_async (string? display_name, string? note, File? avatar, File? header, Cancellable? cancellable) throws Error {
       
       Error error = null;
       Account account = null;
@@ -170,7 +179,12 @@ namespace Gomphotherium {
     }
     
     // Getting an account's followers asynchronously
-    public async List<Account> get_followers_async (int64 id, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+    // @id : The ID of the account to get followers
+    // @ranging_params : Parameters to select ranges of followers
+    // @next_params : Parameters to select next ranges of followers
+    // @prev_params : Parameters to select prev ranges of followers
+    // @cancellable : It can be used to cancel the call
+    public async List<Account> get_followers_async (int64 id, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params, Cancellable? cancellable) throws Error {
       
       next_params = null;
       prev_params = null;
@@ -184,7 +198,7 @@ namespace Gomphotherium {
       setup_get_followers_proxy_call (ref proxy_call, id, ranging_params);
       
 
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -223,7 +237,12 @@ namespace Gomphotherium {
     }
     
     // Getting an account's following asynchronously
-    public async List<Account> get_following_async (int64 id, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+    // @id : The ID of the account to get following
+    // @ranging_params : Parameters to select ranges of following
+    // @next_params : Parameters to select next ranges of folloeing
+    // @prev_params : Parameters to select prev ranges of following
+    // @cancellable : It can be used to cancel the call
+    public async List<Account> get_following_async (int64 id, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params, Cancellable? cancellable) throws Error {
       
       next_params = null;
       prev_params = null;
@@ -237,7 +256,7 @@ namespace Gomphotherium {
       setup_get_following_proxy_call (ref proxy_call, id, ranging_params);
       
 
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -276,7 +295,14 @@ namespace Gomphotherium {
     }
     
     // Getting an account's statuses asynchronously
-    public async List<Status> get_statuses_async (int64 id, bool only_media = false, bool exclude_replies = false, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+    // @id : The ID of the account to get statuses
+    // @only_media : Only return statuses that have media attachments
+    // @exclude_replices Skip statuses that reply to other statuses
+    // @ranging_params : Parameters to select ranges of statuses
+    // @next_params : Parameters to select next ranges of statuses
+    // @prev_params : Parameters to select prev ranges of statuses
+    // @cancellable : It can be used to cancel the call
+    public async List<Status> get_statuses_async (int64 id, bool only_media = false, bool exclude_replies = false, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params, Cancellable? cancellable) throws Error {
       
       next_params = null;
       prev_params = null;
@@ -290,7 +316,7 @@ namespace Gomphotherium {
       setup_get_statuses_proxy_call (ref proxy_call, id, only_media, exclude_replies, ranging_params);
       
 
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -322,7 +348,9 @@ namespace Gomphotherium {
     }
     
     // Following an account asynchronously
-    public async Relationship follow_async (int64 id) throws Error {
+    // @id : The ID of the account to follow
+    // @cancellable : It can be used to cancel the call
+    public async Relationship follow_async (int64 id, Cancellable? cancellable) throws Error {
       
       Error error = null;
       Relationship relationship = null;
@@ -330,7 +358,7 @@ namespace Gomphotherium {
       var proxy_call = proxy.new_call ();
       setup_follow_proxy_call (ref proxy_call, id);
       
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -356,7 +384,9 @@ namespace Gomphotherium {
     }
     
     // Unfollowing an account asynchronously
-    public async Relationship unfollow_async (int64 id) throws Error {
+    // @id : The ID of the account to unfollow
+    // @cancellable : It can be used to cancel the call
+    public async Relationship unfollow_async (int64 id, Cancellable? cancellable) throws Error {
       
       Error error = null;
       Relationship relationship = null;
@@ -364,7 +394,7 @@ namespace Gomphotherium {
       var proxy_call = proxy.new_call ();
       setup_unfollow_proxy_call (ref proxy_call, id);
       
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -390,7 +420,9 @@ namespace Gomphotherium {
     }
     
     // Blocking an account asynchronously
-    public async Relationship block_async (int64 id) throws Error {
+    // @id : The ID of the account to block
+    // @cancellable : It can be used to cancel the call
+    public async Relationship block_async (int64 id, Cancellable? cancellable) throws Error {
       
       Error error = null;
       Relationship relationship = null;
@@ -398,7 +430,7 @@ namespace Gomphotherium {
       var proxy_call = proxy.new_call ();
       setup_block_proxy_call (ref proxy_call, id);
       
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -424,7 +456,9 @@ namespace Gomphotherium {
     }    
 
     // Unblocking an account asynchronously
-    public async Relationship unblock_async (int64 id) throws Error {
+    // @id : The ID of the account to unblock
+    // @cancellable : It can be used to cancel the call
+    public async Relationship unblock_async (int64 id, Cancellable? cancellable) throws Error {
       
       Error error = null;
      Relationship relationship = null;
@@ -432,7 +466,7 @@ namespace Gomphotherium {
       var proxy_call = proxy.new_call ();
       setup_unblock_proxy_call (ref proxy_call, id);
       
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -458,7 +492,9 @@ namespace Gomphotherium {
     }
     
     // Muting an account asynchronously
-    public async Relationship mute_async (int64 id) throws Error {
+    // @id : The ID of the account to mute
+    // @cancellable : It can be used to cancel the call
+    public async Relationship mute_async (int64 id, Cancellable? cancellable) throws Error {
       
       Error error = null;
      Relationship relationship = null;
@@ -466,7 +502,7 @@ namespace Gomphotherium {
       var proxy_call = proxy.new_call ();
       setup_mute_proxy_call (ref proxy_call, id);
       
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -492,7 +528,9 @@ namespace Gomphotherium {
     }
 
     // Unmuting an account asynchronously
-    public async Relationship unmute_async (int64 id) throws Error {
+    // @id : The ID of the account to unmute
+    // @cancellable : It can be used to cancel the call
+    public async Relationship unmute_async (int64 id, Cancellable? cancellable) throws Error {
       
       Error error = null;
       Relationship relationship = null;
@@ -500,7 +538,7 @@ namespace Gomphotherium {
       var proxy_call = proxy.new_call ();
       setup_unmute_proxy_call (ref proxy_call, id);
       
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -526,7 +564,9 @@ namespace Gomphotherium {
     }
 
     // Getting an account's relationships asynchronously
-    public async List<Relationship> get_relationships_async (int64[] ids) throws Error {
+    // @ids : The IDs of accounts to get relationships
+    // @cancellable : It can be used to cancel the call
+    public async List<Relationship> get_relationships_async (int64[] ids, Cancellable? cancellable) throws Error {
       
       Error error = null;
       var list = new List<Relationship> ();
@@ -575,9 +615,32 @@ namespace Gomphotherium {
       
       return (owned) list;
     }
+    
+    // Getting an account's relationship asynchronously
+    // @id : The ID of the account to get relationship
+    // @cancellable : It can be used to cancel the call
+    public async Relationship get_relationship_async (int64 id, Cancellable? cancellable) throws Error {
+      
+      try {
+        
+        Relationship relationship = null;
+        
+        get_relationships_async.begin ({id}, cancellable, (obj, res) => {
+          relationship = get_relationships_async.end (res).nth_data (0);
+        });
+        
+        return relationship;
+        
+      } catch (Error e) {
+        throw e;
+      }
+    }
 
     // Searching for accounts asynchronously
-    public async List<Account> search_accounts_async (string q, int limit) throws Error {
+    // @q : What to search for
+    // @limit : Maximum number of matching accounts to return (default: 40)
+    // @cancellable : It can be used to cancel the call
+    public async List<Account> search_accounts_async (string q, int limit, Cancellable? cancellable) throws Error {
       
       Error error = null;
       var list = new List<Account> ();
@@ -586,7 +649,7 @@ namespace Gomphotherium {
       setup_search_accounts_proxy_call(ref proxy_call, q, limit);
       
 
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -615,7 +678,11 @@ namespace Gomphotherium {
     }
     
     // Fetching a user's blocks asynchronously
-    public async List<Account> get_blocks_async (RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+    // @ranging_params : Parameters to select ranges of blocks
+    // @next_params : Parameters to select next ranges of blocks
+    // @prev_params : Parameters to select prev ranges of blocks
+    // @cancellable : It can be used to cancel the call
+    public async List<Account> get_blocks_async (RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params, Cancellable? cancellable) throws Error {
       
       next_params = null;
       prev_params = null;
@@ -629,7 +696,7 @@ namespace Gomphotherium {
       setup_get_blocks_proxy_call (ref proxy_call, ranging_params);
       
 
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -668,7 +735,11 @@ namespace Gomphotherium {
     }
     
     // Fetching a user's favourites asynchronously
-    public async List<Status> get_favourites_async (RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+    // @ranging_params : Parameters to select ranges of favourites
+    // @next_params : Parameters to select next ranges of favourites
+    // @prev_params : Parameters to select prev ranges of favourites
+    // @cancellable : It can be used to cancel the call
+    public async List<Status> get_favourites_async (RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params, Cancellable? cancellable) throws Error {
       
       next_params = null;
       prev_params = null;
@@ -682,7 +753,7 @@ namespace Gomphotherium {
       setup_get_favoutrites_proxy_call (ref proxy_call, ranging_params);
       
 
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -721,7 +792,11 @@ namespace Gomphotherium {
     }
     
     // Fetching  a list of follow requests asynchronously
-    public async List<Account> get_follow_requests_async (RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+    // @ranging_params : Parameters to select ranges of follow requests
+    // @next_params : Parameters to select next ranges of follow requests
+    // @prev_params : Parameters to select prev ranges of follow requests
+    // @cancellable : It can be used to cancel the call
+    public async List<Account> get_follow_requests_async (RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params, Cancellable? cancellable) throws Error {
       
       next_params = null;
       prev_params = null;
@@ -735,7 +810,7 @@ namespace Gomphotherium {
       setup_get_follow_requests_proxy_call (ref proxy_call, ranging_params);
       
 
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -767,14 +842,16 @@ namespace Gomphotherium {
     }
     
     // Authorizing a follow request asynchronously
-    public async void authorize_follow_request_async (int64 id) throws Error {
+    // @id : The ID of the account to authorize
+    // @cancellable : It can be used to cancel the call
+    public async void authorize_follow_request_async (int64 id, Cancellable? cancellable) throws Error {
       
       Error error = null;
       
       var proxy_call = proxy.new_call ();
       setup_authorize_follow_request_proxy_call (ref proxy_call, id);
       
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
           proxy_call.invoke_async.end (res);
         } catch (Error e) {
@@ -793,14 +870,16 @@ namespace Gomphotherium {
     }
 
     // Rejecting a follow request asynchronously
-    public async void reject_follow_request_async (int64 id) throws Error {
+    // @id : The ID of the account to reject
+    // @cancellable : It can be used to cancel the call
+    public async void reject_follow_request_async (int64 id, Cancellable? cancellable) throws Error {
       
       Error error = null;
       
       var proxy_call = proxy.new_call ();
       setup_reject_follow_request_proxy_call (ref proxy_call, id);
       
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
           proxy_call.invoke_async.end (res);          
         } catch (Error e) {
@@ -819,7 +898,9 @@ namespace Gomphotherium {
     }
 
     // Following a remote user asynchronously
-    public async Account remote_follow_async (string uri) throws Error {
+    // @uri : username@domain of the person you want to follow
+    // @cancellable : It can be used to cancel the call
+    public async Account remote_follow_async (string uri, Cancellable? cancellable) throws Error {
       
       Error error = null;
       Account account = null;
@@ -827,7 +908,7 @@ namespace Gomphotherium {
       var proxy_call = proxy.new_call ();
       setup_remote_follow_proxy_call (ref proxy_call, uri);
       
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -853,7 +934,8 @@ namespace Gomphotherium {
     }
  
     // Getting instance information asynchronously
-    public async Instance get_instance_async () throws Error {
+    // @cancellable : It can be used to cancel the call
+    public async Instance get_instance_async (Cancellable? cancellable) throws Error {
       
       Error error = null;      
       Instance instance = null;
@@ -861,7 +943,7 @@ namespace Gomphotherium {
       var proxy_call = proxy.new_call ();
       setup_get_instance_proxy_call (ref proxy_call);
       
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -887,7 +969,9 @@ namespace Gomphotherium {
     }
     
     // Uploading a media attachment asynchronously
-    public async Attachment upload_media_async (File file) throws Error {
+    // file : Media to be uploaded
+    // @cancellable : It can be used to cancel the call
+    public async Attachment upload_media_async (File file, Cancellable? cancellable) throws Error {
       
       Error error = null;
       Attachment attachment = null;
@@ -935,7 +1019,11 @@ namespace Gomphotherium {
     }
 
     // Fetching a user's mutes asynchronously
-    public async List<Account> get_mutes_async (RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+    // @ranging_params : Parameters to select ranges of mutes
+    // @next_params : Parameters to select next ranges of mutes
+    // @prev_params : Parameters to select prev ranges of mutes
+    // @cancellable : It can be used to cancel the call
+    public async List<Account> get_mutes_async (RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params, Cancellable? cancellable) throws Error {
       
       next_params = null;
       prev_params = null;
@@ -949,7 +1037,7 @@ namespace Gomphotherium {
       setup_get_mutes_proxy_call (ref proxy_call, ranging_params);
       
 
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -988,7 +1076,11 @@ namespace Gomphotherium {
     }
     
     // Fetching a user's notifications asynchronously
-    public async List<Gomphotherium.Notification> get_notifications_async (RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+    // @ranging_params : Parameters to select ranges of notifications
+    // @next_params : Parameters to select next ranges of notifications
+    // @prev_params : Parameters to select prev ranges of notifications
+    // @cancellable : It can be used to cancel the call
+    public async List<Gomphotherium.Notification> get_notifications_async (RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params, Cancellable? cancellable) throws Error {
       
       next_params = null;
       prev_params = null;
@@ -1002,7 +1094,7 @@ namespace Gomphotherium {
       setup_get_notifications_proxy_call (ref proxy_call, ranging_params);
       
 
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -1041,7 +1133,9 @@ namespace Gomphotherium {
     }
     
     // Getting a single notification asynchronously
-    public async Gomphotherium.Notification get_notification_async (int64 id) throws Error {
+    // @id : The ID of the account to get notifications
+    // @cancellable : It can be used to cancel the call
+    public async Gomphotherium.Notification get_notification_async (int64 id, Cancellable? cancellable) throws Error {
       
       Error error = null;
       Gomphotherium.Notification notification = null;
@@ -1050,7 +1144,7 @@ namespace Gomphotherium {
       setup_get_notification_proxy_call (ref proxy_call, id);
       
 
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -1076,7 +1170,8 @@ namespace Gomphotherium {
     }
     
     // Clearing notifications
-    public async void clear_notifications_async () throws Error {
+    // @cancellable : It can be used to cancel the call
+    public async void clear_notifications_async (Cancellable? cancellable) throws Error {
       
       Error error = null;
       
@@ -1084,7 +1179,7 @@ namespace Gomphotherium {
       setup_clear_notifications_proxy_call (ref proxy_call);
       
 
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
           proxy_call.invoke_async.end (res);
         } catch (Error e) {
@@ -1103,7 +1198,8 @@ namespace Gomphotherium {
     }
     
     // Fetching a user's reports asynchronously
-    public async List<Report> get_reports_async () throws Error {
+    // @cancellable : It can be used to cancel the call
+    public async List<Report> get_reports_async (Cancellable? cancellable) throws Error {
       
       Error error = null;
       var list = new List<Report> ();
@@ -1112,7 +1208,7 @@ namespace Gomphotherium {
       setup_get_reports_proxy_call (ref proxy_call);
       
 
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -1141,7 +1237,11 @@ namespace Gomphotherium {
     }
 
     // Reporting a user asynchronously
-    public async Report report_async (int64 account_id, int64[] status_ids, string comment) throws Error {
+    // @account_id : The ID of the account to report
+    // @status_ids : The IDs of statuses to report
+    // @comment : A comment to associate with the report
+    // @cancellable : It can be used to cancel the call
+    public async Report report_async (int64 account_id, int64[] status_ids, string comment, Cancellable? cancellable) throws Error {
       
       Error error = null;
       Report report = null;
@@ -1189,7 +1289,10 @@ namespace Gomphotherium {
     }
     
     // Searching for content asynchronously
-    public async Results search_async (string q, bool resolve) throws Error {
+    // @q : The search query
+    // @resolve : Whether to resolve non-local accounts
+    // @cancellable : It can be used to cancel the call
+    public async Results search_async (string q, bool resolve, Cancellable? cancellable) throws Error {
       
       Error error = null;      
       Results results = null;
@@ -1198,7 +1301,7 @@ namespace Gomphotherium {
       setup_search_proxy_call (ref proxy_call, q, resolve);
       
 
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -1224,7 +1327,9 @@ namespace Gomphotherium {
     }
     
     // Fetching a status asynchronously
-    public async Status get_status_async (int64 id) throws Error {
+    // @id : The ID of the status
+    // @cancellable : It can be used to cancel the call
+    public async Status get_status_async (int64 id, Cancellable? cancellable) throws Error {
       
       Error error = null;      
       Status status = null;
@@ -1233,7 +1338,7 @@ namespace Gomphotherium {
       setup_get_status_proxy_call (ref proxy_call, id);
       
 
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -1259,7 +1364,9 @@ namespace Gomphotherium {
     }
     
     // Getting status context asynchronously
-    public async Context get_context_async (int64 id) throws Error {
+    // @id : The ID of the status
+    // @cancellable : It can be used to cancel the call
+    public async Context get_context_async (int64 id, Cancellable? cancellable) throws Error {
       
       Error error = null;      
       Context context = null;
@@ -1268,7 +1375,7 @@ namespace Gomphotherium {
       setup_get_context_proxy_call (ref proxy_call, id);
       
 
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -1294,7 +1401,9 @@ namespace Gomphotherium {
     }
     
     // Getting a card associated with a status asynchronously
-    public async Card get_card_async (int64 id) throws Error {
+    // @id : The ID of the status
+    // @cancellable : It can be used to cancel the call
+    public async Card get_card_async (int64 id, Cancellable? cancellable) throws Error {
       
       Error error = null;      
       Card card = null;
@@ -1303,7 +1412,7 @@ namespace Gomphotherium {
       setup_get_card_proxy_call (ref proxy_call, id);
       
 
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -1329,7 +1438,11 @@ namespace Gomphotherium {
     }
     
     // Getting who reblogged a status asynchronously
-    public async List<Account> get_reblogged_by_async (int64 id, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+    // @ranging_params : Parameters to select ranges of reblogged by
+    // @next_params : Parameters to select next ranges of reblogged by
+    // @prev_params : Parameters to select prev ranges of reblogged by	
+    // @cancellable : It can be used to cancel the call
+    public async List<Account> get_reblogged_by_async (int64 id, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params, Cancellable? cancellable) throws Error {
       
       next_params = null;
       prev_params = null;
@@ -1343,7 +1456,7 @@ namespace Gomphotherium {
       setup_get_reblogged_by_proxy_call (ref proxy_call, id, ranging_params);
       
 
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -1382,7 +1495,11 @@ namespace Gomphotherium {
     }
     
     // Getting who favourited a status asynchronously
-    public async List<Account> get_favourited_by_async (int64 id, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+    // @ranging_params : Parameters to select ranges of favoutited by
+    // @next_params : Parameters to select next ranges of favoutited by
+    // @prev_params : Parameters to select prev ranges of favoutited by
+    // @cancellable : It can be used to cancel the call
+    public async List<Account> get_favourited_by_async (int64 id, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params, Cancellable? cancellable) throws Error {
       
       next_params = null;
       prev_params = null;
@@ -1396,7 +1513,7 @@ namespace Gomphotherium {
       setup_get_favourited_by_proxy_call (ref proxy_call, id, ranging_params);
       
 
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -1435,7 +1552,14 @@ namespace Gomphotherium {
     }
     
     // Postring a new status asynchronously
-    public async Status post_status_async (string status, int64 in_reply_to_id, int64[]? media_ids, bool sensitive, string? spoiler_text, string? visibility) throws Error {
+    // @status : The text of the status
+    // @in_reply_to_id : local ID of the status you want to reply to
+    // @media_ids : Array of media IDs to attach to the status (maximum 4)
+    // @sensitive : Set this to mark the media of the status as NSFW
+    // @spoiler_text : (optional)	Text to be shown as a warning before the actual content
+    // @visibility : (optional)	Either "direct", "private", "unlisted" or "public"
+    // @cancellable : It can be used to cancel the call
+    public async Status post_status_async (string status, int64 in_reply_to_id, int64[]? media_ids, bool sensitive, string? spoiler_text, string? visibility, Cancellable? cancellable) throws Error {
       
       Error error = null;
       Status _status = null;
@@ -1483,7 +1607,9 @@ namespace Gomphotherium {
     }
     
     // Reblogging a status asynchronously
-    public async Status reblog_async (int64 id) throws Error {
+    // @id : The ID of status to reblog
+    // @cancellable : It can be used to cancel the call
+    public async Status reblog_async (int64 id, Cancellable? cancellable) throws Error {
       
       Error error = null;
       Status status = null;
@@ -1491,7 +1617,7 @@ namespace Gomphotherium {
       var proxy_call = proxy.new_call ();
       setup_reblog_proxy_call (ref proxy_call, id);
       
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -1517,7 +1643,9 @@ namespace Gomphotherium {
     }
 
     // Unreblogging a status asynchronously
-    public async Status unreblog_async (int64 id) throws Error {
+    // @id : The ID of status to unreblog
+    // @cancellable : It can be used to cancel the call
+    public async Status unreblog_async (int64 id, Cancellable? cancellable) throws Error {
       
       Error error = null;
       Status status = null;
@@ -1525,7 +1653,7 @@ namespace Gomphotherium {
       var proxy_call = proxy.new_call ();
       setup_unreblog_proxy_call (ref proxy_call, id);
       
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -1551,7 +1679,9 @@ namespace Gomphotherium {
     }
     
     // Favouriting a status asynchronously
-    public async Status favourite_async (int64 id) throws Error {
+    // @id : The ID of status to favourite
+    // @cancellable : It can be used to cancel the call
+    public async Status favourite_async (int64 id, Cancellable? cancellable) throws Error {
       
       Error error = null;
       Status status = null;
@@ -1559,7 +1689,7 @@ namespace Gomphotherium {
       var proxy_call = proxy.new_call ();
       setup_favourite_proxy_call (ref proxy_call, id);
       
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -1585,7 +1715,9 @@ namespace Gomphotherium {
     }
 
     // Unfavouriting a status asynchronously
-    public async Status unfavourite_async (int64 id) throws Error {
+    // @id : The ID of status to unfavourite
+    // @cancellable : It can be used to cancel the call
+    public async Status unfavourite_async (int64 id, Cancellable? cancellable) throws Error {
       
       Error error = null;
       Status status = null;
@@ -1593,7 +1725,7 @@ namespace Gomphotherium {
       var proxy_call = proxy.new_call ();
       setup_unfavourite_proxy_call (ref proxy_call, id);
       
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -1619,7 +1751,11 @@ namespace Gomphotherium {
     }
     
     // Retrieving home timeline asynchronously
-    public async List<Status> get_home_timeline_async (RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+    // @ranging_params : Parameters to select ranges of statuses
+    // @next_params : Parameters to select next ranges of statuses
+    // @prev_params : Parameters to select prev ranges of statuses
+    // @cancellable : It can be used to cancel the call
+    public async List<Status> get_home_timeline_async (RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params, Cancellable? cancellable) throws Error {
       
       next_params = null;
       prev_params = null;
@@ -1633,7 +1769,7 @@ namespace Gomphotherium {
       setup_get_home_timeline_proxy_call (ref proxy_call, ranging_params);
       
 
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -1672,7 +1808,12 @@ namespace Gomphotherium {
     }
     
     // Retrieving public timeline asynchronously
-    public async List<Status> get_public_timeline_async (bool local, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+    // @local : Only return statuses originating from this instance
+    // @ranging_params : Parameters to select ranges of statuses
+    // @next_params : Parameters to select next ranges of statuses
+    // @prev_params : Parameters to select prev ranges of statuses
+    // @cancellable : It can be used to cancel the call
+    public async List<Status> get_public_timeline_async (bool local, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params, Cancellable? cancellable) throws Error {
       
       next_params = null;
       prev_params = null;
@@ -1686,7 +1827,7 @@ namespace Gomphotherium {
       setup_get_public_timeline_proxy_call (ref proxy_call, local, ranging_params);
       
 
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);
@@ -1725,7 +1866,13 @@ namespace Gomphotherium {
     }
     
     // Retrieving hashtag timeline asynchronously
-    public async List<Status> get_tag_timeline_async (string hashtag, bool local, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params) throws Error {
+    // @hashtag : The hashtag to search
+    // @local : Only return statuses originating from this instance
+    // @ranging_params : Parameters to select ranges of statuses
+    // @next_params : Parameters to select next ranges of statuses
+    // @prev_params : Parameters to select prev ranges of statuses
+    // @cancellable : It can be used to cancel the call
+    public async List<Status> get_tag_timeline_async (string hashtag, bool local, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params, Cancellable? cancellable) throws Error {
       
       next_params = null;
       prev_params = null;
@@ -1739,7 +1886,7 @@ namespace Gomphotherium {
       setup_get_tag_timeline_proxy_call (ref proxy_call, hashtag, local, ranging_params);
       
 
-      proxy_call.invoke_async.begin (null, (obj, res) => {
+      proxy_call.invoke_async.begin (cancellable, (obj, res) => {
         try {
         
           proxy_call.invoke_async.end (res);

@@ -40,6 +40,8 @@ namespace Gomphotherium {
     private Error hashtag_error;
     private Error user_error;
     
+    private int i = 0;
+    
     public GomphoStream (string website, string client_id, string client_secret, string? access_token = null) {
       _website = website;
       _client_id = client_id;
@@ -129,7 +131,6 @@ namespace Gomphotherium {
         if (fragment.has_prefix (":thump")) { // ':thump' is a heartbeat
           user_string_builder.erase ();
         } else if (fragment.has_suffix ("\r\n") || fragment.has_suffix ("\n\n")) {
-          //stdout.printf ("payload : %s\n", user_string_builder.str);
           string event_type;
           Gomphotherium.Object object;
           
@@ -158,12 +159,15 @@ namespace Gomphotherium {
         if (fragment.has_prefix (":thump")) { // ':thump' is a heaerbeat
           public_string_builder.erase ();
         } else if (fragment.has_suffix ("\r\n") || fragment.has_suffix ("\n\n")) {
-          //stdout.printf ("payload : %s\n", public_string_builder.str);
           string event_type;
           Gomphotherium.Object object;
           
           if (parse_payload (public_string_builder.str, out event_type, out object)) {
               public_stream_callback (event_type, object);
+              stdout.printf ("%d\n", i);
+              if (++i > 20) {
+                call.cancel ();
+              }
           }
           
           public_string_builder.erase ();

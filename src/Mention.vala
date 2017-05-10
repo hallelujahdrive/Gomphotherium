@@ -10,7 +10,7 @@ namespace Gomphotherium {
     private string _acct; // Equals username for local users, includes @domain for remote ones
     private int64 _id;  // Account ID
     
-    // Properties;
+    // Properties
     public string url {
       get { return _url; }
     }
