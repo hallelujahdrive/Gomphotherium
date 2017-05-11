@@ -621,19 +621,23 @@ namespace Gomphotherium {
     // @cancellable : It can be used to cancel the call
     public async Relationship get_relationship_async (int64 id, Cancellable? cancellable) throws Error {
       
-      try {
+      Error error = null;
         
-        Relationship relationship = null;
-        
-        get_relationships_async.begin ({id}, cancellable, (obj, res) => {
+      Relationship relationship = null;
+      
+      get_relationships_async.begin ({id}, cancellable, (obj, res) => {
+        try {
           relationship = get_relationships_async.end (res).nth_data (0);
-        });
-        
-        return relationship;
-        
-      } catch (Error e) {
-        throw e;
+        } catch (Error e) {
+          error = e;
+        }
+      });
+      
+      if (error != null) {
+        throw error;
       }
+      
+      return relationship;
     }
 
     // Searching for accounts asynchronously

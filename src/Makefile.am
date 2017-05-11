@@ -24,7 +24,6 @@ sources = \
 				Delete.vala \
 				GomphoApp.vala \
 				GomphoAppBase.vala \
-				GomphoStream.vala \
 				Instance.vala \
 				Mention.vala \
 				Notification.vala \
@@ -33,6 +32,7 @@ sources = \
 				Report.vala \
 				Results.vala \
 				Status.vala \
+				Stream.vala \
 				StreamHead.vala \
 				Tag.vala \
 				endpoints.vala \

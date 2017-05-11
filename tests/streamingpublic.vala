@@ -7,11 +7,11 @@ void streaming_public () {
   string access_token = load_access_token ();
   int64 account_id = load_account_id ();
     
-  var stream = new Gomphotherium.GomphoStream (website, ci_cs[0], ci_cs[1], access_token);
+  var stream = new Gomphotherium.PublicStream (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     
-    if (stream.streaming_public ((event, object) => {
+    if (stream.continuous ((event, object) => {
       switch (event) {
         case "delete" : stdout.printf ("%s :\n%" + int64.FORMAT + "\n", event, ((Gomphotherium.Delete) object).id);
         break;
