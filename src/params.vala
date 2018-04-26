@@ -1,4 +1,4 @@
-namespace Gomphotherium {
+namespace Valastodon {
   private const string PARAM_ACCOUNT_ID = "account_id";
   private const string PARAM_AVATAR = "avatar";
   private const string PARAM_CLIENT_ID = "client_id";

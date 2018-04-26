@@ -1,4 +1,4 @@
-namespace Gomphotherium {
+namespace Valastodon {
   
   // Parse string to json object
   private Json.Object parse_json_object (string json_str) throws Error {

@@ -1,4 +1,4 @@
-namespace Gomphotherium {
+namespace Valastodon {
   
   [Compact]
   [Immutable]

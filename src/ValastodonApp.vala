@@ -2,15 +2,15 @@ using Json;
 using Rest;
 using Soup;
 
-namespace Gomphotherium {
+namespace Valastodon {
   
-  public class GomphoApp : GomphoAppBase {
+  public class ValastodonApp : ValastodonAppBase {
         
     // @website : Instance URL
-    // @client_id : Client ID of your GomphoApp
+    // @client_id : Client ID of your ValastodonApp
     // @client_secret : Client Secret of your cpplication
     // @access_token : (optional) Your access token
-    public GomphoApp (string website, string client_id, string client_secret, string? access_token = null) {
+    public ValastodonApp (string website, string client_id, string client_secret, string? access_token = null) {
       base (website, client_id, client_secret, access_token);
     }
     
@@ -597,7 +597,7 @@ namespace Gomphotherium {
     // @ranging_params : (optional) Parameters to select ranges of notifications
     // @next_params : (optional) Parameters to select next ranges of notifications
     // @prev_params : (optional) Parameters to select prev ranges of notifications
-    public List<Gomphotherium.Notification> get_notifications (RangingParams? ranging_params = null, out RangingParams next_params = null, out RangingParams prev_params = null) throws Error {
+    public List<Valastodon.Notification> get_notifications (RangingParams? ranging_params = null, out RangingParams next_params = null, out RangingParams prev_params = null) throws Error {
       
       var proxy_call = proxy.new_call ();
       setup_get_notifications_proxy_call (ref proxy_call, ranging_params);
@@ -610,10 +610,10 @@ namespace Gomphotherium {
         parse_links (headers.get ("Link"), out next_params, out prev_params);
         
         var json_array = parse_json_array (proxy_call.get_payload ());
-        var list = new List<Gomphotherium.Notification> ();
+        var list = new List<Valastodon.Notification> ();
         
         json_array.foreach_element ((array, index, node) => {
-          list.append (new Gomphotherium.Notification (node.get_object ()));
+          list.append (new Valastodon.Notification (node.get_object ()));
         });
         
         return (owned) list;
@@ -625,7 +625,7 @@ namespace Gomphotherium {
 
     // Getting a single notification
     // @id : The ID of the account to get notifications
-    public Gomphotherium.Notification get_notification (int64 id) throws Error {
+    public Valastodon.Notification get_notification (int64 id) throws Error {
       
       var proxy_call = proxy.new_call ();
       setup_get_notification_proxy_call (ref proxy_call, id);
@@ -635,7 +635,7 @@ namespace Gomphotherium {
         proxy_call.run();
 
         var json_obj = parse_json_object (proxy_call.get_payload ());
-        return new Gomphotherium.Notification (json_obj);
+        return new Valastodon.Notification (json_obj);
         
       } catch(Error error){
         throw error;

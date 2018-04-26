@@ -1,6 +1,6 @@
 using Json;
 
-namespace Gomphotherium {
+namespace Valastodon {
   
   public class Results {
     

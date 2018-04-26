@@ -1,8 +1,8 @@
 using Json;
 
-namespace Gomphotherium {
+namespace Valastodon {
   
-  public class Status : Gomphotherium.Object {
+  public class Status : Valastodon.Object {
     
     // Property-backing fields
     private int64 _id;  // The ID of the status

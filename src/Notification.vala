@@ -1,8 +1,8 @@
 using Json;
 
-namespace Gomphotherium {
+namespace Valastodon {
   
-  public class Notification : Gomphotherium.Object {
+  public class Notification : Valastodon.Object {
     
     // Property-backing fields
     private int64 _id;

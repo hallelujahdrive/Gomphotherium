@@ -1,4 +1,4 @@
-namespace Gomphotherium {
+namespace Valastodon {
   
   public string file_to_base64_encoded (File file) throws Error {
     

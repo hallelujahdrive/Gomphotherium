@@ -1,14 +1,14 @@
 using Json;
 using Rest;
 
-namespace Gomphotherium { 
-  // Registering an GomphoApp
+namespace Valastodon { 
+  // Registering an ValastodonApp
   // @instance_website : URL to Instance you want to regist 
-  // @client_name : Name of your GomphoApp
+  // @client_name : Name of your ValastodonApp
   // @redirect_uris : (nullable) Where the user should be redirected after authorization
   // @scope : This can be a space-separated list of the following items: "read", "write" and "follow"
   // @app_website : (nullable) URL to the homepage of your app
-  public GomphoApp register_app (string instance_website, string client_name,string? redirect_uris, string scopes, string? app_website = null) throws Error {
+  public ValastodonApp register_app (string instance_website, string client_name,string? redirect_uris, string scopes, string? app_website = null) throws Error {
         
     var proxy = new Rest.Proxy (instance_website, false);
     var proxy_call = proxy.new_call ();
@@ -21,7 +21,7 @@ namespace Gomphotherium {
       
       string client_id = json_obj.get_string_member ("client_id");
       string client_secret = json_obj.get_string_member ("client_secret");
-      var app = new GomphoApp (instance_website, client_id, client_secret);
+      var app = new ValastodonApp (instance_website, client_id, client_secret);
       
       return app;
     } catch (Error e) {
@@ -29,8 +29,8 @@ namespace Gomphotherium {
     }
   }
   
-  // Registing an GomphoApp asynchronously
-  public async GomphoApp register_app_async (string instance_website, string client_name,string? redirect_uris, string scopes, string? app_website) throws Error {
+  // Registing an ValastodonApp asynchronously
+  public async ValastodonApp register_app_async (string instance_website, string client_name,string? redirect_uris, string scopes, string? app_website) throws Error {
     
     Error error = null;
     
@@ -39,7 +39,7 @@ namespace Gomphotherium {
     
     setup_oauth_proxy_call (ref proxy_call, client_name, redirect_uris, scopes, app_website);
     
-    GomphoApp app = null;
+    ValastodonApp app = null;
 
     proxy_call.invoke_async.begin (null, (obj, res) => {
       try {  
@@ -49,7 +49,7 @@ namespace Gomphotherium {
         
         string client_id = json_obj.get_string_member ("client_id");
         string client_secret = json_obj.get_string_member ("client_secret");
-        app = new GomphoApp (instance_website, client_id, client_secret);
+        app = new ValastodonApp (instance_website, client_id, client_secret);
         
       } catch (Error e) {
         error = e;

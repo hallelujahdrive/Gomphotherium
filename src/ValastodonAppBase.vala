@@ -2,9 +2,9 @@ using Json;
 using Rest;
 using Soup;
 
-namespace Gomphotherium {
+namespace Valastodon {
   
-  public class GomphoAppBase : GLib.Object {
+  public class ValastodonAppBase : GLib.Object {
     
     // Property-backing fields
     protected string _website;
@@ -29,10 +29,10 @@ namespace Gomphotherium {
     }
     
     // @website : Instance URL
-    // @client_id : Client ID of your GomphoApp
+    // @client_id : Client ID of your ValastodonApp
     // @client_secret : Client Secret of your cpplication
     // @access_token : (optional) Your access token
-    public GomphoAppBase (string website, string client_id, string client_secret, string? access_token) {
+    public ValastodonAppBase (string website, string client_id, string client_secret, string? access_token) {
       _website = website;
       _client_id = client_id;
       _client_secret = client_secret;

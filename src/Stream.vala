@@ -1,7 +1,7 @@
 using Json;
 using Rest;
 
-namespace Gomphotherium {
+namespace Valastodon {
   
   public abstract class StreamBase : GLib.Object {
 
@@ -47,7 +47,7 @@ namespace Gomphotherium {
       }
     }
     
-    public StreamBase.new_for_gompho_app (GomphoAppBase app) {
+    public StreamBase.new_for_gompho_app (ValastodonAppBase app) {
       this (app.website, app.client_id, app.client_secret, app.access_token);
     }
     
@@ -86,7 +86,7 @@ namespace Gomphotherium {
           string_builder.erase ();
         } else if (fragment.has_suffix ("\r\n") || fragment.has_suffix ("\n\n")) {
           string event_type;
-          Gomphotherium.Object object;
+          Valastodon.Object object;
           
           if (parse_payload (string_builder.str, out event_type, out object)) {
               stream_callback (event_type, object);
@@ -97,7 +97,7 @@ namespace Gomphotherium {
       }
     }
     
-    private bool parse_payload (string payload, out string event_type, out Gomphotherium.Object object) {
+    private bool parse_payload (string payload, out string event_type, out Valastodon.Object object) {
       
       event_type = null;
       object = null;
@@ -140,7 +140,7 @@ namespace Gomphotherium {
       base (website, client_id, client_secret, access_token);
     }
     
-    public UserStream.new_for_gompho_app (GomphoApp app) {
+    public UserStream.new_for_gompho_app (ValastodonApp app) {
       base (app.website, app.client_id, app.client_secret, app.access_token);
     }
     
@@ -164,7 +164,7 @@ namespace Gomphotherium {
       base (website, client_id, client_secret, access_token);
     }
     
-    public PublicStream.new_for_gompho_app (GomphoApp app) {
+    public PublicStream.new_for_gompho_app (ValastodonApp app) {
       base (app.website, app.client_id, app.client_secret, app.access_token);
     }
     
@@ -188,7 +188,7 @@ namespace Gomphotherium {
       base (website, client_id, client_secret, access_token);
     }
     
-    public HashtagStream.new_for_gompho_app (GomphoApp app) {
+    public HashtagStream.new_for_gompho_app (ValastodonApp app) {
       base (app.website, app.client_id, app.client_secret, app.access_token);
     }
     
@@ -207,7 +207,7 @@ namespace Gomphotherium {
   }
   
   // Callback
-  public delegate void StreamCallback (string event, Gomphotherium.Object object);
+  public delegate void StreamCallback (string event, Valastodon.Object object);
   
   // Base class
   public abstract class Object {}

@@ -1,29 +1,29 @@
 AUTOMAKE_OPTIONS = subdir-objects
 
-AM_CPPFLAGS = $(GOM_CFLAGS)
+AM_CPPFLAGS = $(VD_CFLAGS)
 
-BUILT_SOURCES = libgomphotherium_la_vala.stamp
+BUILT_SOURCES = libvalastodon_la_vala.stamp
 
-lib_LTLIBRARIES = libgomphotherium.la
+lib_LTLIBRARIES = libvalastodon.la
 
-include_HEADERS = gomphotherium.h
+include_HEADERS = valastodon.h
 
-pc_DATA = gomphotherium.pc
+pc_DATA = valastodon.pc
 
 vapi_DATA = \
-						gomphotherium.deps \
-						gomphotherium.vapi
+						valastodon.deps \
+						valastodon.vapi
 
 sources = \
 				Account.vala \
 				Application.vala \
-				AsyncGomphoApp.vala \
+				AsyncValastodonApp.vala \
 				Attachment.vala \
 				Card.vala \
 				Context.vala \
 				Delete.vala \
-				GomphoApp.vala \
-				GomphoAppBase.vala \
+				ValastodonApp.vala \
+				ValastodonAppBase.vala \
 				Instance.vala \
 				Mention.vala \
 				Notification.vala \
@@ -45,13 +45,13 @@ sources = \
 
 csources = $(sources:.vala=.c)
 
-gomphotherium.vapi gomphotherium.h libgomphotherium_la_vala.stamp : $(sources)
-	@$(VALAC) $^ --vapi=gomphotherium.vapi -C --header gomphotherium.h @GOM_VALA_FLAGS@
+valastodon.vapi valastodon.h libvalastodon_la_vala.stamp : $(sources)
+	@$(VALAC) $^ --vapi=valastodon.vapi -C --header valastodon.h @VD_VALA_FLAGS@
 	
-libgomphotherium_la_LIBADD = @GOM_LIBS@
-libgomphotherium_la_LDFLAGS= -X -shared -X -fPIC -vsrsion-info 0:0:0
-libgomphotherium_la_VALASOURCES = $(sources)
-libgomphotherium_la_SOURCES = libgomphotherium_la_vala.stamp \
+libvalastodon_la_LIBADD = @VD_LIBS@
+libvalastodon_la_LDFLAGS= -X -shared -X -fPIC -vsrsion-info 0:0:0
+libvalastodon_la_VALASOURCES = $(sources)
+libvalastodon_la_SOURCES = libvalastodon_la_vala.stamp \
 															 $(csources)
 
 CLEANFILES = *.c *.h *.o *.lo *.lib *.vapi .libs/* 

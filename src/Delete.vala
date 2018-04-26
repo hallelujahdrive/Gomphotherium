@@ -1,6 +1,6 @@
-namespace Gomphotherium {
+namespace Valastodon {
   
-  public class Delete : Gomphotherium.Object {
+  public class Delete : Valastodon.Object {
     
     // Property-backing fields
     private int64 _id;

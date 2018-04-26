@@ -1,7 +1,7 @@
 using Rest;
 using Soup;
 
-namespace Gomphotherium {
+namespace Valastodon {
   
   // Fork a rest method
   private bool handle_error_from_message (Soup.Message message, out Error error) {

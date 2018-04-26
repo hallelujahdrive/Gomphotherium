@@ -1,4 +1,4 @@
-namespace Gomphotherium {
+namespace Valastodon {
   private const string ENDPOINT_ACCOUNTS = "/api/v1/accounts/%" + int64.FORMAT;
   private const string ENDPOINT_ACCOUNTS_BLOCK = "/api/v1/accounts/%" + int64.FORMAT + "/block";
   private const string ENDPOINT_ACCOUNTS_FOLLOW = "/api/v1/accounts/%" + int64.FORMAT + "/follow";

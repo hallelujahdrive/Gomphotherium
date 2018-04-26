@@ -1,6 +1,6 @@
-namespace Gomphotherium {
+namespace Valastodon {
   
-  public class StreamHead : Gomphotherium.Object {
+  public class StreamHead : Valastodon.Object {
     
     // Property-backing fields
     private string _content;

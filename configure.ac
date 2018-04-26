@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([gomphotherium], [0], [hallelujahdrive@gmail.com])
+AC_INIT([valastodon], [0], [hallelujahdrive@gmail.com])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([foreign])
 
@@ -30,7 +30,7 @@ PKG_CHECK_MODULES(GOM,[$pkg_modules])
 # Checks for typedefs, structures, and compiler characteristics.
 
 # Checks for library functions.
-GOM_VALA_FLAGS=" \
+VD_VALA_FLAGS=" \
 	--pkg glib-2.0 \
 	--pkg json-glib-1.0 \
   --pkg libsoup-2.4 \
@@ -42,9 +42,9 @@ libdir=${prefix}/lib
 pcdir=${prefix}/lib/pkgconfig
 vapidir=${prefix}/share/vala/vapi
 
-AC_SUBST(GOM_CFLAGS)
-AC_SUBST(GOM_LIBS)
-AC_SUBST(GOM_VALA_FLAGS)
+AC_SUBST(VD_CFLAGS)
+AC_SUBST(VD_LIBS)
+AC_SUBST(VD_VALA_FLAGS)
 AC_SUBST(includedir)
 AC_SUBST(libdir)
 AC_SUBST(pcdir)
@@ -54,8 +54,8 @@ AC_CHECK_FUNCS([atexit memchr memset setlocale strstr])
 
 AC_CONFIG_FILES([Makefile
                  src/Makefile
-								 src/gomphotherium.pc
+								 src/valastodon.pc
 								 tests/Makefile])
 AC_OUTPUT
 
-echo "$GOM_LIBS"
+echo "$VD_LIBS"
