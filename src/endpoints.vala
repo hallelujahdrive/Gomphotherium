@@ -14,7 +14,6 @@ namespace Valastodon {
 	private const string ENDPOINT_ACCOUNTS_UPDATE_CREDENTIALS = "/api/v1/accounts/update_credentials";
 	private const string ENDPOINT_ACCOUNTS_VERIFY_CREDENTIALS = "/api/v1/accounts/verify_credentials";
 	private const string ENDPOINT_APPS = "/api/v1/apps";
-	private const string ENDPOINT_AUTHORIZE = "/oauth/authorize";
 	private const string ENDPOINT_BLOCKS = "/api/v1/blocks";
 	private const string ENDPOINT_FAVOURITES = "/api/v1/favourites";
 	private const string ENDPOINT_FOLLOWS = "/api/v1/follows";
@@ -28,6 +27,7 @@ namespace Valastodon {
 	private const string ENDPOINT_NOTIFICATIONS = "/api/v1/notifications";
 	private const string ENDPOINT_NOTIFICATIONS_CLIEAR = "/api/v1/notifications/clear";
 	private const string ENDPOINT_REPORTS = "/api/v1/reports";
+	private const string ENDPOINT_OAUTH_AUTHORIZE = "/oauth/authorize";
 	private const string ENDPOINT_OAUTH_TOKEN = "/oauth/token";
 	private const string ENDPOINT_SEARCH = "/api/v1/search";
 	private const string ENDPOINT_STATUSES = "/api/v1/statuses";

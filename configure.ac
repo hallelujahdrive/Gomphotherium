@@ -17,9 +17,9 @@ AC_PROG_INSTALL
 
 # Checks for libraries.
 pkg_modules="
+	gee-0.8
 	glib-2.0
 	json-glib-1.0
-	libsoup-2.4
 	rest-0.7
 	"
 
@@ -30,10 +30,10 @@ PKG_CHECK_MODULES(VD,[$pkg_modules])
 # Checks for typedefs, structures, and compiler characteristics.
 
 # Checks for library functions.
-VD_VALA_FLAGS=" \
+VD_VALA_FLAGS=" \\
+	--pkg gee-0.8 \
 	--pkg glib-2.0 \
 	--pkg json-glib-1.0 \
-	--pkg libsoup-2.4 \
 	--pkg rest-0.7
 	"
 

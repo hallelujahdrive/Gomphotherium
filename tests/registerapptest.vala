@@ -9,14 +9,14 @@ void register_app () {
     
     var regex = new Regex ("[0-9a-z]{64}");
     
-    var app = Valastodon.register_app (website, client_name, null, scopes, null);
+    var map = Valastodon.register_app (website, client_name, null, scopes, null);
     
-    assert (regex.match_all_full (app.client_id));
-    assert (regex.match_all_full (app.client_secret));
+    assert (regex.match_all_full (map[Valastodon.CLIENT_ID]));
+    assert (regex.match_all_full (map[Valastodon.CLIENT_SECRET]));
     
-    stdout.printf ("\nclient_id : %s\n", app.client_id);
-    stdout.printf ("client_secret : %s\n", app.client_secret);
-  
+    stdout.printf ("\nclient_id : %s\n", map[Valastodon.CLIENT_ID]);
+    stdout.printf ("client_secret : %s\n", map[Valastodon.CLIENT_SECRET]);
+      
   } catch (Error e) {
     stderr.printf ("%s\n", e.message);
   }

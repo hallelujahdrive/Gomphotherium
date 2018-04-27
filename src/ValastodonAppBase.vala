@@ -47,7 +47,7 @@ namespace Valastodon {
 		// Set proxy params to oauth
 		protected void setup_oauth_proxy_call (ref ProxyCall proxy_call, string email, string password, string scope) {
 			
-			proxy_call.add_params (PARAM_CLIENT_ID, _client_id, PARAM_CLIENT_SECRET, _client_secret, PARAM_GRANT_TYPE, "password", PARAM_USERNAME, email, PARAM_PASSWORD, password, PARAM_SCOPE, scope);
+			proxy_call.add_params (PARAM_CLIENT_ID, _client_id, PARAM_CLIENT_SECRET, _client_secret, PARAM_GRANT_TYPE, "code", PARAM_USERNAME, email, PARAM_PASSWORD, password, PARAM_SCOPE, scope);
 			proxy_call.set_function (ENDPOINT_OAUTH_TOKEN);
 			proxy_call.set_method ("POST");
 		}

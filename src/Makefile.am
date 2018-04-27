@@ -38,6 +38,7 @@ sources = \
 				endpoints.vala \
 				event_types.vala \
 				params.vala \
+				public_constants.vala \
 				methods/regster_app.vala \
 				utils/file_utils.vala \
 				utils/json_utils.vala \
