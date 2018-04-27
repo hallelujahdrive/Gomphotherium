@@ -47,7 +47,7 @@ namespace Valastodon {
       }
     }
     
-    public StreamBase.new_for_gompho_app (ValastodonAppBase app) {
+    public StreamBase.new_for_app (ValastodonAppBase app) {
       this (app.website, app.client_id, app.client_secret, app.access_token);
     }
     
@@ -140,7 +140,7 @@ namespace Valastodon {
       base (website, client_id, client_secret, access_token);
     }
     
-    public UserStream.new_for_gompho_app (ValastodonApp app) {
+    public UserStream.new_for_app (ValastodonApp app) {
       base (app.website, app.client_id, app.client_secret, app.access_token);
     }
     
@@ -164,7 +164,7 @@ namespace Valastodon {
       base (website, client_id, client_secret, access_token);
     }
     
-    public PublicStream.new_for_gompho_app (ValastodonApp app) {
+    public PublicStream.new_for_app (ValastodonApp app) {
       base (app.website, app.client_id, app.client_secret, app.access_token);
     }
     
@@ -188,7 +188,7 @@ namespace Valastodon {
       base (website, client_id, client_secret, access_token);
     }
     
-    public HashtagStream.new_for_gompho_app (ValastodonApp app) {
+    public HashtagStream.new_for_app (ValastodonApp app) {
       base (app.website, app.client_id, app.client_secret, app.access_token);
     }
     

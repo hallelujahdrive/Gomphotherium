@@ -23,7 +23,7 @@ pkg_modules="
 	rest-0.7
 	"
 
-PKG_CHECK_MODULES(GOM,[$pkg_modules])
+PKG_CHECK_MODULES(VD,[$pkg_modules])
 
 # Checks for header files.
 

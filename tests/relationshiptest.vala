@@ -7,7 +7,7 @@ void follow () {
   int64 account_id = 181311;
   
   // follow
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     
@@ -39,7 +39,7 @@ void follow () {
   // get followers
   string access_token_2 = load_access_token_2 ();
   
-  var app_2 = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token_2);
+  var app_2 = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token_2);
   
   try {
     var accounts = app_2.get_followers (account_id);
@@ -60,7 +60,7 @@ void unfollow () {
   // @hallelujahdevelop
   int64 account_id = 181311;
   
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     
@@ -86,7 +86,7 @@ void mute () {
   // @hallelujahdevelop
   int64 account_id = 181311;
   
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   // mute
   try {
@@ -123,7 +123,7 @@ void unmute () {
   // @hallelujahdevelop
   int64 account_id = 181311;
   
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     
@@ -148,7 +148,7 @@ void block () {
   // @hallelujahdevelop
   int64 account_id = 181311;
   
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     
@@ -183,7 +183,7 @@ void unblock () {
   // @hallelujahdevelop
   int64 account_id = 181311;
   
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     

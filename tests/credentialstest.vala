@@ -5,7 +5,7 @@ void update_credentials () {
   // @hallelujahdevelop
   string access_token = load_access_token_2 ();
     
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
    var avatar = File.new_for_path ("datas/test_avatar.png");
    var header = File.new_for_path ("datas/test_header.png");
@@ -31,7 +31,7 @@ void verify_credentials () {
   // @hallelujahdevelop
   string access_token = load_access_token_2 ();
     
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     var regex = new Regex ("&lt;p&gt;This is a test bio\\.&lt;\\/p&gt;");

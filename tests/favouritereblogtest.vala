@@ -7,7 +7,7 @@ void reblog () {
   // https://mstdn.jp/web/statuses/5049643
   int64 status_id = 5049643;
   
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   // reblog
   try {
@@ -28,7 +28,7 @@ void reblog () {
   string access_token_2 = load_access_token ();
   // @hallelujahdevelop
   int64 account_id = 181311;
-  var app_2 = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token_2);
+  var app_2 = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token_2);
   try {
     
     var list = app_2.get_reblogged_by (status_id);
@@ -51,7 +51,7 @@ void unreblog () {
   // https://mstdn.jp/web/statuses/5049643
   int64 status_id = 5049643;
   
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     
@@ -75,7 +75,7 @@ void favourite () {
   // https://mstdn.jp/web/statuses/5049547
   int64 status_id = 5049547;
   
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   
   // favourite
@@ -108,7 +108,7 @@ void favourite () {
   string access_token_2 = load_access_token ();
   // @hallelujahdevelop
   int64 account_id = 181311;
-  var app_2 = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token_2);
+  var app_2 = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token_2);
   try {
     
     var accounts = app_2.get_favourited_by (status_id);
@@ -130,7 +130,7 @@ void unfavourite () {
   // https://mstdn.jp/web/statuses/5049547
   int64 status_id = 5049547;
   
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
 

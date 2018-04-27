@@ -5,7 +5,7 @@ void get_notifications () {
   
   // hallelujahdrive's access_token
   string access_token = load_access_token ();
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   int64[] ids = {5500062, 5500083, 5500098, 5500124, 5500213};
   
@@ -20,7 +20,7 @@ void get_notifications () {
   
   // @hallelujahdevelop's access token
   string access_token_2 = load_access_token_2 ();
-  var app_2 = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token_2);
+  var app_2 = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token_2);
   
   try {
     
@@ -41,7 +41,7 @@ void clear_notifications () {
   string[] ci_cs = load_ci_cs ();
   // @hallelujahdevelop's access token
   string access_token_2 = load_access_token_2 ();
-  var app_2 = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token_2);
+  var app_2 = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token_2);
   
   int64[] ids = {5500062, 5500083, 5500098, 5500124, 5500213};
   
@@ -54,7 +54,7 @@ void clear_notifications () {
 
   // hallelujahdrive's access_token
   string access_token = load_access_token ();
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     foreach (int64 id in ids) {

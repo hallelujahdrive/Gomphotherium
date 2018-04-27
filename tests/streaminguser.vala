@@ -7,21 +7,21 @@ void streaming_user () {
   string access_token = load_access_token ();
   int64 account_id = load_account_id ();
     
-  var stream = new Gomphotherium.UserStream (website, ci_cs[0], ci_cs[1], access_token);
+  var stream = new Valastodon.UserStream (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     
     if (stream.continuous ((event, object) => {
       switch (event) {
-        case "delete" : stdout.printf ("%s :\n%" + int64.FORMAT + "\n", event, ((Gomphotherium.Delete) object).id);
+        case "delete" : stdout.printf ("%s :\n%" + int64.FORMAT + "\n", event, ((Valastodon.Delete) object).id);
         break;
         case "notification" :
         stdout.printf ("%s :\n", event);
-        output_notification ((Gomphotherium.Notification) object);
+        output_notification ((Valastodon.Notification) object);
         break;
         case "update" :
         stdout.printf ("%s :\n", event);
-        output_status ((Gomphotherium.Status) object);
+        output_status ((Valastodon.Status) object);
         break;
       }
     })) {

@@ -1,7 +1,7 @@
 AUTOMAKE_OPTIONS = subdir-objects
 
 AM_CPPFLAGS = \
-						$(GOM_CFLAGS) \
+						$(VD_CFLAGS) \
 						-I$(top_builddir)/src \
 						-I$(top_srcdir)/src \
 						-I. \
@@ -54,25 +54,25 @@ testmod_VALASOURCES = \
 											loadfunctions.vala \
 											outputfunctions.vala
 
-libgomphotherium = \
-							$(top_builddir)/src/libgomphotherium.la \
-							$(top_builddir)/src/gomphotherium.vapi
+libvalastodon = \
+							$(top_builddir)/src/libvalastodon.la \
+							$(top_builddir)/src/valastodon.vapi
 
 $(tests_VALASOURCES:.vala=.c) : test_vala.stamp
 $(testmod_VALASOURCES:.vala=.c) : libtestmod_la_vala.stamp
 
-testmod.vapi testmod.h libtestmod_la_vala.stamp : $(testmod_VALASOURCES) $(libgomphotherium)
+testmod.vapi testmod.h libtestmod_la_vala.stamp : $(testmod_VALASOURCES) $(libvalastodon)
 	@$(VALAC) $(testmod_VALASOURCES) \
 	--vapidir $(top_builddir)/src \
-	--pkg gomphotherium \
+	--pkg valastodon \
 	--vapi=testmod.vapi -C --header testmod.h \
-	@GOM_VALA_FLAGS@
+	@VD_VALA_FLAGS@
 
-test_vala.stamp : $(tests_VALASOURCES) $(libgomphotherium) Makefile libtestmod_la_vala.stamp
+test_vala.stamp : $(tests_VALASOURCES) $(libvalastodon) Makefile libtestmod_la_vala.stamp
 	for s in $(tests_VALASOURCES); do \
 		$(VALAC) \
-			$(AM_VALAFLAGS) $(GOM_VALA_FLAGS) \
-			--pkg gomphotherium \
+			$(AM_VALAFLAGS) $(VD_VALA_FLAGS) \
+			--pkg valastodon \
 			--pkg testmod \
 			--enable-deprecated \
 			$$s; \
@@ -80,7 +80,7 @@ test_vala.stamp : $(tests_VALASOURCES) $(libgomphotherium) Makefile libtestmod_l
 		touch $@
 
 libtestmod_la_VALASOURCES = $(testmod_VALASOURCES)
-libtestmod_la_LIBADD = @GOM_LIBS@
+libtestmod_la_LIBADD = @VD_LIBS@
 libtestmod_la_SOURCES = libtestmod_la_vala.stamp \
 												$(testmod_VALASOURCES:.vala=.c)
 
@@ -89,25 +89,25 @@ nodist_credentialstest_SOURCES = \
 																	credentialstest.c 
 credentialstest_LDADD = \
 												libtestmod.la \
-												$(top_builddir)/src/libgomphotherium.la
+												$(top_builddir)/src/libvalastodon.la
 
 nodist_favouritereblogtest_SOURCES = \
 																				libtestmod_la_vala.stamp \
 																				favouritereblogtest.c 
 favouritereblogtest_LDADD = \
 															libtestmod.la \
-															$(top_builddir)/src/libgomphotherium.la
+															$(top_builddir)/src/libvalastodon.la
 
 nodist_followtest_SOURCES = \
 														libtestmod_la_vala.stamp \
 														followtest.c 
 followtest_LDADD = \
 									libtestmod.la \
-									$(top_builddir)/src/libgomphotherium.la
+									$(top_builddir)/src/libvalastodon.la
 
 gettest_LDADD = \
 									libtestmod.la \
-									$(top_builddir)/src/libgomphotherium.la
+									$(top_builddir)/src/libvalastodon.la
 
 nodist_notificationstest_SOURCES = \
 																			libtestmod_la_vala.stamp \
@@ -115,56 +115,56 @@ nodist_notificationstest_SOURCES = \
 
 notificationstest_LDADD = \
 														libtestmod.la \
-														$(top_builddir)/src/libgomphotherium.la
+														$(top_builddir)/src/libvalastodon.la
 
 nodist_oauthtokentest_SOURCES = \
 																libtestmod_la_vala.stamp \
 																oauthtokentest.c
 oauthtokentest_LDADD = \
 											libtestmod.la \
-											$(top_builddir)/src/libgomphotherium.la
+											$(top_builddir)/src/libvalastodon.la
 
 nodist_posttest_SOURCES = \
 													libtestmod_la_vala.stamp \
 													posttest.c
 posttest_LDADD = \
 								libtestmod.la \
-								$(top_builddir)/src/libgomphotherium.la
+								$(top_builddir)/src/libvalastodon.la
 
 nodist_registerapptest_SOURCES = \
 																	libtestmod_la_vala.stamp \
 																	registerapptest.c
 registerapptest_LDADD = \
 												libtestmod.la \
-												$(top_builddir)/src/libgomphotherium.la
+												$(top_builddir)/src/libvalastodon.la
 
 nodist_relationshiptest_SOURCES = \
 																		libtestmod_la_vala.stamp \
 																		relationshiptest.c 
 relationshiptest_LDADD = \
 													libtestmod.la \
-													$(top_builddir)/src/libgomphotherium.la
+													$(top_builddir)/src/libvalastodon.la
 
 nodist_reporttest_SOURCES = \
 														libtestmod_la_vala.stamp \
 														reporttest.c 
 reporttest_LDADD = \
 									libtestmod.la \
-									$(top_builddir)/src/libgomphotherium.la
+									$(top_builddir)/src/libvalastodon.la
 
 nodist_uploadtest_SOURCES = \
 														libtestmod_la_vala.stamp \
 														uploadtest.c 
 uploadtest_LDADD = \
 									libtestmod.la \
-									$(top_builddir)/src/libgomphotherium.la
+									$(top_builddir)/src/libvalastodon.la
 									
 nodist_resetcredentials_SOURCES = \
 																		libtestmod_la_vala.stamp \
 																		resetcredentials.c 
 resetcredentials_LDADD = \
 													libtestmod.la \
-													$(top_builddir)/src/libgomphotherium.la
+													$(top_builddir)/src/libvalastodon.la
 													
 
 nodist_streamingpublic_SOURCES = \
@@ -172,14 +172,14 @@ nodist_streamingpublic_SOURCES = \
 																		streamingpublic.c 
 streamingpublic_LDADD = \
 													libtestmod.la \
-													$(top_builddir)/src/libgomphotherium.la
+													$(top_builddir)/src/libvalastodon.la
 
 nodist_streaminguser_SOURCES = \
 																		libtestmod_la_vala.stamp \
 																		streaminguser.c 
 streaminguser_LDADD = \
 													libtestmod.la \
-													$(top_builddir)/src/libgomphotherium.la
+													$(top_builddir)/src/libvalastodon.la
 
 CLEANFILES = \
 						tests_vala.stamp \

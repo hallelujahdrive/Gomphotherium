@@ -3,7 +3,7 @@ void post_status () {
   string[] ci_cs = load_ci_cs ();
   // @hallelujahdevelop's acces token
   string access_token = load_access_token_2 ();
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     
@@ -27,7 +27,7 @@ void post_status_reply () {
   // @hallelujahdrive
   int64 in_reply_to_id = 6016005;
   int64 account_id = 116;
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     
@@ -50,7 +50,7 @@ void post_status_sensitive () {
   string[] ci_cs = load_ci_cs ();
   // @hallelujahdevelop's acces token
   string access_token = load_access_token_2 ();
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     
@@ -72,7 +72,7 @@ void post_status_spoiler_text () {
   string[] ci_cs = load_ci_cs ();
   // @hallelujahdevelop's acces token
   string access_token = load_access_token_2 ();
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     
@@ -97,7 +97,7 @@ void post_status_visibility_direct () {
   string access_token = load_access_token_2 ();
   // @hallelujahdrive
   int64 in_reply_to_id = 6016005;
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     
@@ -119,7 +119,7 @@ void post_status_visibility_private () {
   string[] ci_cs = load_ci_cs ();
   // @hallelujahdevelop's acces token
   string access_token = load_access_token_2 ();
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     
@@ -142,7 +142,7 @@ void post_status_visibility_unlisted () {
   // @hallelujahdevelop's acces token
   string access_token = load_access_token_2 ();
   
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     
@@ -165,7 +165,7 @@ void post_status_visibility_public () {
   // @hallelujahdevelop's acces token
   string access_token = load_access_token_2 ();
 
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     

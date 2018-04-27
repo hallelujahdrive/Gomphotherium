@@ -1,4 +1,4 @@
-public void output_account (Gomphotherium.Account account) {
+public void output_account (Valastodon.Account account) {
   
   stdout.printf ("""
   id : %""" + int64.FORMAT + """
@@ -22,7 +22,7 @@ public void output_account (Gomphotherium.Account account) {
   account.avatar_static, account.header, account.header_static);
 }
 
-public void output_status (Gomphotherium.Status status) {
+public void output_status (Valastodon.Status status) {
   
   stdout.printf ("""
   id : %""" + int64.FORMAT + """
@@ -97,7 +97,7 @@ public void output_status (Gomphotherium.Status status) {
   
 }
 
-public void output_attachment (Gomphotherium.Attachment attachment) {
+public void output_attachment (Valastodon.Attachment attachment) {
   
   stdout.printf ("""
   id : %""" + int64.FORMAT + """
@@ -111,7 +111,7 @@ public void output_attachment (Gomphotherium.Attachment attachment) {
   
 }
 
-public void output_mention (Gomphotherium.Mention mention) {
+public void output_mention (Valastodon.Mention mention) {
   
   stdout.printf ("""
   url : %s
@@ -122,7 +122,7 @@ public void output_mention (Gomphotherium.Mention mention) {
   
 }
 
-public void output_tag (Gomphotherium.Tag tag) {
+public void output_tag (Valastodon.Tag tag) {
   
   stdout.printf ("""
   name : %s
@@ -131,7 +131,7 @@ public void output_tag (Gomphotherium.Tag tag) {
   
 }
 
-public void output_application (Gomphotherium.Application application) {
+public void output_application (Valastodon.Application application) {
   
   stdout.printf ("""
   name : %s
@@ -140,7 +140,7 @@ public void output_application (Gomphotherium.Application application) {
   
 }
 
-public void output_relationship (Gomphotherium.Relationship relationship) {
+public void output_relationship (Valastodon.Relationship relationship) {
   
   stdout.printf ("""
   id : %""" + int64.FORMAT + """
@@ -154,7 +154,7 @@ public void output_relationship (Gomphotherium.Relationship relationship) {
   
 }
 
-public void output_instance (Gomphotherium.Instance instance) {
+public void output_instance (Valastodon.Instance instance) {
 
   stdout.printf ("""
   url : %s
@@ -165,7 +165,7 @@ public void output_instance (Gomphotherium.Instance instance) {
 
 }
 
-public void output_notification (Gomphotherium.Notification notification) {
+public void output_notification (Valastodon.Notification notification) {
   
   stdout.printf ("""
   id : %""" + int64.FORMAT + """
@@ -187,7 +187,7 @@ public void output_notification (Gomphotherium.Notification notification) {
   
 }
 
-public void output_report (Gomphotherium.Report report) {
+public void output_report (Valastodon.Report report) {
   
   stdout.printf ("""
   id : %""" + int64.FORMAT + """
@@ -196,7 +196,7 @@ public void output_report (Gomphotherium.Report report) {
   
 }
 
-public void output_results (Gomphotherium.Results results) {
+public void output_results (Valastodon.Results results) {
   
   stdout.printf("  accounts :\n");
   results.accounts.foreach ((account) => {
@@ -215,7 +215,7 @@ public void output_results (Gomphotherium.Results results) {
   
 }
 
-public void output_context (Gomphotherium.Context context) {
+public void output_context (Valastodon.Context context) {
   
   stdout.printf("  ancesttors :\n");
   context.ancestors.foreach ((status) => {
@@ -230,7 +230,7 @@ public void output_context (Gomphotherium.Context context) {
   
 }
 
-public void output_card (Gomphotherium.Card card) {
+public void output_card (Valastodon.Card card) {
   
   stdout.printf ("""
   url : %s

@@ -5,7 +5,7 @@ void get_notification () {
   string access_token = load_access_token ();
   int64 notification_id = load_notification_id ();
     
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     var notification = app.get_notification (notification_id);
@@ -26,7 +26,7 @@ void get_notification_async () {
   string access_token = load_access_token ();
   int64 notification_id = load_notification_id ();
     
-  var app = new Gomphotherium.AsyncGomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.AsyncValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   stdout.printf ("begin function\n");
   app.get_notification_async.begin (notification_id, (obj, res) => {

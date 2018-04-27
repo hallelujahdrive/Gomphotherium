@@ -6,7 +6,7 @@ void get_account () {
   // @hallelujahdevelop
   int64 account_id = 181311;
     
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     var account = app.get_account (account_id);
@@ -45,7 +45,7 @@ void get_account_async () {
   
   int develop_flag = 0;
     
-  var app = new Gomphotherium.AsyncGomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.AsyncValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   develop_flag++;
   app.get_account_async.begin (account_id, (obj, res) => {

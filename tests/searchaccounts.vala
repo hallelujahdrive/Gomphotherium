@@ -4,7 +4,7 @@ void search_accounts () {
   string[] ci_cs = load_ci_cs ();
   string access_token = load_access_token ();
     
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     
@@ -27,7 +27,7 @@ void search_accounts_async () {
   string[] ci_cs = load_ci_cs ();
   string access_token = load_access_token ();
     
-  var app = new Gomphotherium.AsyncGomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.AsyncValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   stdout.printf ("begin function\n");
   app.search_accounts_async.begin ("a", -1, (obj, res) => {

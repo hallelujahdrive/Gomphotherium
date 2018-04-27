@@ -4,7 +4,7 @@ void report () {
   string access_token = load_access_token ();
   int64 account_id = load_report_account_id ();
   
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   int64[] ids;
   try {

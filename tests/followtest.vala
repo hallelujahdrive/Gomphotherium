@@ -5,7 +5,7 @@ void remote_follow () {
   string access_token = load_access_token ();
   string account_uri = "hallelujahdrive@pawoo.net";
   
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     
@@ -33,7 +33,7 @@ void remote_unfollow () {
   // hallelujahdrive@pawoo.net
   int64 account_id = 11960;
   
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     
@@ -58,7 +58,7 @@ void authorize_follow_requests () {
   // @chiharuprototype
   int64 account_id = 190872;
   
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   // Send a follow request
   try {
@@ -77,7 +77,7 @@ void authorize_follow_requests () {
   // @hallelujahdrive
   int64 account_id_2 = 116;
   
-  var app_3 = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token_3);
+  var app_3 = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token_3);
   
   // check follow requests
   try {
@@ -122,7 +122,7 @@ void reject_follow_requests () {
   // @chiharuprototype
   int64 account_id = 190872;
   
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   // Send a follow request
   try {
@@ -142,7 +142,7 @@ void reject_follow_requests () {
   // @hallelujahdrive
   int64 account_id_2 = 116;
   
-  var app_3 = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token_3);
+  var app_3 = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token_3);
   
   // check follow requests
   try {

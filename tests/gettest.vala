@@ -6,7 +6,7 @@ void get_account () {
   // @hallelujahdevelop
   int64 account_id = 181311;
     
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     var account = app.get_account (account_id);
@@ -35,7 +35,7 @@ void get_status () {
   // https://mstdn.jp/web/statuses/7483384
   int64 status_id = 7483384;
     
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     var status = app.get_status (status_id);
@@ -59,11 +59,11 @@ void get_statuses () {
   string access_token = load_access_token ();
   int64 account_id = 116;
     
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
-  var params = new Gomphotherium.RangingParams (-1, -1, 20);
-  Gomphotherium.RangingParams next;
-  Gomphotherium.RangingParams prev;
+  var params = new Valastodon.RangingParams (-1, -1, 20);
+  Valastodon.RangingParams next;
+  Valastodon.RangingParams prev;
   
   try {
     var statuses = app.get_statuses (account_id, false, false, params,out next,out prev);
@@ -80,7 +80,7 @@ void get_home_timeline () {
   // @hallelujahdrive
   string access_token = load_access_token ();
     
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     
@@ -99,7 +99,7 @@ void get_public_timeline () {
   // @hallelujahdrive
   string access_token = load_access_token ();
     
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     
@@ -118,7 +118,7 @@ void get_tag_timeline () {
   // @hallelujahdrive
   string access_token = load_access_token ();
     
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     
@@ -137,7 +137,7 @@ void search () {
   // @hallelujahdrive
   string access_token = load_access_token ();
     
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     var results = app.search ("a", true);
@@ -160,7 +160,7 @@ void search_accounts () {
   // @hallelujahdrive
   string access_token = load_access_token ();
     
-  var app = new Gomphotherium.GomphoApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
   
   try {
     
