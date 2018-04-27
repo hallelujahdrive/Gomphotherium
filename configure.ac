@@ -12,14 +12,14 @@ LT_INIT
 AC_PROG_CC
 AC_PROG_CC_STDC
 AM_PROG_LIBTOOL
-AM_PROG_VALAC([0.32])
+AM_PROG_VALAC([0.34])
 AC_PROG_INSTALL
 
 # Checks for libraries.
 pkg_modules="
 	glib-2.0
 	json-glib-1.0
-  libsoup-2.4
+	libsoup-2.4
 	rest-0.7
 	"
 
@@ -33,7 +33,7 @@ PKG_CHECK_MODULES(VD,[$pkg_modules])
 VD_VALA_FLAGS=" \
 	--pkg glib-2.0 \
 	--pkg json-glib-1.0 \
-  --pkg libsoup-2.4 \
+	--pkg libsoup-2.4 \
 	--pkg rest-0.7
 	"
 

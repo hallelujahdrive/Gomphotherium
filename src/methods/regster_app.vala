@@ -62,7 +62,7 @@ namespace Valastodon {
 		yield;
 		
 		if (error != null) {
-				throw error;
+			throw error;
 		}
 			
 		return app;
