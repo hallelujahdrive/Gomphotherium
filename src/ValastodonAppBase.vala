@@ -7,19 +7,19 @@ namespace Valastodon {
 	public class ValastodonAppBase : GLib.Object {
 		
 		// Property-backing fields
-		protected string _website;
-		protected string _client_id;
+		protected string _instance_website;
+		protected string _client_key;
 		protected string _client_secret;
 		protected string _access_token;
 		
 		protected Rest.Proxy proxy;
 
 		// Propaties
-		public string website {
-			get { return _website; }
+		public string instance_website {
+			get { return _instance_website; }
 		}
-		public string client_id {
-			get { return _client_id; }
+		public string client_key {
+			get { return _client_key; }
 		}
 		public string client_secret {
 			get { return _client_secret; }
@@ -28,28 +28,52 @@ namespace Valastodon {
 			get { return _access_token; }
 		}
 		
-		// @website : Instance URL
-		// @client_id : Client ID of your ValastodonApp
+		// @instance_website : Instance URL
+		// @client_key : Client Key of your ValastodonApp
 		// @client_secret : Client Secret of your cpplication
-		// @access_token : (optional) Your access token
-		public ValastodonAppBase (string website, string client_id, string client_secret, string? access_token) {
-			_website = website;
-			_client_id = client_id;
+		// @access_token : (oprional) An access token of your app
+		public ValastodonAppBase (string instance_website, string client_key, string client_secret, string? access_token) {
+			_instance_website = instance_website;
+			_client_key = client_key;
 			_client_secret = client_secret;
 			
-			proxy = new Rest.Proxy (_website, false);
+			proxy = new Rest.Proxy (_instance_website, false);
 			
 			if (access_token != null){
 				_access_token = access_token;
 			}
 		}
-
-		// Set proxy params to oauth
-		protected void setup_oauth_proxy_call (ref ProxyCall proxy_call, string email, string password, string scope) {
 			
-			proxy_call.add_params (PARAM_CLIENT_ID, _client_id, PARAM_CLIENT_SECRET, _client_secret, PARAM_GRANT_TYPE, "code", PARAM_USERNAME, email, PARAM_PASSWORD, password, PARAM_SCOPE, scope);
+		// Users have to go to this url's web page to authorize a your app
+		// @scope : This can be a space-separated list of the following items: "read", "write" and "follow"
+		// @redirect_uri : (optional) Where the user should be redirected after authorization
+		public string get_authorize_url (string scope, string? redirect_uri = null) {
+			
+			if (redirect_uri == null) {
+				redirect_uri = "urn:ietf:wg:oauth:2.0:oob";
+			}
+			
+			HashTable<string, string> form = new HashTable<string, string> (str_hash, str_equal);
+			form.insert (PARAM_SCOPE, scope.replace(" ", "%20"));
+			form.insert (PARAM_RESPONSE_TYPE, "code");
+			form.insert (PARAM_REDIRECT_URI, redirect_uri);
+			form.insert (PARAM_CLIENT_ID, _client_key);
+				
+			var url = new Soup.URI (_instance_website);
+			url.set_path (ENDPOINT_OAUTH_AUTHORIZE);
+			url.set_query_from_form (form);
+								
+			return url.to_string (false);		
+		}
+
+		// Set proxy params to oauth with code
+		// @code : An authorization code
+		protected void setup_oauth_with_code_proxy_call (ref ProxyCall proxy_call, string code) {
+						
+			proxy_call.add_params (PARAM_CLIENT_ID, _client_key, PARAM_CLIENT_SECRET, _client_secret, PARAM_REDIRECT_URI, "urn:ietf:wg:oauth:2.0:oob", PARAM_GRANT_TYPE, "authorization_code", PARAM_CODE, code);
 			proxy_call.set_function (ENDPOINT_OAUTH_TOKEN);
 			proxy_call.set_method ("POST");
+			
 		}
 		
 		// Set proxy params to get an account
@@ -448,7 +472,7 @@ namespace Valastodon {
 		// Generate a soup message to update credentials
 		protected Soup.Message update_credentials_message_new (string? display_name, string? note, File? avatar, File? header) {
 			
-			var message = new Soup.Message ("PATCH", _website + ENDPOINT_ACCOUNTS_UPDATE_CREDENTIALS);
+			var message = new Soup.Message ("PATCH", _instance_website + ENDPOINT_ACCOUNTS_UPDATE_CREDENTIALS);
 			var sb = new StringBuilder ();
 			
 			if (display_name != null) {
@@ -495,7 +519,7 @@ namespace Valastodon {
 		// Generate a soup message to get relatiopnships
 		protected Soup.Message relationships_message_new (int64[] ids) {
 			
-			var message = new Soup.Message ("GET", _website + ENDPOINT_ACCOUNTS_RELATIONSHIPS);
+			var message = new Soup.Message ("GET", _instance_website + ENDPOINT_ACCOUNTS_RELATIONSHIPS);
 			var sb = new StringBuilder ();
 			
 			int i = 0;
@@ -530,7 +554,7 @@ namespace Valastodon {
 				
 				multipart.append_form_file (PARAM_FILE, info.get_display_name (), info.get_content_type (), buffer);
 				
-				var message = Soup.Form.request_new_from_multipart (_website + ENDPOINT_MEDIA, multipart);
+				var message = Soup.Form.request_new_from_multipart (_instance_website + ENDPOINT_MEDIA, multipart);
 				message.request_headers.append ("Authorization"," Bearer " + _access_token);
 				
 				return message;
@@ -543,7 +567,7 @@ namespace Valastodon {
 		// Generate a soup message to report a user
 		protected Soup.Message report_message_new (int64 account_id, int64[] status_ids, string comment) throws Error {
 			
-			var message = new Soup.Message ("POST", _website + ENDPOINT_REPORTS);
+			var message = new Soup.Message ("POST", _instance_website + ENDPOINT_REPORTS);
 			var sb = new StringBuilder ();
 			
 			sb.append (PARAM_ACCOUNT_ID);
@@ -569,7 +593,7 @@ namespace Valastodon {
 		// Generate a soup message to post a new status
 		protected Soup.Message post_status_message_new (string status, int64 in_reply_to_id, int64[]? media_ids, bool sensitive, string? spoiler_text, string? visibility) throws Error {
 			
-			var message = new Soup.Message ("POST", _website + ENDPOINT_STATUSES);
+			var message = new Soup.Message ("POST", _instance_website + ENDPOINT_STATUSES);
 			var sb = new StringBuilder ();
 			
 			sb.append (PARAM_STATUS);
@@ -655,4 +679,3 @@ namespace Valastodon {
 		}
 	}
 }
-

@@ -1,13 +1,12 @@
 void reblog () {
   
-  string website = "https://mstdn.jp";
-  string[] ci_cs = load_ci_cs ();
-  // @hallelujahdevelop
-  string access_token = load_access_token_2 ();
+  var obj = load_test_datas ();
+  var account_obj = obj.get_array_member ("accounts").get_object_element (1);
+  
   // https://mstdn.jp/web/statuses/5049643
   int64 status_id = 5049643;
   
-  var app = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token);
+  var app = new Valastodon.ValastodonApp (obj.get_string_member ("website"), obj.get_string_member ("client_key"), obj.get_string_member ("client_secret"), account_obj.get_string_member ("access_token"));
   
   // reblog
   try {
@@ -25,10 +24,10 @@ void reblog () {
   }
   
   // get reblogged by
-  string access_token_2 = load_access_token ();
+  var account_obj_2 = obj.get_array_member ("accounts").get_object_element (0);
   // @hallelujahdevelop
   int64 account_id = 181311;
-  var app_2 = new Valastodon.ValastodonApp (website, ci_cs[0], ci_cs[1], access_token_2);
+  var app_2 = new Valastodon.ValastodonApp (obj.get_string_member ("website"), obj.get_string_member ("client_key"), obj.get_string_member ("client_secret"), account_obj_2.get_string_member ("access_token"));
   try {
     
     var list = app_2.get_reblogged_by (status_id);

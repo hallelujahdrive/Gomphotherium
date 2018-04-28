@@ -7,24 +7,22 @@ namespace Valastodon {
 	public class AsyncValastodonApp : ValastodonAppBase {
 				
 		// @website : Instance URL
-		// @client_id : Client ID of your ValastodonApp
+		// @client_key : Client Key of your ValastodonApp
 		// @client_secret : Client Secret of your cpplication
 		// @access_token : (optional) Your access token
-		public AsyncValastodonApp (string website, string client_id, string client_secret, string? access_token = null) {
-			base (website, client_id, client_secret, access_token);
+		public AsyncValastodonApp (string website, string client_key, string client_secret, string? access_token = null) {
+			base (website, client_key, client_secret, access_token);
 		}
 		
 		// Getting an access token asynchronously
-		// @email : A E-mail address of your account
-		// @password : Your password
-		// @scope : This can be a space-separated list of the following items: "read", "write" and "follow"
 		// @cancellable : It can be used to cancel the call
-		public async string oauth_token_async (string email, string password, string scope, Cancellable? cancellable) throws Error {
+		// @code : An authorization code
+		public async string oauth_with_code_async (Cancellable? cancellable, string code) throws Error {
 			
 			Error error = null;
 			
 			var proxy_call = proxy.new_call ();
-			setup_oauth_proxy_call (ref proxy_call, email, password, scope);
+			setup_oauth_with_code_proxy_call (ref proxy_call, code);
 			
 			proxy_call.invoke_async.begin (cancellable, (obj, res) => {
 					
@@ -39,7 +37,7 @@ namespace Valastodon {
 					error = e;
 				}
 				
-				oauth_token_async.callback ();
+				oauth_with_code_async.callback ();
 				
 			});
 			

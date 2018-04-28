@@ -4,6 +4,7 @@ namespace Valastodon {
   private const string PARAM_CLIENT_ID = "client_id";
   private const string PARAM_CLIENT_NAME = "client_name";
   private const string PARAM_CLIENT_SECRET = "client_secret";
+  private const string PARAM_CODE = "code";
   private const string PARAM_COMMENT = "comment";
   private const string PARAM_DISPLAY_NAME = "display_name";
   private const string PARAM_EXCLUDE_REPLIES = "exclude_replies";
@@ -22,6 +23,7 @@ namespace Valastodon {
   private const string PARAM_Q = "q";
   private const string PARAM_REDIRECT_URI = "redirect_uri";
   private const string PARAM_REDIRECT_URIS = "redirect_uris";
+  private const string PARAM_REFRESH_TOKEN = "refresh_token";
   private const string PARAM_RESOLVE = "resolve";
   private const string PARAM_RESPONSE_TYPE = "response_type";
   private const string PARAM_SCOPE = "scope";

@@ -7,26 +7,25 @@ namespace Valastodon {
 	public class ValastodonApp : ValastodonAppBase {
 				
 		// @website : Instance URL
-		// @client_id : Client ID of your ValastodonApp
+		// @client_key : Client Key of your ValastodonApp
 		// @client_secret : Client Secret of your cpplication
-		// @access_token : (optional) Your access token
-		public ValastodonApp (string website, string client_id, string client_secret, string? access_token = null) {
-			base (website, client_id, client_secret, access_token);
+		// @access_token : (oprional) An access token of your app
+		public ValastodonApp (string website, string client_key, string client_secret, string? access_token = null) {
+			base (website, client_key, client_secret, access_token);
 		}
 		
 		// Getting an access token
-		// @email : A E-mail address of your account
-		// @password : Your password
-		// @scope : This can be a space-separated list of the following items: "read", "write" and "follow"
-		public string oauth_token (string email, string password, string scope) throws Error {
+		// @code : An authorization code
+		public string oauth_with_code (string code) throws Error {
 			
 			var proxy_call = proxy.new_call ();
-			setup_oauth_proxy_call (ref proxy_call, email, password, scope);
+			setup_oauth_with_code_proxy_call (ref proxy_call, code);
 			
 			try {
 				proxy_call.run ();
 				
 				var json_obj = parse_json_object (proxy_call.get_payload ());
+				print (proxy_call.get_payload ());
 				return _access_token = json_obj.get_string_member ("access_token");
 
 			} catch (Error e) {

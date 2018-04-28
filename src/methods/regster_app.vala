@@ -7,7 +7,7 @@ namespace Valastodon {
 	// @instance_website : URL to Instance you want to regist 
 	// @client_name : Name of your ValastodonApp
 	// @redirect_uris : (nullable) Where the user should be redirected after authorization
-	// @scope : This can be a space-separated list of the following items: "read", "write" and "follow"
+	// @scopes : This can be a space-separated list of the following items: "read", "write" and "follow"
 	// @app_website : (nullable) URL to the homepage of your app
 	public HashMap<string, string> register_app (string instance_website, string client_name,string? redirect_uris, string scopes, string? app_website = null) throws Error {
 				
@@ -31,7 +31,7 @@ namespace Valastodon {
 	}
 	
 	// Registing an ValastodonApp asynchronously
-	public async HashMap<string, string> register_app (string instance_website, string client_name,string? redirect_uris, string scopes, string? app_website = null) throws Error {		
+	public async HashMap<string, string> register_app_async (string instance_website, string client_name,string? redirect_uris, string scopes, string? app_website = null) throws Error {		
 		Error error = null;
 		
 		var proxy = new Rest.Proxy (instance_website, false);
@@ -47,7 +47,6 @@ namespace Valastodon {
 				
 				var json_obj = parse_json_object (proxy_call.get_payload ());
 				
-				HashMap<string, string> map = new HashMap<string, string> ();
 				map[CLIENT_ID] = json_obj.get_string_member (CLIENT_ID);
 				map[CLIENT_SECRET] = json_obj.get_string_member (CLIENT_SECRET);
 				

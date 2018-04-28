@@ -6,8 +6,8 @@ namespace Valastodon {
   public abstract class StreamBase : GLib.Object {
 
     // Property-backing fields
-    protected string _website;
-    protected string _client_id;
+    protected string _instance_website;
+    protected string _client_key;
     protected string _client_secret;
     protected string _access_token;
     
@@ -15,11 +15,11 @@ namespace Valastodon {
     protected ProxyCall proxy_call;
 
     // Propaties   
-    public string website {
-      get { return _website; }
+    public string instance_website {
+      get { return _instance_website; }
     }
-    public string client_id {
-      get { return _client_id; }
+    public string client_key {
+      get { return _client_key; }
     }
     public string client_secret {
       get { return _client_secret; }
@@ -35,12 +35,12 @@ namespace Valastodon {
     
     private Error _error;
     
-    public StreamBase (string website, string client_id, string client_secret, string? access_token) {
-      _website = website;
-      _client_id = client_id;
+    public StreamBase (string instance_website, string client_key, string client_secret, string? access_token) {
+      _instance_website = instance_website;
+      _client_key = client_key;
       _client_secret = client_secret;
       
-      proxy = new Rest.Proxy (_website, false);
+      proxy = new Rest.Proxy (_instance_website, false);
       
       if (access_token != null){
         _access_token = access_token;
@@ -48,7 +48,7 @@ namespace Valastodon {
     }
     
     public StreamBase.new_for_app (ValastodonAppBase app) {
-      this (app.website, app.client_id, app.client_secret, app.access_token);
+      this (app.instance_website, app.client_key, app.client_secret, app.access_token);
     }
     
     protected bool continuous_body (owned StreamCallback cb) throws Error {
@@ -136,12 +136,12 @@ namespace Valastodon {
   // Returns events that are relevant to the authorized user, i.e. home timeline and notifications
   public class UserStream : StreamBase {
     
-    public UserStream (string website, string client_id, string client_secret, string? access_token = null) {
-      base (website, client_id, client_secret, access_token);
+    public UserStream (string instance_website, string client_key, string client_secret, string? access_token = null) {
+      base (instance_website, client_key, client_secret, access_token);
     }
     
     public UserStream.new_for_app (ValastodonApp app) {
-      base (app.website, app.client_id, app.client_secret, app.access_token);
+      base (app.instance_website, app.client_key, app.client_secret, app.access_token);
     }
     
     public bool continuous (owned StreamCallback cb) throws Error {
@@ -160,12 +160,12 @@ namespace Valastodon {
   // Returns all public statuses
   public class PublicStream : StreamBase {
     
-    public PublicStream (string website, string client_id, string client_secret, string? access_token = null) {
-      base (website, client_id, client_secret, access_token);
+    public PublicStream (string instance_website, string client_key, string client_secret, string? access_token = null) {
+      base (instance_website, client_key, client_secret, access_token);
     }
     
     public PublicStream.new_for_app (ValastodonApp app) {
-      base (app.website, app.client_id, app.client_secret, app.access_token);
+      base (app.instance_website, app.client_key, app.client_secret, app.access_token);
     }
     
     public bool continuous (owned StreamCallback cb, bool local = false) throws Error {
@@ -184,12 +184,12 @@ namespace Valastodon {
   // Returns all public statuses for a particular hashtag
   public class HashtagStream : StreamBase {
     
-    public HashtagStream (string website, string client_id, string client_secret, string? access_token = null) {
-      base (website, client_id, client_secret, access_token);
+    public HashtagStream (string instance_website, string client_key, string client_secret, string? access_token = null) {
+      base (instance_website, client_key, client_secret, access_token);
     }
     
     public HashtagStream.new_for_app (ValastodonApp app) {
-      base (app.website, app.client_id, app.client_secret, app.access_token);
+      base (app.instance_website, app.client_key, app.client_secret, app.access_token);
     }
     
     public bool continuous (owned StreamCallback cb, string tag, bool local = false) throws Error {

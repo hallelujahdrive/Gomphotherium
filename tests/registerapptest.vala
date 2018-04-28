@@ -14,7 +14,7 @@ void register_app () {
     assert (regex.match_all_full (map[Valastodon.CLIENT_ID]));
     assert (regex.match_all_full (map[Valastodon.CLIENT_SECRET]));
     
-    stdout.printf ("\nclient_id : %s\n", map[Valastodon.CLIENT_ID]);
+    stdout.printf ("\nclient_key : %s\n", map[Valastodon.CLIENT_ID]);
     stdout.printf ("client_secret : %s\n", map[Valastodon.CLIENT_SECRET]);
       
   } catch (Error e) {
