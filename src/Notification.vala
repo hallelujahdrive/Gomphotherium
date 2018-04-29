@@ -5,14 +5,14 @@ namespace Valastodon {
   public class Notification : Valastodon.Object {
     
     // Property-backing fields
-    private int64 _id;
+    private string _id;
     private string _type;
     private string _created_at;
     private Account _account;
     private Status _status;
     
     // Properties
-    public int64 id {
+    public string id {
       get { return _id; }
     }
     public string notification_type {
@@ -33,7 +33,7 @@ namespace Valastodon {
       json_obj.foreach_member ((obj, mem, node) => {
         
         switch (mem) {
-          case "id" : _id = node.get_int ();
+          case "id" : _id = node.get_string ();
           break;
           case "type" : _type = node.get_string ();
           break;

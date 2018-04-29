@@ -5,7 +5,7 @@ namespace Valastodon {
 	public class Account {
 		
 		// Property-backing fields
-		private int64 _id;  // The ID of the account
+		private string _id;  // The ID of the account
 		private string _username; // The username of the account
 		private string _acct; // Equals username for local users, includes @domain for remote ones
 		private string _display_name; // The account's display name
@@ -22,7 +22,7 @@ namespace Valastodon {
 		private string _header_static;  // URL to the header static image (gif)
 		
 		// Propaties
-		public int64 id {
+		public string id {
 			get { return _id; }
 		}
 		public string username {
@@ -73,7 +73,7 @@ namespace Valastodon {
 			json_obj.foreach_member ((obj, mem, node) => {
 				
 				switch (mem) {
-					case "id" : _id = node.get_int ();
+					case "id" : _id = node.get_string ();
 					break;
 					case "username" : _username = node.get_string ();
 					break;

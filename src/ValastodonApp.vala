@@ -14,18 +14,17 @@ namespace Valastodon {
 			base (website, client_key, client_secret, access_token);
 		}
 		
-		// Getting an access token
+		// Authorizing and Getting an access token
 		// @code : An authorization code
-		public string oauth_with_code (string code) throws Error {
+		public string authorize (string code) throws Error {
 			
 			var proxy_call = proxy.new_call ();
-			setup_oauth_with_code_proxy_call (ref proxy_call, code);
+			setup_authorize_proxy_call (ref proxy_call, code);
 			
 			try {
 				proxy_call.run ();
 				
 				var json_obj = parse_json_object (proxy_call.get_payload ());
-				print (proxy_call.get_payload ());
 				return _access_token = json_obj.get_string_member ("access_token");
 
 			} catch (Error e) {
@@ -35,7 +34,7 @@ namespace Valastodon {
 
 		// Getting an account
 		// @id : The ID of the account
-		public Account get_account (int64 id) throws Error {
+		public Account get_account (string id) throws Error {
 			
 			var proxy_call = proxy.new_call ();
 			setup_get_account_proxy_call (ref proxy_call, id);
@@ -106,7 +105,7 @@ namespace Valastodon {
 		// @ranging_params : (optional) Parameters to select ranges of followers
 		// @next_params : (optional) Parameters to select next ranges of followers
 		// @prev_params : (optional) Parameters to select prev ranges of followers
-		public List<Account> get_followers (int64 id, RangingParams? ranging_params = null, out RangingParams next_params = null, out RangingParams prev_params = null) throws Error {
+		public List<Account> get_followers (string id, RangingParams? ranging_params = null, out RangingParams next_params = null, out RangingParams prev_params = null) throws Error {
 			
 			next_params = null;
 			prev_params = null;
@@ -137,7 +136,7 @@ namespace Valastodon {
 		// @ranging_params : (optional) Parameters to select ranges of following
 		// @next_params : (optional) Parameters to select next ranges of folloeing
 		// @prev_params : (optional) Parameters to select prev ranges of following
-		public List<Account> get_following (int64 id, RangingParams? ranging_params = null, out RangingParams next_params = null, out RangingParams prev_params = null) throws Error {
+		public List<Account> get_following (string id, RangingParams? ranging_params = null, out RangingParams next_params = null, out RangingParams prev_params = null) throws Error {
 			
 			var proxy_call = proxy.new_call ();
 			setup_get_following_proxy_call (ref proxy_call, id, ranging_params);
@@ -170,7 +169,7 @@ namespace Valastodon {
 		// @ranging_params : (optional) Parameters to select ranges of statuses
 		// @next_params : (optional) Parameters to select next ranges of statuses
 		// @prev_params : (optional) Parameters to select prev ranges of statuses
-		public List<Status> get_statuses (int64 id, bool only_media = false, bool exclude_replies = false, RangingParams? ranging_params = null, out RangingParams next_params = null, out RangingParams prev_params = null) throws Error {
+		public List<Status> get_statuses (string id, bool only_media = false, bool exclude_replies = false, RangingParams? ranging_params = null, out RangingParams next_params = null, out RangingParams prev_params = null) throws Error {
 			
 			var proxy_call = proxy.new_call ();
 			setup_get_statuses_proxy_call (ref proxy_call, id, only_media, exclude_replies, ranging_params);
@@ -198,7 +197,7 @@ namespace Valastodon {
 		
 		// Following an account
 		// @id : The ID of the account to follow
-		public Relationship follow (int64 id) throws Error {
+		public Relationship follow (string id) throws Error {
 			
 			var proxy_call = proxy.new_call ();
 			setup_follow_proxy_call (ref proxy_call, id);
@@ -217,7 +216,7 @@ namespace Valastodon {
 		
 		// Unfollowing an account
 		// @id : The ID of the account to unfollow
-		public Relationship unfollow (int64 id) throws Error {
+		public Relationship unfollow (string id) throws Error {
 			
 			var proxy_call = proxy.new_call ();
 			setup_unfollow_proxy_call (ref proxy_call, id);
@@ -236,7 +235,7 @@ namespace Valastodon {
 
 		// Blocking an account
 		// @id : The ID of the account to block
-		public Relationship block (int64 id) throws Error {
+		public Relationship block (string id) throws Error {
 			
 			var proxy_call = proxy.new_call ();
 			setup_block_proxy_call (ref proxy_call, id);
@@ -255,7 +254,7 @@ namespace Valastodon {
 		
 		// Unblocking an account
 		// @id : The ID of the account to unblock
-		public Relationship unblock (int64 id) throws Error {
+		public Relationship unblock (string id) throws Error {
 			
 			var proxy_call = proxy.new_call ();
 			setup_unblock_proxy_call (ref proxy_call, id);
@@ -274,7 +273,7 @@ namespace Valastodon {
 		
 		// Muting an account
 		// @id : The ID of the account to mute
-		public Relationship mute (int64 id) throws Error {
+		public Relationship mute (string id) throws Error {
 			
 			var proxy_call = proxy.new_call ();
 			setup_mute_proxy_call (ref proxy_call, id);
@@ -293,7 +292,7 @@ namespace Valastodon {
 		
 		// Unmuting an account
 		// @id : The ID of the account to unmute
-		public Relationship unmute (int64 id) throws Error {
+		public Relationship unmute (string id) throws Error {
 			
 			var proxy_call = proxy.new_call ();
 			setup_unmute_proxy_call (ref proxy_call, id);
@@ -312,7 +311,7 @@ namespace Valastodon {
 
 		// Getting an account's relationships
 		// @ids : The IDs of accounts to get relationships
-		public List<Relationship> get_relationships (int64[] ids) throws Error {
+		public List<Relationship> get_relationships (string[] ids) throws Error {
 			
 			Error error = null;
 			
@@ -346,7 +345,7 @@ namespace Valastodon {
 		
 		// Getting an account's relationship
 		// @id : The ID of the account to get relationship
-		public Relationship get_relationship (int64 id) throws Error {
+		public Relationship get_relationship (string id) throws Error {
 			
 			try {
 				var list = get_relationships ({id});
@@ -474,7 +473,7 @@ namespace Valastodon {
 		
 		// Authorizing a follow request
 		// @id : The ID of the account to authorize
-		public void authorize_follow_request (int64 id) throws Error {
+		public void authorize_follow_request (string id) throws Error {
 			
 			var proxy_call = proxy.new_call ();
 			setup_authorize_follow_request_proxy_call (ref proxy_call, id);
@@ -488,7 +487,7 @@ namespace Valastodon {
 
 		// Rejecting a follow request
 		// @id : The ID of the account to reject
-		public void reject_follow_request (int64 id) throws Error {
+		public void reject_follow_request (string id) throws Error {
 			
 			var proxy_call = proxy.new_call ();
 			setup_reject_follow_request_proxy_call (ref proxy_call, id);
@@ -624,7 +623,7 @@ namespace Valastodon {
 
 		// Getting a single notification
 		// @id : The ID of the account to get notifications
-		public Valastodon.Notification get_notification (int64 id) throws Error {
+		public Valastodon.Notification get_notification (string id) throws Error {
 			
 			var proxy_call = proxy.new_call ();
 			setup_get_notification_proxy_call (ref proxy_call, id);
@@ -682,7 +681,7 @@ namespace Valastodon {
 		// @account_id : The ID of the account to report
 		// @status_ids : The IDs of statuses to report
 		// @comment : A comment to associate with the report
-		public Report report (int64 account_id, int64[] status_ids, string comment) throws Error {
+		public Report report (string account_id, string[] status_ids, string comment) throws Error {
 			
 			Error error = null;
 			
@@ -727,7 +726,7 @@ namespace Valastodon {
 		
 		// Fetching a status
 		// @id : The ID of the status
-		public Status get_status (int64 id) throws Error {
+		public Status get_status (string id) throws Error {
 			
 			var proxy_call = proxy.new_call ();
 			setup_get_status_proxy_call (ref proxy_call, id);
@@ -746,7 +745,7 @@ namespace Valastodon {
 		
 		// Getting status context
 		// @id : The ID of the status
-		public Context get_context (int64 id) throws Error {
+		public Context get_context (string id) throws Error {
 			
 			var proxy_call = proxy.new_call ();
 			setup_get_context_proxy_call (ref proxy_call, id);
@@ -765,7 +764,7 @@ namespace Valastodon {
 
 		// Getting a card associated with a status
 		// @id : The ID of the status
-		public Card get_card (int64 id) throws Error {
+		public Card get_card (string id) throws Error {
 			
 			var proxy_call = proxy.new_call ();
 			setup_get_card_proxy_call (ref proxy_call, id);
@@ -786,7 +785,7 @@ namespace Valastodon {
 		// @ranging_params : (optional) Parameters to select ranges of reblogged by
 		// @next_params : (optional) Parameters to select next ranges of reblogged by
 		// @prev_params : (optional) Parameters to select prev ranges of reblogged by   
-		public List<Account> get_reblogged_by (int64 id, RangingParams? ranging_params = null, out RangingParams next_params = null, out RangingParams prev_params = null) throws Error {
+		public List<Account> get_reblogged_by (string id, RangingParams? ranging_params = null, out RangingParams next_params = null, out RangingParams prev_params = null) throws Error {
 			
 			var proxy_call = proxy.new_call ();
 			setup_get_reblogged_by_proxy_call (ref proxy_call, id, ranging_params);
@@ -816,7 +815,7 @@ namespace Valastodon {
 		// @ranging_params : (optional) Parameters to select ranges of favoutited by
 		// @next_params : (optional) Parameters to select next ranges of favoutited by
 		// @prev_params : (optional) Parameters to select prev ranges of favoutited by
-		public List<Account> get_favourited_by (int64 id, RangingParams? ranging_params = null, out RangingParams next_params = null, out RangingParams prev_params = null) throws Error {
+		public List<Account> get_favourited_by (string id, RangingParams? ranging_params = null, out RangingParams next_params = null, out RangingParams prev_params = null) throws Error {
 			
 			var proxy_call = proxy.new_call ();
 			setup_get_favourited_by_proxy_call (ref proxy_call, id, ranging_params);
@@ -842,7 +841,6 @@ namespace Valastodon {
 			}
 		}
 		
-		
 		// Posting a new status
 		// @status : The text of the status
 		// @in_reply_to_id : (optional) local ID of the status you want to reply to
@@ -850,7 +848,7 @@ namespace Valastodon {
 		// @sensitive : (optional) Set this to mark the media of the status as NSFW
 		// @spoiler_text : (optional)   Text to be shown as a warning before the actual content
 		// @visibility : (optional) Either "direct", "private", "unlisted" or "public"
-		public Status post_status (string status, int64 in_reply_to_id = -1, int64[]? media_ids = null, bool sensitive = false, string? spoiler_text = null, string? visibility = null) throws Error {
+		public Status post_status (string status, string? in_reply_to_id = null, string[]? media_ids = null, bool sensitive = false, string? spoiler_text = null, string? visibility = null) throws Error {
 
 			Error error = null;
 			
@@ -875,7 +873,7 @@ namespace Valastodon {
 		
 		// Reblogging a status
 		// @id : The ID of status to reblog
-		public Status reblog (int64 id) throws Error {
+		public Status reblog (string id) throws Error {
 			
 			var proxy_call = proxy.new_call ();
 			setup_reblog_proxy_call (ref proxy_call, id);
@@ -894,7 +892,7 @@ namespace Valastodon {
 		
 		// Unreblogging a status
 		// @id : The ID of status to unreblog
-		public Status unreblog (int64 id) throws Error {
+		public Status unreblog (string id) throws Error {
 			
 			var proxy_call = proxy.new_call ();
 			setup_unreblog_proxy_call (ref proxy_call, id);
@@ -913,7 +911,7 @@ namespace Valastodon {
 		
 		// favouriting a status
 		// @id : The ID of status to favourite
-		public Status favourite (int64 id) throws Error {
+		public Status favourite (string id) throws Error {
 			
 			var proxy_call = proxy.new_call ();
 			setup_favourite_proxy_call (ref proxy_call, id);
@@ -932,7 +930,7 @@ namespace Valastodon {
 		
 		// unfavouriting a status
 		// @id : The ID of status to unfavourite
-		public Status unfavourite (int64 id) throws Error {
+		public Status unfavourite (string id) throws Error {
 			
 			var proxy_call = proxy.new_call ();
 			setup_unfavourite_proxy_call (ref proxy_call, id);

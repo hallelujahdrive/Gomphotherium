@@ -5,7 +5,7 @@ namespace Valastodon {
   public class Attachment {
     
     // Property-backing fields
-    private int64 _id;  // ID of the attachment
+    private string _id;  // ID of the attachment
     private string _type; // One of: "image", "video", "gifv"
     private string _url;  // URL of the locally hosted version of the image
     private string _remote_url; // For remote images, the remote URL of the original image
@@ -13,7 +13,7 @@ namespace Valastodon {
     private string _text_url; // Shorter URL for the image, for insertion into text (only present on local images)
     
     // Properties
-    public int64 id {
+    public string id {
       get { return _id; }
     }
     public string media_type {
@@ -37,7 +37,7 @@ namespace Valastodon {
       json_obj.foreach_member ((obj, mem, node) => {
         
         switch (mem) {
-          case "id" : _id = node.get_int ();
+          case "id" : _id = node.get_string ();
           break;
           case "type" : _type = node.get_string ();
           break;

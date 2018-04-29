@@ -5,11 +5,11 @@ namespace Valastodon {
   public class Report {
     
     // Properties-backing field
-    private int64 _id;  // The ID of the report
+    private string _id;  // The ID of the report
     private bool _action_taken; // The action taken in response to the report
     
     // Properties
-    public int64 id {
+    public string id {
       get { return _id; }
     }
     public bool action_taken {
@@ -21,7 +21,7 @@ namespace Valastodon {
       json_obj.foreach_member ((obj, mem, node)=> {
         
         switch (mem) {
-          case "id" : _id = node.get_int ();
+          case "id" : _id = node.get_string ();
           break;
           case "action_taken" : _action_taken = node.get_boolean ();
           break;

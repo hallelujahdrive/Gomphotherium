@@ -4,7 +4,7 @@ using Soup;
 
 namespace Valastodon {
 	
-	public class ValastodonAppBase : GLib.Object {
+	public abstract class ValastodonAppBase : GLib.Object {
 		
 		// Property-backing fields
 		protected string _instance_website;
@@ -47,7 +47,7 @@ namespace Valastodon {
 		// Users have to go to this url's web page to authorize a your app
 		// @scope : This can be a space-separated list of the following items: "read", "write" and "follow"
 		// @redirect_uri : (optional) Where the user should be redirected after authorization
-		public string get_authorize_url (string scope, string? redirect_uri = null) {
+		/* public string get_authorization_url (string scope, string? redirect_uri = null) {
 			
 			if (redirect_uri == null) {
 				redirect_uri = "urn:ietf:wg:oauth:2.0:oob";
@@ -64,11 +64,11 @@ namespace Valastodon {
 			url.set_query_from_form (form);
 								
 			return url.to_string (false);		
-		}
+		}*/
 
-		// Set proxy params to oauth with code
+		// Set proxy params to authorize with code
 		// @code : An authorization code
-		protected void setup_oauth_with_code_proxy_call (ref ProxyCall proxy_call, string code) {
+		protected void setup_authorize_proxy_call (ref ProxyCall proxy_call, string code) {
 						
 			proxy_call.add_params (PARAM_CLIENT_ID, _client_key, PARAM_CLIENT_SECRET, _client_secret, PARAM_REDIRECT_URI, "urn:ietf:wg:oauth:2.0:oob", PARAM_GRANT_TYPE, "authorization_code", PARAM_CODE, code);
 			proxy_call.set_function (ENDPOINT_OAUTH_TOKEN);
@@ -77,7 +77,7 @@ namespace Valastodon {
 		}
 		
 		// Set proxy params to get an account
-		protected void setup_get_account_proxy_call (ref ProxyCall proxy_call, int64 id) {
+		protected void setup_get_account_proxy_call (ref ProxyCall proxy_call, string id) {
 			
 			proxy_call.add_header ("Authorization"," Bearer " + _access_token);
 			proxy_call.set_function (ENDPOINT_ACCOUNTS.printf (id));
@@ -95,7 +95,7 @@ namespace Valastodon {
 		}
 		
 		// Set proxy params to get followers
-		protected void setup_get_followers_proxy_call (ref ProxyCall proxy_call, int64 id, RangingParams? ranging_params) {
+		protected void setup_get_followers_proxy_call (ref ProxyCall proxy_call, string id, RangingParams? ranging_params) {
 			
 			proxy_call.add_header ("Authorization"," Bearer " + _access_token);
 			if (ranging_params != null) {
@@ -107,7 +107,7 @@ namespace Valastodon {
 		}
 		
 		// Set proxy params to get following
-		protected void setup_get_following_proxy_call (ref ProxyCall proxy_call, int64 id, RangingParams? ranging_params) {
+		protected void setup_get_following_proxy_call (ref ProxyCall proxy_call, string id, RangingParams? ranging_params) {
 			
 			proxy_call.add_header ("Authorization"," Bearer " + _access_token);
 			if (ranging_params != null) {
@@ -119,7 +119,7 @@ namespace Valastodon {
 		}
 		
 		// Set proxy params to get statuses
-		protected void setup_get_statuses_proxy_call (ref ProxyCall proxy_call, int64 id, bool only_media, bool exclude_replies, RangingParams? ranging_params) {
+		protected void setup_get_statuses_proxy_call (ref ProxyCall proxy_call, string id, bool only_media, bool exclude_replies, RangingParams? ranging_params) {
 			
 			proxy_call.add_header ("Authorization"," Bearer " + _access_token);
 			
@@ -138,7 +138,7 @@ namespace Valastodon {
 		}
 		
 		// Set proxy params to follow
-		protected void setup_follow_proxy_call (ref ProxyCall proxy_call, int64 id) {
+		protected void setup_follow_proxy_call (ref ProxyCall proxy_call, string id) {
 			
 			proxy_call.add_header ("Authorization"," Bearer " + _access_token);     
 			proxy_call.set_function (ENDPOINT_ACCOUNTS_FOLLOW.printf (id));
@@ -147,7 +147,7 @@ namespace Valastodon {
 		}
 		
 		// Set proxy params to unfollow
-		protected void setup_unfollow_proxy_call (ref ProxyCall proxy_call, int64 id) {
+		protected void setup_unfollow_proxy_call (ref ProxyCall proxy_call, string id) {
 			
 			proxy_call.add_header ("Authorization"," Bearer " + _access_token);     
 			proxy_call.set_function (ENDPOINT_ACCOUNTS_UNFOLLOW.printf (id));
@@ -156,7 +156,7 @@ namespace Valastodon {
 		}    
 		
 		// Set proxy params to block
-		protected void setup_block_proxy_call (ref ProxyCall proxy_call, int64 id) {
+		protected void setup_block_proxy_call (ref ProxyCall proxy_call, string id) {
 			
 			proxy_call.add_header ("Authorization"," Bearer " + _access_token);     
 			proxy_call.set_function (ENDPOINT_ACCOUNTS_BLOCK.printf (id));
@@ -165,7 +165,7 @@ namespace Valastodon {
 		}
 		
 		// Set proxy params to unblock
-		protected void setup_unblock_proxy_call (ref ProxyCall proxy_call, int64 id) {
+		protected void setup_unblock_proxy_call (ref ProxyCall proxy_call, string id) {
 			
 			proxy_call.add_header ("Authorization"," Bearer " + _access_token);     
 			proxy_call.set_function (ENDPOINT_ACCOUNTS_UNBLOCK.printf (id));
@@ -174,7 +174,7 @@ namespace Valastodon {
 		}
 		
 		// Set proxy params to mute
-		protected void setup_mute_proxy_call (ref ProxyCall proxy_call, int64 id) {
+		protected void setup_mute_proxy_call (ref ProxyCall proxy_call, string id) {
 			
 			proxy_call.add_header ("Authorization"," Bearer " + _access_token);     
 			proxy_call.set_function (ENDPOINT_ACCOUNTS_MUTE.printf (id));
@@ -183,7 +183,7 @@ namespace Valastodon {
 		}
 		
 		// Set proxy params to unmute
-		protected void setup_unmute_proxy_call (ref ProxyCall proxy_call, int64 id) {
+		protected void setup_unmute_proxy_call (ref ProxyCall proxy_call, string id) {
 			
 			proxy_call.add_header ("Authorization"," Bearer " + _access_token);     
 			proxy_call.set_function (ENDPOINT_ACCOUNTS_UNMUTE.printf (id));
@@ -240,7 +240,7 @@ namespace Valastodon {
 		}
 		
 		// Set proxy params to authorize a follow request
-		protected void setup_authorize_follow_request_proxy_call (ref ProxyCall proxy_call, int64 id) {
+		protected void setup_authorize_follow_request_proxy_call (ref ProxyCall proxy_call, string id) {
 			
 			proxy_call.add_header ("Authorization"," Bearer " + _access_token);
 			proxy_call.set_function (ENDPOINT_FOLLOW_REQUESTS_AUTHORIZE.printf (id));
@@ -249,7 +249,7 @@ namespace Valastodon {
 		}
 
 		// Set proxy params to reject a follow request
-		protected void setup_reject_follow_request_proxy_call (ref ProxyCall proxy_call, int64 id) {
+		protected void setup_reject_follow_request_proxy_call (ref ProxyCall proxy_call, string id) {
 			
 			proxy_call.add_header ("Authorization"," Bearer " + _access_token);
 			proxy_call.set_function (ENDPOINT_FOLLOW_REQUESTS_REJECT.printf (id));
@@ -301,7 +301,7 @@ namespace Valastodon {
 		}
 		
 		// Set proxy params to get a single notification
-		protected void setup_get_notification_proxy_call (ref ProxyCall proxy_call, int64 id) {
+		protected void setup_get_notification_proxy_call (ref ProxyCall proxy_call, string id) {
 			
 			proxy_call.add_header ("Authorization"," Bearer " + _access_token);
 			proxy_call.set_function (ENDPOINT_NOTIFICATION.printf (id));
@@ -339,7 +339,7 @@ namespace Valastodon {
 		}
 		
 		// Set proxy params to fetch a status
-		protected void setup_get_status_proxy_call (ref ProxyCall proxy_call, int64 id) {
+		protected void setup_get_status_proxy_call (ref ProxyCall proxy_call, string id) {
 			
 			proxy_call.add_header ("Authorization"," Bearer " + _access_token);
 			proxy_call.set_function (ENDPOINT_STATUSES_ID.printf (id));
@@ -348,7 +348,7 @@ namespace Valastodon {
 		}
 		
 		// Set proxy params to get status context
-		protected void setup_get_context_proxy_call (ref ProxyCall proxy_call, int64 id) {
+		protected void setup_get_context_proxy_call (ref ProxyCall proxy_call, string id) {
 			
 			proxy_call.add_header ("Authorization"," Bearer " + _access_token);
 			proxy_call.set_function (ENDPOINT_STATUSES_CONTEXT.printf (id));
@@ -357,7 +357,7 @@ namespace Valastodon {
 		}
 		
 		// Set proxy params to get a card associated with status
-		protected void setup_get_card_proxy_call (ref ProxyCall proxy_call, int64 id) {
+		protected void setup_get_card_proxy_call (ref ProxyCall proxy_call, string id) {
 			
 			proxy_call.add_header ("Authorization"," Bearer " + _access_token);
 			proxy_call.set_function (ENDPOINT_STATUSES_CARD.printf (id));
@@ -366,7 +366,7 @@ namespace Valastodon {
 		}
 		
 		// Set proxy params to get who reblogged a status
-		protected void setup_get_reblogged_by_proxy_call (ref ProxyCall proxy_call, int64 id, RangingParams? ranging_params) {
+		protected void setup_get_reblogged_by_proxy_call (ref ProxyCall proxy_call, string id, RangingParams? ranging_params) {
 			
 			proxy_call.add_header ("Authorization"," Bearer " + _access_token);
 			if (ranging_params != null) {
@@ -378,7 +378,7 @@ namespace Valastodon {
 		}
 		
 		// Set proxy params to get who favourited a status
-		protected void setup_get_favourited_by_proxy_call (ref ProxyCall proxy_call, int64 id, RangingParams? ranging_params) {
+		protected void setup_get_favourited_by_proxy_call (ref ProxyCall proxy_call, string id, RangingParams? ranging_params) {
 			
 			proxy_call.add_header ("Authorization"," Bearer " + _access_token);
 			if (ranging_params != null) {
@@ -390,7 +390,7 @@ namespace Valastodon {
 		}
 		
 		// Set proxy params to reblog a status
-		protected void setup_reblog_proxy_call (ref ProxyCall proxy_call, int64 id) {
+		protected void setup_reblog_proxy_call (ref ProxyCall proxy_call, string id) {
 			
 			proxy_call.add_header ("Authorization"," Bearer " + _access_token);
 			proxy_call.set_function (ENDPOINT_STATUSES_REBLOG.printf (id));
@@ -399,7 +399,7 @@ namespace Valastodon {
 		}
 		
 		// Set proxy params to unreblog a status
-		protected void setup_unreblog_proxy_call (ref ProxyCall proxy_call, int64 id) {
+		protected void setup_unreblog_proxy_call (ref ProxyCall proxy_call, string id) {
 			
 			proxy_call.add_header ("Authorization"," Bearer " + _access_token);
 			proxy_call.set_function (ENDPOINT_STATUSES_UNREBLOG.printf (id));
@@ -408,7 +408,7 @@ namespace Valastodon {
 		}
 
 		// Set proxy params to favourite a status
-		protected void setup_favourite_proxy_call (ref ProxyCall proxy_call, int64 id) {
+		protected void setup_favourite_proxy_call (ref ProxyCall proxy_call, string id) {
 			
 			proxy_call.add_header ("Authorization"," Bearer " + _access_token);
 			proxy_call.set_function (ENDPOINT_STATUSES_FAVOURITE.printf (id));
@@ -417,7 +417,7 @@ namespace Valastodon {
 		}
 		
 		// Set proxy params to unfavourite a status
-		protected void setup_unfavourite_proxy_call (ref ProxyCall proxy_call, int64 id) {
+		protected void setup_unfavourite_proxy_call (ref ProxyCall proxy_call, string id) {
 			
 			proxy_call.add_header ("Authorization"," Bearer " + _access_token);
 			proxy_call.set_function (ENDPOINT_STATUSES_UNFAVOURITE.printf (id));
@@ -517,16 +517,16 @@ namespace Valastodon {
 		}
 		
 		// Generate a soup message to get relatiopnships
-		protected Soup.Message relationships_message_new (int64[] ids) {
+		protected Soup.Message relationships_message_new (string[] ids) {
 			
 			var message = new Soup.Message ("GET", _instance_website + ENDPOINT_ACCOUNTS_RELATIONSHIPS);
 			var sb = new StringBuilder ();
 			
 			int i = 0;
-			foreach (int64 id in ids) {
+			foreach (string id in ids) {
 				sb.append (PARAM_ID);
 				sb.append ("[]=");
-				sb.append (id.to_string ());
+				sb.append (id);
 				if (++i < ids.length) {
 					sb.append ("&");
 				}
@@ -565,19 +565,19 @@ namespace Valastodon {
 		}
 		
 		// Generate a soup message to report a user
-		protected Soup.Message report_message_new (int64 account_id, int64[] status_ids, string comment) throws Error {
+		protected Soup.Message report_message_new (string account_id, string[] status_ids, string comment) throws Error {
 			
 			var message = new Soup.Message ("POST", _instance_website + ENDPOINT_REPORTS);
 			var sb = new StringBuilder ();
 			
 			sb.append (PARAM_ACCOUNT_ID);
 			sb.append ("=");
-			sb.append (account_id.to_string ());
+			sb.append (account_id);
 			sb.append ("&");
-			foreach (int64 id in status_ids) {
+			foreach (string id in status_ids) {
 				sb.append (PARAM_STATUS_IDS);
 				sb.append ("[]=");
-				sb.append (id.to_string ());
+				sb.append (id);
 				sb.append ("&");
 			}
 			sb.append (PARAM_COMMENT);
@@ -591,7 +591,7 @@ namespace Valastodon {
 		}
 		
 		// Generate a soup message to post a new status
-		protected Soup.Message post_status_message_new (string status, int64 in_reply_to_id, int64[]? media_ids, bool sensitive, string? spoiler_text, string? visibility) throws Error {
+		protected Soup.Message post_status_message_new (string status, string? in_reply_to_id, string[]? media_ids, bool sensitive, string? spoiler_text, string? visibility) throws Error {
 			
 			var message = new Soup.Message ("POST", _instance_website + ENDPOINT_STATUSES);
 			var sb = new StringBuilder ();
@@ -600,19 +600,19 @@ namespace Valastodon {
 			sb.append ("=");
 			sb.append (Uri.escape_string (status));
 			
-			if (in_reply_to_id > 0) {
+			if (in_reply_to_id != null) {
 				sb.append ("&");
 				sb.append (PARAM_IN_REPLY_TO_ID);
 				sb.append ("=");
-				sb.append (in_reply_to_id.to_string ());
+				sb.append (in_reply_to_id);
 			}
 			
 			if (media_ids != null && media_ids.length > 0) {
-				foreach (int64 id in media_ids) {
+				foreach (string id in media_ids) {
 					sb.append ("&");
 					sb.append (PARAM_MEDIA_IDS);
 					sb.append ("[]=");
-					sb.append (id.to_string ());
+					sb.append (id);
 				}
 			}
 			
@@ -645,11 +645,11 @@ namespace Valastodon {
 		
 		protected void set_ranging_params_to_proxy_call (ref ProxyCall proxy_call, RangingParams ranging_params) {
 			
-			if (ranging_params.max_id >= 0) {
-				proxy_call.add_param (PARAM_MAX_ID, ranging_params.max_id.to_string ());
+			if (ranging_params.max_id != null) {
+				proxy_call.add_param (PARAM_MAX_ID, ranging_params.max_id);
 			}
-			if (ranging_params.since_id >= 0) {
-				proxy_call.add_param (PARAM_SINCE_ID, ranging_params.since_id.to_string ());
+			if (ranging_params.since_id != null) {
+				proxy_call.add_param (PARAM_SINCE_ID, ranging_params.since_id);
 			}
 			if (ranging_params.limit >= 0) {
 				proxy_call.add_param (PARAM_LIMIT, ranging_params.limit.to_string ());
@@ -662,17 +662,26 @@ namespace Valastodon {
 			prev_params = null;
 			
 			try {
-				var regex = new Regex ("<|>");
-				var splited = regex.split (links);
+				var splited = links.split (",");
 				
-				var next_uri = new URI (splited[1]);
-				if (next_uri != null) {
-					next_params = new RangingParams.new_from_query (next_uri.get_query ());
+				var regex = new Regex ("<https://[a-zA-z0-9/._]+\\?|>; ");
+				
+				foreach (string frag in splited) {
+					
+					var link = regex.split (frag); // return string[3]; ["", "parameters", "rel=..."]
+					var rel_regex = new Regex ("\"|rel=");
+					string rel = rel_regex.replace (link[2], link[2].length, 0, "");
+					switch (rel) {
+						case "prev" :
+						case "previous" :
+							prev_params = new RangingParams.new_from_query (link[1]);
+							break;
+						case "next" :
+							next_params = new RangingParams.new_from_query (link[1]);
+							return;
+					}
 				}
-				var prev_uri = new URI (splited[3]);
-				if (prev_uri != null) {
-					prev_params = new RangingParams.new_from_query (prev_uri.get_query ());
-				}
+				
 			} catch (Error e) {
 				stderr.printf ("%s\n",e.message);
 			}

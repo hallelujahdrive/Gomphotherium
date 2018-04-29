@@ -23,7 +23,6 @@ check_PROGRAMS = \
 			followtest \
 			gettest \
 			notificationstest \
-			oauthtokentest \
 			posttest \
 			registerapptest \
 			relationshiptest \
@@ -42,7 +41,6 @@ tests_VALASOURCES = \
 			followtest.vala \
 			gettest.vala \
 			notificationstest.vala \
-			oauthtokentest.vala \
 			posttest.vala \
 			registerapptest.vala \
 			relationshiptest.vala \
@@ -121,15 +119,7 @@ gettest_LDADD = \
 nodist_notificationstest_SOURCES = \
 			libtestmod_la_vala.stamp \
 			notificationstest.c
-
 notificationstest_LDADD = \
-			libtestmod.la \
-			$(top_builddir)/src/libvalastodon.la
-
-nodist_oauthtokentest_SOURCES = \
-			libtestmod_la_vala.stamp \
-			oauthtokentest.c
-oauthtokentest_LDADD = \
 			libtestmod.la \
 			$(top_builddir)/src/libvalastodon.la
 

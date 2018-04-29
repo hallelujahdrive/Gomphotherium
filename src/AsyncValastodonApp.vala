@@ -14,15 +14,15 @@ namespace Valastodon {
 			base (website, client_key, client_secret, access_token);
 		}
 		
-		// Getting an access token asynchronously
+		// Authorizing and getting an access token asynchronously
 		// @cancellable : It can be used to cancel the call
 		// @code : An authorization code
-		public async string oauth_with_code_async (Cancellable? cancellable, string code) throws Error {
+		public async string authorize_async (Cancellable? cancellable, string code) throws Error {
 			
 			Error error = null;
 			
 			var proxy_call = proxy.new_call ();
-			setup_oauth_with_code_proxy_call (ref proxy_call, code);
+			setup_authorize_proxy_call (ref proxy_call, code);
 			
 			proxy_call.invoke_async.begin (cancellable, (obj, res) => {
 					
@@ -37,7 +37,7 @@ namespace Valastodon {
 					error = e;
 				}
 				
-				oauth_with_code_async.callback ();
+				authorize_async.callback ();
 				
 			});
 			
@@ -53,7 +53,7 @@ namespace Valastodon {
 		// Getting an account asynchronously
 		// @id : The ID of the account
 		// @cancellable : It can be used to cancel the callcall
-		public async Account get_account_async (int64 id, Cancellable? cancellable) throws Error {
+		public async Account get_account_async (string id, Cancellable? cancellable) throws Error {
 			
 			Error error = null;      
 			Account account = null;
@@ -182,7 +182,7 @@ namespace Valastodon {
 		// @next_params : Parameters to select next ranges of followers
 		// @prev_params : Parameters to select prev ranges of followers
 		// @cancellable : It can be used to cancel the call
-		public async List<Account> get_followers_async (int64 id, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params, Cancellable? cancellable) throws Error {
+		public async List<Account> get_followers_async (string id, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params, Cancellable? cancellable) throws Error {
 			
 			next_params = null;
 			prev_params = null;
@@ -240,7 +240,7 @@ namespace Valastodon {
 		// @next_params : Parameters to select next ranges of folloeing
 		// @prev_params : Parameters to select prev ranges of following
 		// @cancellable : It can be used to cancel the call
-		public async List<Account> get_following_async (int64 id, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params, Cancellable? cancellable) throws Error {
+		public async List<Account> get_following_async (string id, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params, Cancellable? cancellable) throws Error {
 			
 			next_params = null;
 			prev_params = null;
@@ -300,7 +300,7 @@ namespace Valastodon {
 		// @next_params : Parameters to select next ranges of statuses
 		// @prev_params : Parameters to select prev ranges of statuses
 		// @cancellable : It can be used to cancel the call
-		public async List<Status> get_statuses_async (int64 id, bool only_media = false, bool exclude_replies = false, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params, Cancellable? cancellable) throws Error {
+		public async List<Status> get_statuses_async (string id, bool only_media = false, bool exclude_replies = false, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params, Cancellable? cancellable) throws Error {
 			
 			next_params = null;
 			prev_params = null;
@@ -348,7 +348,7 @@ namespace Valastodon {
 		// Following an account asynchronously
 		// @id : The ID of the account to follow
 		// @cancellable : It can be used to cancel the call
-		public async Relationship follow_async (int64 id, Cancellable? cancellable) throws Error {
+		public async Relationship follow_async (string id, Cancellable? cancellable) throws Error {
 			
 			Error error = null;
 			Relationship relationship = null;
@@ -384,7 +384,7 @@ namespace Valastodon {
 		// Unfollowing an account asynchronously
 		// @id : The ID of the account to unfollow
 		// @cancellable : It can be used to cancel the call
-		public async Relationship unfollow_async (int64 id, Cancellable? cancellable) throws Error {
+		public async Relationship unfollow_async (string id, Cancellable? cancellable) throws Error {
 			
 			Error error = null;
 			Relationship relationship = null;
@@ -420,7 +420,7 @@ namespace Valastodon {
 		// Blocking an account asynchronously
 		// @id : The ID of the account to block
 		// @cancellable : It can be used to cancel the call
-		public async Relationship block_async (int64 id, Cancellable? cancellable) throws Error {
+		public async Relationship block_async (string id, Cancellable? cancellable) throws Error {
 			
 			Error error = null;
 			Relationship relationship = null;
@@ -456,7 +456,7 @@ namespace Valastodon {
 		// Unblocking an account asynchronously
 		// @id : The ID of the account to unblock
 		// @cancellable : It can be used to cancel the call
-		public async Relationship unblock_async (int64 id, Cancellable? cancellable) throws Error {
+		public async Relationship unblock_async (string id, Cancellable? cancellable) throws Error {
 			
 			Error error = null;
 		 Relationship relationship = null;
@@ -492,7 +492,7 @@ namespace Valastodon {
 		// Muting an account asynchronously
 		// @id : The ID of the account to mute
 		// @cancellable : It can be used to cancel the call
-		public async Relationship mute_async (int64 id, Cancellable? cancellable) throws Error {
+		public async Relationship mute_async (string id, Cancellable? cancellable) throws Error {
 			
 			Error error = null;
 		 Relationship relationship = null;
@@ -528,7 +528,7 @@ namespace Valastodon {
 		// Unmuting an account asynchronously
 		// @id : The ID of the account to unmute
 		// @cancellable : It can be used to cancel the call
-		public async Relationship unmute_async (int64 id, Cancellable? cancellable) throws Error {
+		public async Relationship unmute_async (string id, Cancellable? cancellable) throws Error {
 			
 			Error error = null;
 			Relationship relationship = null;
@@ -564,7 +564,7 @@ namespace Valastodon {
 		// Getting an account's relationships asynchronously
 		// @ids : The IDs of accounts to get relationships
 		// @cancellable : It can be used to cancel the call
-		public async List<Relationship> get_relationships_async (int64[] ids, Cancellable? cancellable) throws Error {
+		public async List<Relationship> get_relationships_async (string[] ids, Cancellable? cancellable) throws Error {
 			
 			Error error = null;
 			var list = new List<Relationship> ();
@@ -617,7 +617,7 @@ namespace Valastodon {
 		// Getting an account's relationship asynchronously
 		// @id : The ID of the account to get relationship
 		// @cancellable : It can be used to cancel the call
-		public async Relationship get_relationship_async (int64 id, Cancellable? cancellable) throws Error {
+		public async Relationship get_relationship_async (string id, Cancellable? cancellable) throws Error {
 			
 			Error error = null;
 				
@@ -846,7 +846,7 @@ namespace Valastodon {
 		// Authorizing a follow request asynchronously
 		// @id : The ID of the account to authorize
 		// @cancellable : It can be used to cancel the call
-		public async void authorize_follow_request_async (int64 id, Cancellable? cancellable) throws Error {
+		public async void authorize_follow_request_async (string id, Cancellable? cancellable) throws Error {
 			
 			Error error = null;
 			
@@ -874,7 +874,7 @@ namespace Valastodon {
 		// Rejecting a follow request asynchronously
 		// @id : The ID of the account to reject
 		// @cancellable : It can be used to cancel the call
-		public async void reject_follow_request_async (int64 id, Cancellable? cancellable) throws Error {
+		public async void reject_follow_request_async (string id, Cancellable? cancellable) throws Error {
 			
 			Error error = null;
 			
@@ -1137,7 +1137,7 @@ namespace Valastodon {
 		// Getting a single notification asynchronously
 		// @id : The ID of the account to get notifications
 		// @cancellable : It can be used to cancel the call
-		public async Valastodon.Notification get_notification_async (int64 id, Cancellable? cancellable) throws Error {
+		public async Valastodon.Notification get_notification_async (string id, Cancellable? cancellable) throws Error {
 			
 			Error error = null;
 			Valastodon.Notification notification = null;
@@ -1243,7 +1243,7 @@ namespace Valastodon {
 		// @status_ids : The IDs of statuses to report
 		// @comment : A comment to associate with the report
 		// @cancellable : It can be used to cancel the call
-		public async Report report_async (int64 account_id, int64[] status_ids, string comment, Cancellable? cancellable) throws Error {
+		public async Report report_async (string account_id, string[] status_ids, string comment, Cancellable? cancellable) throws Error {
 			
 			Error error = null;
 			Report report = null;
@@ -1331,7 +1331,7 @@ namespace Valastodon {
 		// Fetching a status asynchronously
 		// @id : The ID of the status
 		// @cancellable : It can be used to cancel the call
-		public async Status get_status_async (int64 id, Cancellable? cancellable) throws Error {
+		public async Status get_status_async (string id, Cancellable? cancellable) throws Error {
 			
 			Error error = null;      
 			Status status = null;
@@ -1368,7 +1368,7 @@ namespace Valastodon {
 		// Getting status context asynchronously
 		// @id : The ID of the status
 		// @cancellable : It can be used to cancel the call
-		public async Context get_context_async (int64 id, Cancellable? cancellable) throws Error {
+		public async Context get_context_async (string id, Cancellable? cancellable) throws Error {
 			
 			Error error = null;      
 			Context context = null;
@@ -1405,7 +1405,7 @@ namespace Valastodon {
 		// Getting a card associated with a status asynchronously
 		// @id : The ID of the status
 		// @cancellable : It can be used to cancel the call
-		public async Card get_card_async (int64 id, Cancellable? cancellable) throws Error {
+		public async Card get_card_async (string id, Cancellable? cancellable) throws Error {
 			
 			Error error = null;      
 			Card card = null;
@@ -1444,7 +1444,7 @@ namespace Valastodon {
 		// @next_params : Parameters to select next ranges of reblogged by
 		// @prev_params : Parameters to select prev ranges of reblogged by	
 		// @cancellable : It can be used to cancel the call
-		public async List<Account> get_reblogged_by_async (int64 id, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params, Cancellable? cancellable) throws Error {
+		public async List<Account> get_reblogged_by_async (string id, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params, Cancellable? cancellable) throws Error {
 			
 			next_params = null;
 			prev_params = null;
@@ -1501,7 +1501,7 @@ namespace Valastodon {
 		// @next_params : Parameters to select next ranges of favoutited by
 		// @prev_params : Parameters to select prev ranges of favoutited by
 		// @cancellable : It can be used to cancel the call
-		public async List<Account> get_favourited_by_async (int64 id, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params, Cancellable? cancellable) throws Error {
+		public async List<Account> get_favourited_by_async (string id, RangingParams? ranging_params, out RangingParams next_params, out RangingParams prev_params, Cancellable? cancellable) throws Error {
 			
 			next_params = null;
 			prev_params = null;
@@ -1561,7 +1561,7 @@ namespace Valastodon {
 		// @spoiler_text : (optional)	Text to be shown as a warning before the actual content
 		// @visibility : (optional)	Either "direct", "private", "unlisted" or "public"
 		// @cancellable : It can be used to cancel the call
-		public async Status post_status_async (string status, int64 in_reply_to_id, int64[]? media_ids, bool sensitive, string? spoiler_text, string? visibility, Cancellable? cancellable) throws Error {
+		public async Status post_status_async (string status, string in_reply_to_id, string[]? media_ids, bool sensitive, string? spoiler_text, string? visibility, Cancellable? cancellable) throws Error {
 			
 			Error error = null;
 			Status _status = null;
@@ -1611,7 +1611,7 @@ namespace Valastodon {
 		// Reblogging a status asynchronously
 		// @id : The ID of status to reblog
 		// @cancellable : It can be used to cancel the call
-		public async Status reblog_async (int64 id, Cancellable? cancellable) throws Error {
+		public async Status reblog_async (string id, Cancellable? cancellable) throws Error {
 			
 			Error error = null;
 			Status status = null;
@@ -1647,7 +1647,7 @@ namespace Valastodon {
 		// Unreblogging a status asynchronously
 		// @id : The ID of status to unreblog
 		// @cancellable : It can be used to cancel the call
-		public async Status unreblog_async (int64 id, Cancellable? cancellable) throws Error {
+		public async Status unreblog_async (string id, Cancellable? cancellable) throws Error {
 			
 			Error error = null;
 			Status status = null;
@@ -1683,7 +1683,7 @@ namespace Valastodon {
 		// Favouriting a status asynchronously
 		// @id : The ID of status to favourite
 		// @cancellable : It can be used to cancel the call
-		public async Status favourite_async (int64 id, Cancellable? cancellable) throws Error {
+		public async Status favourite_async (string id, Cancellable? cancellable) throws Error {
 			
 			Error error = null;
 			Status status = null;
@@ -1719,7 +1719,7 @@ namespace Valastodon {
 		// Unfavouriting a status asynchronously
 		// @id : The ID of status to unfavourite
 		// @cancellable : It can be used to cancel the call
-		public async Status unfavourite_async (int64 id, Cancellable? cancellable) throws Error {
+		public async Status unfavourite_async (string id, Cancellable? cancellable) throws Error {
 			
 			Error error = null;
 			Status status = null;

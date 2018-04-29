@@ -5,12 +5,12 @@ namespace Valastodon {
   public class Status : Valastodon.Object {
     
     // Property-backing fields
-    private int64 _id;  // The ID of the status
+    private string _id;  // The ID of the status
     private string _uri;  // A Fediverse-unique resource ID
     private string _url;  // URL to the status page (can be remote)
     private Account _account; // The Account which posted the status
-    private int64 _in_reply_to_id;  // null or the ID of the status it replies to
-    private int64 _in_reply_to_account_id;  // null or the ID of the account it replies to
+    private string? _in_reply_to_id;  // null or the ID of the status it replies to
+    private string? _in_reply_to_account_id;  // null or the ID of the account it replies to
     private Status _reblog; // null or the reblogged Status
     private string _content;  // Body of the status; this will contain HTML (remote HTML already sanitized)
     private string _created_at; // The time the status was created
@@ -27,7 +27,7 @@ namespace Valastodon {
     private Application _application; // Application from which the status was posted
     
     // Properties
-    public int64 id {
+    public string id {
       get { return _id; }
     }
     public string uri {
@@ -39,10 +39,10 @@ namespace Valastodon {
     public weak Account account {
       get { return _account; }
     }
-    public int64 in_reply_to_id {
+    public string? in_reply_to_id {
       get { return _in_reply_to_id; }
     }
-    public int64 in_reply_to_account_id {
+    public string? in_reply_to_account_id {
       get { return _in_reply_to_account_id; }
     }
     public weak Status? reblog {
@@ -93,7 +93,7 @@ namespace Valastodon {
       json_obj.foreach_member ((obj, mem, node) => {
         
         switch (mem) {
-          case "id" : _id = node.get_int ();
+          case "id" : _id = node.get_string ();
           break;
           case "uri" : _uri = node.get_string ();
           break;
@@ -101,9 +101,9 @@ namespace Valastodon {
           break;
           case "account" : _account = new Account (node.get_object ());
           break;
-          case "in_reply_to_id" : _in_reply_to_id = node.is_null () ? -1 : node.get_int ();
+          case "in_reply_to_id" : _in_reply_to_id = node.get_string ();
           break;
-          case "in_reply_to_account_id": _in_reply_to_account_id = node.is_null () ? -1 : node.get_int ();
+          case "in_reply_to_account_id": _in_reply_to_account_id = node.get_string ();
           break;
           case "reblog" :
           if (!node.is_null ()) {

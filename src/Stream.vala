@@ -117,7 +117,7 @@ namespace Valastodon {
         string data = lines[1].substring (6);
         
         switch (event_type) {
-          case EVENT_TYPE_DELETE : object = new Delete (int64.parse (data));
+          case EVENT_TYPE_DELETE : object = new Delete (data);
           break;
           case EVENT_TYPE_NOTIFICATION : object = new Notification (parse_json_object (data));
           break;

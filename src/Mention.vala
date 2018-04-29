@@ -8,7 +8,7 @@ namespace Valastodon {
     private string _url;  // URL of user's profile (can be remote)
     private string _username; // The username of the account
     private string _acct; // Equals username for local users, includes @domain for remote ones
-    private int64 _id;  // Account ID
+    private string _id;  // Account ID
     
     // Properties
     public string url {
@@ -20,7 +20,7 @@ namespace Valastodon {
     public string acct {
       get { return _acct; }
     }
-    public int64 id {
+    public string id {
       get { return _id; }
     }
     
@@ -35,7 +35,7 @@ namespace Valastodon {
           break;
           case "acct" : _acct = node.get_string ();
           break;
-          case "id" : _id = node.get_int ();
+          case "id" : _id = node.get_string ();
           break;
         }
       

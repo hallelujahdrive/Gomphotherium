@@ -5,7 +5,7 @@ namespace Valastodon {
   public class Relationship {
     
     // Property-backing fields
-    private int64 _id;  // Target account id
+    private string _id;  // Target account id
     private bool _following;  // Whether the user is currently following the account
     private bool _followed_by;  // Whether the user is currently being followed by the account
     private bool _blocking; // Whether the user is currently blocking the account
@@ -13,7 +13,7 @@ namespace Valastodon {
     private bool _requested;  //  	Whether the user has requested to follow the account
     
     // Properties
-    public int64 id {
+    public string id {
       get { return _id; }
     }
     public bool following {
@@ -37,7 +37,7 @@ namespace Valastodon {
       json_obj.foreach_member ((obj, mem, node) => {
         
         switch (mem) {
-          case "id" : _id = node.get_int ();
+          case "id" : _id = node.get_string ();
           break;
           case "following" : _following = node.get_boolean ();
           break;

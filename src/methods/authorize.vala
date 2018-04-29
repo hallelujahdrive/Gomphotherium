@@ -4,7 +4,7 @@ namespace Valastodon {
 	// @instance_website : URL to Instance you want to regist 
 	// @redirect_uri : (nullable) Where the user should be redirected after authorization
 	// @scope : This can be a space-separated list of the following items: "read", "write" and "follow"
-	public string get_authorize_url (string instance_website, string scope, string? redirect_uri, string client_key) {
+	public string get_authorization_url (string instance_website, string scope, string? redirect_uri, string client_key) {
 		
 		if (redirect_uri == null) {
 			redirect_uri = "urn:ietf:wg:oauth:2.0:oob";

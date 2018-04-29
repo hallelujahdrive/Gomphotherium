@@ -19,13 +19,14 @@ void update_credentials () {
 		
 	} catch (Error e) {
 		stderr.printf ("%s\n", e.message);
+		assert (false);
 	}
 }
 
 void verify_credentials () {
 	
 	var obj = load_test_datas ();
-	var account_obj = obj.get_array_member ("accounts").get_object_element (0);
+	var account_obj = obj.get_array_member ("accounts").get_object_element (1);
 	
 	var app = new Valastodon.ValastodonApp (obj.get_string_member ("instance_website"), obj.get_string_member ("client_key"), obj.get_string_member ("client_secret"), account_obj.get_string_member ("access_token"));
 	
@@ -37,13 +38,14 @@ void verify_credentials () {
 		assert (account.username == account_obj.get_string_member ("username"));
 	} catch (Error e) {
 		stderr.printf ("%s\n", e.message);
+		assert (false);
 	}
 }
 
 int main (string[] args) {
 	GLib.Test.init (ref args);
 	
-	GLib.Test.add_func ("/credentialstest/update_credentials", update_credentials);
+	// GLib.Test.add_func ("/credentialstest/update_credentials", update_credentials);
 	GLib.Test.add_func ("/verifycredentials/verify_credentials", verify_credentials);
 
 	return GLib.Test.run ();
