@@ -20,6 +20,7 @@ namespace Valastodon {
 		private string _avatar_static;  // URL to the avatar static image (gif)
 		private string _header; // URL to the header image
 		private string _header_static;  // URL to the header static image (gif)
+		private string _moved; // (Nullable) If the owner decided to switch accounts, new account is in this attribute
 		
 		// Propaties
 		public string id {
@@ -67,6 +68,9 @@ namespace Valastodon {
 		public string header_static {
 			get { return _header_static; }
 		}
+		public string? moved {
+			get { return _moved; }
+		}
 		
 		internal Account (Json.Object json_obj) {
 			
@@ -102,6 +106,8 @@ namespace Valastodon {
 					case "header" : _header = node.get_string ();
 					break;
 					case "header_static" : _header_static = node.get_string ();
+					break;
+					case "moved" : _moved = node.get_string ();
 					break;
 				}
 				

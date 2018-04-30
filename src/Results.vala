@@ -5,9 +5,9 @@ namespace Valastodon {
   public class Results {
     
     // Property-backing fields
-    private List<Account> _accounts = new List<Account> ();
-    private List <Status> _statuses = new List<Status> ();
-    private List <string> _hashtags = new List<string> ();
+    private List<Account> _accounts = new List<Account> (); // An array of matched Accounts
+    private List <Status> _statuses = new List<Status> (); // An array of matched Statuses
+    private List <string> _hashtags = new List<string> (); // An array of matched hashtags, as strings
     
     // Properties
     public weak List<Account> accounts {
