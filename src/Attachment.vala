@@ -10,8 +10,9 @@ namespace Valastodon {
 		private string _url;  // URL of the locally hosted version of the image
 		private string _remote_url; // (Nullable) For remote images, the remote URL of the original image
 		private string _preview_url;  // URL of the preview image
-		private string _text_url; // Shorter URL for the image, for insertion into text (only present on local images)
-		
+		private string _text_url; // (Nullable) Shorter URL for the image, for insertion into text (only present on local images)
+		private List<Metadata> _meta;
+		private string _description; // (Nullable) A description of the image for the visually impaired (maximum 420 characters), or null if none provided
 		
 		// Properties
 		public string id {
@@ -29,7 +30,7 @@ namespace Valastodon {
 		public string preview_url {
 			get { return _preview_url; }
 		}
-		public string text_url {
+		public string? text_url {
 			get { return _text_url; }
 		}
 		

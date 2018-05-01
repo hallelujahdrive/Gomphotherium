@@ -38,7 +38,6 @@ sources = \
 			endpoints.vala \
 			event_types.vala \
 			params.vala \
-			public_constants.vala \
 			methods/authorize.vala \
 			methods/regster_app.vala \
 			utils/file_utils.vala \

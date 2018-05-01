@@ -42,6 +42,7 @@ namespace Valastodon {
 			try {
 				
 				proxy_call.run();
+				print (proxy_call.get_payload ());
 				
 				var json_obj = parse_json_object (proxy_call.get_payload ());
 				return new Account (json_obj);
@@ -181,6 +182,7 @@ namespace Valastodon {
 				var headers = proxy_call.get_response_headers ();
 				parse_links (headers.get ("Link"), out next_params, out prev_params);
 				
+				print (proxy_call.get_payload ());
 				var json_array = parse_json_array (proxy_call.get_payload ());
 				var list = new List<Status> ();
 								

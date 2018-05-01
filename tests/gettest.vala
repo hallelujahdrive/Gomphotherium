@@ -58,7 +58,8 @@ void get_statuses () {
 	Valastodon.RangingParams prev;
 	
 	try {
-		var statuses = app.get_statuses (account_obj.get_string_member ("id"), false, false, params,out next,out prev);
+		// var statuses = app.get_statuses (account_obj.get_string_member ("id"), false, false, params,out next,out prev);
+		var statuses = app.get_statuses ("3203", false, false, params,out next,out prev);
 		assert (statuses.length () > 0);
 	} catch (Error e) {
 		stderr.printf ("%s\n", e.message);

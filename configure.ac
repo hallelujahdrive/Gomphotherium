@@ -17,7 +17,6 @@ AC_PROG_INSTALL
 
 # Checks for libraries.
 pkg_modules="
-	gee-0.8
 	glib-2.0
 	json-glib-1.0
 	rest-0.7
@@ -31,7 +30,6 @@ PKG_CHECK_MODULES(VD,[$pkg_modules])
 
 # Checks for library functions.
 VD_VALA_FLAGS=" \\
-	--pkg gee-0.8 \
 	--pkg glib-2.0 \
 	--pkg json-glib-1.0 \
 	--pkg rest-0.7
